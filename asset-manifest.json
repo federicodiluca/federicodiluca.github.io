@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "/federicodiluca/static/css/main.aea59a1d.chunk.css",
-    "main.js": "/federicodiluca/static/js/main.bdf1b1d1.chunk.js",
-    "main.js.map": "/federicodiluca/static/js/main.bdf1b1d1.chunk.js.map",
-    "runtime-main.js": "/federicodiluca/static/js/runtime-main.d178c35c.js",
-    "runtime-main.js.map": "/federicodiluca/static/js/runtime-main.d178c35c.js.map",
-    "static/js/2.0a956ed1.chunk.js": "/federicodiluca/static/js/2.0a956ed1.chunk.js",
-    "static/js/2.0a956ed1.chunk.js.map": "/federicodiluca/static/js/2.0a956ed1.chunk.js.map",
-    "index.html": "/federicodiluca/index.html",
-    "precache-manifest.5da0ca55998e295b6f56ff3903fe8a4c.js": "/federicodiluca/precache-manifest.5da0ca55998e295b6f56ff3903fe8a4c.js",
-    "service-worker.js": "/federicodiluca/service-worker.js",
-    "static/css/main.aea59a1d.chunk.css.map": "/federicodiluca/static/css/main.aea59a1d.chunk.css.map",
-    "static/js/2.0a956ed1.chunk.js.LICENSE.txt": "/federicodiluca/static/js/2.0a956ed1.chunk.js.LICENSE.txt",
-    "static/media/FeDL95.jpg": "/federicodiluca/static/media/FeDL95.df9c0f84.jpg",
-    "static/media/resume.pdf": "/federicodiluca/static/media/resume.4ca66bb0.pdf"
+    "main.css": "/static/css/main.aea59a1d.chunk.css",
+    "main.js": "/static/js/main.6706f3c9.chunk.js",
+    "main.js.map": "/static/js/main.6706f3c9.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.554504a0.js",
+    "runtime-main.js.map": "/static/js/runtime-main.554504a0.js.map",
+    "static/js/2.0a956ed1.chunk.js": "/static/js/2.0a956ed1.chunk.js",
+    "static/js/2.0a956ed1.chunk.js.map": "/static/js/2.0a956ed1.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.1ecf51dd2f20e50770235126cfef04fc.js": "/precache-manifest.1ecf51dd2f20e50770235126cfef04fc.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.aea59a1d.chunk.css.map": "/static/css/main.aea59a1d.chunk.css.map",
+    "static/js/2.0a956ed1.chunk.js.LICENSE.txt": "/static/js/2.0a956ed1.chunk.js.LICENSE.txt",
+    "static/media/FeDL95.jpg": "/static/media/FeDL95.df9c0f84.jpg",
+    "static/media/resume.pdf": "/static/media/resume.4ca66bb0.pdf"
   },
   "entrypoints": [
-    "static/js/runtime-main.d178c35c.js",
+    "static/js/runtime-main.554504a0.js",
     "static/js/2.0a956ed1.chunk.js",
     "static/css/main.aea59a1d.chunk.css",
-    "static/js/main.bdf1b1d1.chunk.js"
+    "static/js/main.6706f3c9.chunk.js"
   ]
 }
