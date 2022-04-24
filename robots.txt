@@ -1,2 +1,4 @@
 # https://www.robotstxt.org/robotstxt.html
+
 User-agent: *
+Sitemap: https://federicodiluca.github.io/sitemap.xml
