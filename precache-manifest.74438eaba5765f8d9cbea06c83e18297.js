@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "306d53e2f3262089af5fa7edcbd09634",
+    "revision": "54f08186a342ef8fb22c1707f861df52",
     "url": "/index.html"
   },
   {
-    "revision": "2b6c3e60b355e73b5f80",
+    "revision": "217a5d4acffd04698850",
     "url": "/static/css/main.5629a331.chunk.css"
   },
   {
@@ -16,19 +16,19 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/2.45cb2b3c.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "2b6c3e60b355e73b5f80",
-    "url": "/static/js/main.5e072583.chunk.js"
+    "revision": "217a5d4acffd04698850",
+    "url": "/static/js/main.8a90a541.chunk.js"
   },
   {
     "revision": "f52ba179432c3be28857",
     "url": "/static/js/runtime-main.554504a0.js"
   },
   {
-    "revision": "aca5bc3539c2f52cbef54fa808ba92a5",
-    "url": "/static/media/CV Federico Di Luca (AL).aca5bc35.pdf"
+    "revision": "242553d4eaa530bb3701d1c80f88c901",
+    "url": "/static/media/CV Federico Di Luca.242553d4.pdf"
   },
   {
-    "revision": "df9c0f847ae753f59694093f568e55cd",
-    "url": "/static/media/FeDL95.df9c0f84.jpg"
+    "revision": "857eedfb4437c5a991331d70509f53f5",
+    "url": "/static/media/profile-pic.857eedfb.png"
   }
 ]);
