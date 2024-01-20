@@ -1,24 +1,24 @@
 {
   "files": {
     "main.css": "/static/css/main.5629a331.chunk.css",
-    "main.js": "/static/js/main.8b08af1e.chunk.js",
-    "main.js.map": "/static/js/main.8b08af1e.chunk.js.map",
+    "main.js": "/static/js/main.24742ceb.chunk.js",
+    "main.js.map": "/static/js/main.24742ceb.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.554504a0.js",
     "runtime-main.js.map": "/static/js/runtime-main.554504a0.js.map",
-    "static/js/2.45cb2b3c.chunk.js": "/static/js/2.45cb2b3c.chunk.js",
-    "static/js/2.45cb2b3c.chunk.js.map": "/static/js/2.45cb2b3c.chunk.js.map",
+    "static/js/2.6d9cb5fb.chunk.js": "/static/js/2.6d9cb5fb.chunk.js",
+    "static/js/2.6d9cb5fb.chunk.js.map": "/static/js/2.6d9cb5fb.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.98481850108a461e0ac95aafe924aa2d.js": "/precache-manifest.98481850108a461e0ac95aafe924aa2d.js",
+    "precache-manifest.7d8ab0a10d30813e4350bb09cc9a8b02.js": "/precache-manifest.7d8ab0a10d30813e4350bb09cc9a8b02.js",
     "service-worker.js": "/service-worker.js",
     "static/css/main.5629a331.chunk.css.map": "/static/css/main.5629a331.chunk.css.map",
-    "static/js/2.45cb2b3c.chunk.js.LICENSE.txt": "/static/js/2.45cb2b3c.chunk.js.LICENSE.txt",
-    "static/media/CV Federico Di Luca.pdf": "/static/media/CV Federico Di Luca.ccc82239.pdf",
-    "static/media/profile-pic.png": "/static/media/profile-pic.857eedfb.png"
+    "static/js/2.6d9cb5fb.chunk.js.LICENSE.txt": "/static/js/2.6d9cb5fb.chunk.js.LICENSE.txt",
+    "static/media/CV Federico Di Luca.pdf": "/static/media/CV Federico Di Luca.393e0283.pdf",
+    "static/media/profile-pic.png": "/static/media/profile-pic.83fb8cd2.png"
   },
   "entrypoints": [
     "static/js/runtime-main.554504a0.js",
-    "static/js/2.45cb2b3c.chunk.js",
+    "static/js/2.6d9cb5fb.chunk.js",
     "static/css/main.5629a331.chunk.css",
-    "static/js/main.8b08af1e.chunk.js"
+    "static/js/main.24742ceb.chunk.js"
   ]
 }
