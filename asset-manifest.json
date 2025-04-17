@@ -1,24 +1,24 @@
 {
   "files": {
     "main.css": "/static/css/main.5629a331.chunk.css",
-    "main.js": "/static/js/main.0bfc1426.chunk.js",
-    "main.js.map": "/static/js/main.0bfc1426.chunk.js.map",
+    "main.js": "/static/js/main.ba0f6ee1.chunk.js",
+    "main.js.map": "/static/js/main.ba0f6ee1.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.554504a0.js",
     "runtime-main.js.map": "/static/js/runtime-main.554504a0.js.map",
     "static/js/2.6d9cb5fb.chunk.js": "/static/js/2.6d9cb5fb.chunk.js",
     "static/js/2.6d9cb5fb.chunk.js.map": "/static/js/2.6d9cb5fb.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.b1da3af2c7f5a3ea3daf6f76fead2f96.js": "/precache-manifest.b1da3af2c7f5a3ea3daf6f76fead2f96.js",
+    "precache-manifest.12f3e6ab01b00750fa14cf4922d8fbaa.js": "/precache-manifest.12f3e6ab01b00750fa14cf4922d8fbaa.js",
     "service-worker.js": "/service-worker.js",
     "static/css/main.5629a331.chunk.css.map": "/static/css/main.5629a331.chunk.css.map",
     "static/js/2.6d9cb5fb.chunk.js.LICENSE.txt": "/static/js/2.6d9cb5fb.chunk.js.LICENSE.txt",
-    "static/media/CV Federico Di Luca.pdf": "/static/media/CV Federico Di Luca.b3eb7a64.pdf",
+    "static/media/CV Federico Di Luca.pdf": "/static/media/CV Federico Di Luca.03de0c90.pdf",
     "static/media/profile-pic.png": "/static/media/profile-pic.83fb8cd2.png"
   },
   "entrypoints": [
     "static/js/runtime-main.554504a0.js",
     "static/js/2.6d9cb5fb.chunk.js",
     "static/css/main.5629a331.chunk.css",
-    "static/js/main.0bfc1426.chunk.js"
+    "static/js/main.ba0f6ee1.chunk.js"
   ]
 }

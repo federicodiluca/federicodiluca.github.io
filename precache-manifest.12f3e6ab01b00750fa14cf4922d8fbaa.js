@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "1a36f8f89733d2890550580c050e55ff",
+    "revision": "826b6561a341b192837e9a2029bc93d0",
     "url": "/index.html"
   },
   {
-    "revision": "991d076a833c80dac007",
+    "revision": "43b3a8b20e70a747e816",
     "url": "/static/css/main.5629a331.chunk.css"
   },
   {
@@ -16,16 +16,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/2.6d9cb5fb.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "991d076a833c80dac007",
-    "url": "/static/js/main.0bfc1426.chunk.js"
+    "revision": "43b3a8b20e70a747e816",
+    "url": "/static/js/main.ba0f6ee1.chunk.js"
   },
   {
     "revision": "f52ba179432c3be28857",
     "url": "/static/js/runtime-main.554504a0.js"
   },
   {
-    "revision": "b3eb7a6434ce7ce0d4d7ca369b68d48c",
-    "url": "/static/media/CV Federico Di Luca.b3eb7a64.pdf"
+    "revision": "03de0c9027e72de5e1e08e8c29f7a641",
+    "url": "/static/media/CV Federico Di Luca.03de0c90.pdf"
   },
   {
     "revision": "83fb8cd29e4d4a14e16151bdfa093207",
