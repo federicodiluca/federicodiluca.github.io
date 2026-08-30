@@ -1,0 +1,45 @@
+---
+import { AUTHOR } from "../consts";
+
+interface Props {
+  locale: "it" | "en";
+}
+const { locale } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p class="footer-copy">
+      &copy; {year} {AUTHOR.name}. {locale === "it" ? "Tutti i diritti riservati." : "All rights reserved."}
+    </p>
+    <div class="footer-links">
+      <a href={`mailto:${AUTHOR.email}`}>{AUTHOR.email}</a>
+      <a href={AUTHOR.sameAs[0]} target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href={AUTHOR.sameAs[1]} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 2rem 0;
+    margin-top: 3rem;
+  }
+
+  .footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 1.25rem;
+  }
+</style>

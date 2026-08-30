@@ -1,0 +1,37 @@
+---
+import { hardSkills } from "../data/site-data";
+---
+
+<ul class="skills-grid">
+  {hardSkills.map((skill) => (
+    <li class="skill-item" title={skill.alt}>
+      <img src={skill.url} alt={skill.alt} width="36" height="36" loading="lazy" />
+    </li>
+  ))}
+</ul>
+
+<style>
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(4rem, 1fr));
+    gap: 1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .skill-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    background: var(--color-surface);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.6rem;
+    padding: 0.75rem;
+  }
+
+  .skill-item img {
+    filter: grayscale(0.1);
+  }
+</style>

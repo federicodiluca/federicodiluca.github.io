@@ -1,0 +1,98 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+const description =
+  "Formazione tecnica e corsi di informatica per aziende e scuole: programmazione, automazione e alfabetizzazione digitale, a cura di Federico Di Luca, docente e sviluppatore.";
+
+const percorsi = [
+  {
+    title: "Formazione aziendale",
+    body: "Corsi tecnici su misura per team che vogliono acquisire competenze di programmazione, automazione o strumenti digitali, con un taglio pratico e orientato ai casi reali dell'azienda.",
+  },
+  {
+    title: "Programmazione e pensiero computazionale",
+    body: "Percorsi introduttivi o avanzati di programmazione (Python, C#, JavaScript) e di pensiero computazionale, pensati per chi parte da zero così come per chi vuole consolidare le basi.",
+  },
+  {
+    title: "Docenza e progettazione didattica",
+    body: "Esperienza diretta come docente di Informatica nella scuola superiore e come formatore STEM, con capacità di adattare linguaggio e ritmo a platee eterogenee.",
+  },
+];
+---
+
+<BaseLayout title="Formazione e corsi di informatica" description={description}>
+  <section class="section page-header">
+    <div class="container">
+      <h1 class="section-title">Formazione e corsi di informatica</h1>
+      <p class="section-lead">
+        Insegno Informatica nella scuola superiore e porto la stessa attenzione didattica in
+        contesti aziendali e formativi.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container services-grid">
+      {percorsi.map((p) => (
+        <article class="card">
+          <h2 class="service-title">{p.title}</h2>
+          <p class="service-body">{p.body}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container narrow">
+      <h2 class="section-title">Perché la formazione con me</h2>
+      <p>
+        Sono docente di ruolo di Informatica e in precedenza ho guidato team tecnici in azienda:
+        conosco sia il lato della didattica che quello del lavoro reale su progetti software. Questo
+        mi permette di costruire percorsi formativi concreti, con esempi tratti da problemi veri e
+        non solo da esercizi teorici.
+      </p>
+      <p>
+        Le proposte di formazione aziendale sono compatibili con il mio ruolo di insegnante e
+        richiedono, come previsto dalla normativa per il personale docente, l'autorizzazione del
+        dirigente scolastico per gli incarichi esterni.
+      </p>
+      <a class="btn btn-primary" href="/contatti/">Scrivimi per un percorso formativo</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .service-title {
+    margin: 0 0 0.75rem;
+    font-size: 1.15rem;
+  }
+
+  .service-body {
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .section-alt {
+    background: var(--color-bg-alt);
+  }
+
+  .narrow {
+    max-width: 42rem;
+  }
+
+  .narrow p {
+    color: var(--color-text-muted);
+  }
+
+  @media (max-width: 900px) {
+    .services-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

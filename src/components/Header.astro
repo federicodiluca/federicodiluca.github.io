@@ -1,0 +1,197 @@
+---
+import ThemeToggle from "./ThemeToggle.astro";
+
+interface Props {
+  locale: "it" | "en";
+}
+const { locale } = Astro.props;
+
+const navIt = [
+  { href: "/", label: "Home" },
+  { href: "/chi-sono/", label: "Chi sono" },
+  { href: "/servizi/sviluppo-software/", label: "Sviluppo software" },
+  { href: "/servizi/formazione/", label: "Formazione" },
+  { href: "/progetti/", label: "Progetti" },
+  { href: "/pubblicazioni/", label: "Pubblicazioni" },
+  { href: "/blog/", label: "Blog" },
+  { href: "/contatti/", label: "Contatti" },
+];
+
+const navEn = [
+  { href: "/en/", label: "Home" },
+  { href: "/en/#about", label: "About" },
+  { href: "/en/#contact", label: "Contact" },
+];
+
+const nav = locale === "en" ? navEn : navIt;
+const homeHref = locale === "en" ? "/en/" : "/";
+const currentPath = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href={homeHref} aria-label="Federico Di Luca - Home">
+      <span class="brand-mark">FDL</span>
+      <span class="brand-name">Federico Di Luca</span>
+    </a>
+    <div class="header-right">
+      <nav class="site-nav" aria-label={locale === "it" ? "Navigazione principale" : "Main navigation"}>
+      <input type="checkbox" id="nav-toggle" class="nav-toggle" />
+      <label for="nav-toggle" class="nav-toggle-label" aria-hidden="true">
+        <span></span>
+      </label>
+      <ul>
+        {nav.map((item) => (
+          <li>
+            <a href={item.href} aria-current={currentPath === item.href ? "page" : undefined}>
+              {item.label}
+            </a>
+          </li>
+        ))}
+        {locale === "it" ? (
+          <li><a href="/en/" class="lang-switch">EN</a></li>
+        ) : (
+          <li><a href="/" class="lang-switch">IT</a></li>
+        )}
+      </ul>
+      </nav>
+      <ThemeToggle />
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(11, 16, 33, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  :root.light .site-header {
+    background: rgba(255, 255, 255, 0.95);
+    border-bottom-color: rgba(0, 0, 0, 0.08);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 4rem;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--color-text);
+    font-weight: 700;
+  }
+
+  .brand:hover {
+    text-decoration: none;
+  }
+
+  .brand-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 0.5rem;
+    background: var(--gradient-brand);
+    color: #fff;
+    font-size: 0.8rem;
+  }
+
+  .site-nav ul {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .site-nav a {
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+
+  .site-nav a:hover,
+  .site-nav a[aria-current="page"] {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .lang-switch {
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 999px;
+    padding: 0.25rem 0.65rem;
+  }
+
+  .nav-toggle,
+  .nav-toggle-label {
+    display: none;
+  }
+
+  @media (max-width: 860px) {
+    .nav-toggle-label {
+      display: block;
+      cursor: pointer;
+      width: 1.75rem;
+      height: 1.5rem;
+      position: relative;
+    }
+
+    .nav-toggle-label span,
+    .nav-toggle-label::before,
+    .nav-toggle-label::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--color-text);
+    }
+
+    .nav-toggle-label::before {
+      top: 0;
+    }
+
+    .nav-toggle-label span {
+      top: 0.7rem;
+    }
+
+    .nav-toggle-label::after {
+      top: 1.4rem;
+    }
+
+    .site-nav ul {
+      position: absolute;
+      top: 4rem;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      align-items: flex-start;
+      background: var(--color-bg-alt);
+      padding: 1rem 1.5rem 1.5rem;
+      gap: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: none;
+    }
+
+    .nav-toggle:checked ~ ul {
+      display: flex;
+    }
+  }
+</style>

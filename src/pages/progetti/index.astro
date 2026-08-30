@@ -1,0 +1,57 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { AUTHOR } from "../../consts";
+
+const description =
+  "I progetti e i repository pubblici di Federico Di Luca, sviluppatore software freelance specializzato in .NET, Python e automazione.";
+---
+
+<BaseLayout title="Progetti" description={description}>
+  <section class="section page-header">
+    <div class="container">
+      <h1 class="section-title">Progetti</h1>
+      <p class="section-lead">
+        Il codice dei miei progetti personali e sperimentali è pubblico su GitHub.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow">
+      <div class="card">
+        <h2 class="card-title">Repository pubblici</h2>
+        <p>
+          Su GitHub raccolgo esperimenti, tool personali e progetti didattici legati a
+          programmazione, automazione e data analysis.
+        </p>
+        <a class="btn btn-outline" href={AUTHOR.sameAs[0]} target="_blank" rel="noopener noreferrer">
+          Vai al profilo GitHub
+        </a>
+      </div>
+      <p class="note">
+        Case study di progetti realizzati per clienti sono disponibili su richiesta, nel rispetto
+        degli accordi di riservatezza.
+      </p>
+      <a class="btn btn-primary" href="/contatti/">Contattami per maggiori dettagli</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .narrow {
+    max-width: 42rem;
+  }
+
+  .card-title {
+    margin-top: 0;
+  }
+
+  .card p {
+    color: var(--color-text-muted);
+  }
+
+  .note {
+    color: var(--color-text-muted);
+    margin: 2rem 0 1.5rem;
+  }
+</style>

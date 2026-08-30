@@ -1,0 +1,124 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Hero from "../../components/Hero.astro";
+import Timeline from "../../components/Timeline.astro";
+import { experiences, experiencesFooter, education, publications } from "../../data/site-data";
+
+const description =
+  "Federico Di Luca: freelance software developer (.NET, C#, Python) and Computer Science teacher based in Pesaro, Italy.";
+---
+
+<BaseLayout title="Federico Di Luca" description={description} locale="en">
+  <Hero
+    eyebrow="Pesaro, Italy"
+    title="Federico Di Luca"
+    tagline="Freelance software developer and Computer Science teacher. Available for project-based software development, technical consulting, and training."
+    primaryCta={{ href: "/contatti/", label: "Contact me" }}
+    secondaryCta={{ href: "/cv-federico-di-luca.pdf", label: "Download CV" }}
+  />
+
+  <section class="section" id="about">
+    <div class="container narrow">
+      <h2 class="section-title">About</h2>
+      <p>
+        I am a Computer Science teacher and former .NET Technical Leader with experience in
+        developing web solutions for Brand, Marketing and E-commerce. Throughout my career, I have
+        led development teams, designed software architectures, and managed end-to-end IT
+        projects.
+      </p>
+      <p>
+        I hold a Master's Degree (with honors) in Electronic and Telecommunications Engineering
+        from the University of Bologna, and a Bachelor's Degree in Biomedical Engineering, with an
+        Erasmus exchange at Universitat Politècnica de Catalunya, Barcelona.
+      </p>
+      <p>
+        Today I combine my technical background with a strong passion for education, and I'm
+        available for project-based collaborations in software development, consulting, and
+        technical training.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Experience</h2>
+      <Timeline items={experiences.map((e) => ({ title: e.role, subtitle: e.company, date: e.date }))} />
+      <p class="experiences-footer">{experiencesFooter}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Education</h2>
+      <Timeline
+        items={education.map((e) => ({
+          title: e.title,
+          subtitle: e.institute,
+          meta: "mark" in e ? `Grade: ${e.mark}` : undefined,
+          date: e.date,
+        }))}
+      />
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container narrow">
+      <h2 class="section-title">Publications</h2>
+      {publications.map((pub) => (
+        <a class="card publication-card" href={pub.url} target="_blank" rel="noopener noreferrer">
+          <p class="publication-journal">{pub.journal} · {pub.date}</p>
+          <h3 class="publication-title">{pub.title}</h3>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section cta-section" id="contact">
+    <div class="container">
+      <h2 class="section-title">Let's work together</h2>
+      <a class="btn btn-primary" href="/contatti/">Get in touch</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .narrow {
+    max-width: 42rem;
+  }
+
+  .narrow p {
+    color: var(--color-text-muted);
+  }
+
+  .section-alt {
+    background: var(--color-bg-alt);
+  }
+
+  .experiences-footer {
+    margin-top: 2rem;
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    line-height: 1.8;
+  }
+
+  .publication-card {
+    display: block;
+    color: var(--color-text);
+  }
+
+  .publication-journal {
+    color: var(--color-accent-2);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin: 0 0 0.5rem;
+  }
+
+  .publication-title {
+    margin: 0;
+  }
+
+  .cta-section {
+    text-align: center;
+  }
+</style>

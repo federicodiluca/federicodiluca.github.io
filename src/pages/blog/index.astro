@@ -1,0 +1,62 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const description = "Articoli su sviluppo software, didattica e tecnologia scritti da Federico Di Luca.";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<BaseLayout title="Blog" description={description}>
+  <section class="section page-header">
+    <div class="container">
+      <h1 class="section-title">Blog</h1>
+      <p class="section-lead">Riflessioni su sviluppo software, didattica e tecnologia.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow">
+      {posts.map((post) => (
+        <article class="card post-card">
+          <p class="post-date">
+            {post.data.date.toLocaleDateString("it-IT", { year: "numeric", month: "long", day: "numeric" })}
+          </p>
+          <h2 class="post-title">
+            <a href={`/blog/${post.id}/`}>{post.data.title}</a>
+          </h2>
+          <p class="post-description">{post.data.description}</p>
+        </article>
+      ))}
+      {posts.length === 0 && <p class="section-lead">Presto nuovi articoli.</p>}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .narrow {
+    max-width: 42rem;
+  }
+
+  .post-card + .post-card {
+    margin-top: 1.5rem;
+  }
+
+  .post-date {
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    margin: 0 0 0.5rem;
+  }
+
+  .post-title {
+    margin: 0 0 0.5rem;
+    font-size: 1.3rem;
+  }
+
+  .post-description {
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+</style>

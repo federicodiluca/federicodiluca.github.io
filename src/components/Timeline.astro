@@ -1,0 +1,81 @@
+---
+interface Item {
+  title: string;
+  subtitle?: string;
+  meta?: string;
+  date: string;
+}
+interface Props {
+  items: readonly Item[];
+}
+const { items } = Astro.props;
+---
+
+<ol class="timeline">
+  {items.map((item) => (
+    <li class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <p class="timeline-date">{item.date}</p>
+        <h3 class="timeline-title">{item.title}</h3>
+        {item.subtitle && <p class="timeline-subtitle">{item.subtitle}</p>}
+        {item.meta && <p class="timeline-meta">{item.meta}</p>}
+      </div>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+  }
+
+  .timeline-item {
+    position: relative;
+    padding-left: 2rem;
+    padding-bottom: 2rem;
+    border-left: 2px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .timeline-item:last-child {
+    border-left-color: transparent;
+    padding-bottom: 0;
+  }
+
+  .timeline-dot {
+    position: absolute;
+    left: -0.4rem;
+    top: 0.2rem;
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 50%;
+    background: var(--color-accent-2);
+  }
+
+  .timeline-date {
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    margin: 0 0 0.15rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .timeline-title {
+    margin: 0;
+    font-size: 1.15rem;
+  }
+
+  .timeline-subtitle {
+    margin: 0.15rem 0 0;
+    color: var(--color-text-muted);
+  }
+
+  .timeline-meta {
+    margin: 0.15rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+  }
+</style>

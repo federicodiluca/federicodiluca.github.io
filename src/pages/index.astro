@@ -1,0 +1,176 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import Timeline from "../components/Timeline.astro";
+import SkillsGrid from "../components/SkillsGrid.astro";
+import { experiences, experiencesFooter, education, publications, aboutMessages } from "../data/site-data";
+
+const description =
+  "Federico Di Luca: sviluppatore software freelance (.NET, C#, Python) e docente di Informatica. Consulenza tecnica, sviluppo web e formazione per aziende e scuole a Pesaro, Fano, Urbino e Rimini.";
+---
+
+<BaseLayout title="Federico Di Luca" description={description}>
+  <Hero
+    eyebrow="Pesaro · Fano · Urbino · Rimini"
+    title="Federico Di Luca"
+    tagline="Sviluppatore software freelance e docente di Informatica. Progetti su misura, consulenza tecnica e formazione per aziende e scuole."
+    primaryCta={{ href: "/contatti/", label: "Contattami", icon: "mail" }}
+    secondaryCta={{ href: "/cv-federico-di-luca.pdf", label: "Scarica il CV", icon: "download" }}
+  />
+
+  <section class="section" id="aboutme" data-animate>
+    <div class="container about-grid">
+      <div>
+        <p class="section-title">Chi sono</p>
+        {aboutMessages.map((message) => (
+          <p class="about-text">{message}</p>
+        ))}
+        <a class="btn btn-outline" href="/chi-sono/">Scopri di più su di me</a>
+      </div>
+      <img
+        src="/images/federico-di-luca.webp"
+        alt="Federico Di Luca"
+        width="320"
+        height="320"
+        class="about-photo"
+      />
+    </div>
+  </section>
+
+  <section class="section section-alt" data-animate>
+    <div class="container">
+      <h2 class="section-title">Esperienza</h2>
+      <p class="section-lead">Un percorso tra sviluppo software e formazione tecnica.</p>
+      <Timeline
+        items={experiences.map((e) => ({ title: e.role, subtitle: e.company, date: e.date }))}
+      />
+      <p class="experiences-footer">{experiencesFooter}</p>
+    </div>
+  </section>
+
+  <section class="section" data-animate>
+    <div class="container">
+      <h2 class="section-title">Formazione</h2>
+      <Timeline
+        items={education.map((e) => ({
+          title: e.title,
+          subtitle: e.institute,
+          meta: "mark" in e ? `Voto: ${e.mark}` : undefined,
+          date: e.date,
+        }))}
+      />
+    </div>
+  </section>
+
+  <section class="section section-alt" data-animate>
+    <div class="container">
+      <h2 class="section-title">Strumenti principali</h2>
+      <SkillsGrid />
+    </div>
+  </section>
+
+  <section class="section" data-animate>
+    <div class="container">
+      <h2 class="section-title">Pubblicazioni scientifiche</h2>
+      {publications.map((pub) => (
+        <a class="card publication-card" href={pub.url} target="_blank" rel="noopener noreferrer">
+          <p class="publication-journal">{pub.journal} · {pub.date}</p>
+          <h3 class="publication-title">{pub.title}</h3>
+          <p class="publication-abstract">{pub.abstract}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section cta-section" data-animate>
+    <div class="container cta-inner">
+      <h2 class="section-title">Hai un progetto in mente?</h2>
+      <p class="section-lead">
+        Sviluppo software, consulenza tecnica o formazione: scrivimi per parlarne.
+      </p>
+      <a class="btn btn-primary" href="/contatti/">Contattami</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .about-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .about-text {
+    color: var(--color-text-muted);
+  }
+
+  .about-photo {
+    border-radius: var(--radius);
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .section-alt {
+    background: var(--color-bg-alt);
+  }
+
+  .experiences-footer {
+    margin-top: 2rem;
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    line-height: 1.8;
+  }
+
+  .publication-card {
+    display: block;
+    color: var(--color-text);
+  }
+
+  .publication-card:hover {
+    text-decoration: none;
+    border-color: var(--color-accent-2);
+  }
+
+  .publication-journal {
+    color: var(--color-accent-2);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin: 0 0 0.5rem;
+  }
+
+  .publication-title {
+    margin: 0 0 0.75rem;
+    font-size: 1.15rem;
+  }
+
+  .publication-abstract {
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .cta-section {
+    text-align: center;
+  }
+
+  .cta-inner .section-title {
+    margin-bottom: 0.5rem;
+  }
+
+  .cta-inner .section-lead {
+    margin: 0 auto 2rem;
+  }
+
+  @media (max-width: 720px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .about-photo {
+      order: -1;
+    }
+  }
+</style>

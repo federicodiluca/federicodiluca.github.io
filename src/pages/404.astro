@@ -1,0 +1,20 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Pagina non trovata" description="La pagina richiesta non esiste." noIndex>
+  <section class="section not-found">
+    <div class="container">
+      <h1 class="section-title">404</h1>
+      <p class="section-lead">La pagina che stai cercando non esiste o è stata spostata.</p>
+      <a class="btn btn-primary" href="/">Torna alla home</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    text-align: center;
+    padding: 8rem 0;
+  }
+</style>

@@ -1,0 +1,103 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+const description =
+  "Sviluppo software e consulenza IT freelance a Pesaro, Fano, Urbino e Rimini: applicazioni .NET e Python, integrazioni, automazione e supporto tecnico ai team di sviluppo.";
+
+const servizi = [
+  {
+    title: "Sviluppo applicazioni web",
+    body: "Progettazione e realizzazione di applicazioni web con .NET (C#, Blazor, Web API) e stack JavaScript/TypeScript moderno, dal backend all'interfaccia utente.",
+  },
+  {
+    title: "Automazione e integrazione",
+    body: "Script e servizi per automatizzare processi ripetitivi, integrare sistemi esistenti e collegare API di terze parti, spesso in Python o .NET.",
+  },
+  {
+    title: "Consulenza tecnica e architetturale",
+    body: "Revisione di codice e architetture esistenti, scelta dello stack tecnologico, definizione di best practice per team che vogliono strutturare o consolidare il proprio prodotto software.",
+  },
+  {
+    title: "Supporto a progetti in corso",
+    body: "Affiancamento a team di sviluppo su progetti già avviati, per periodi definiti o su singole funzionalità, con particolare esperienza in contesti Brand, Marketing ed E-commerce.",
+  },
+];
+---
+
+<BaseLayout title="Sviluppo software freelance" description={description}>
+  <section class="section page-header">
+    <div class="container">
+      <h1 class="section-title">Sviluppo software freelance</h1>
+      <p class="section-lead">
+        Consulenza e sviluppo su misura per aziende e team a Pesaro, Fano, Urbino e Rimini, oltre a
+        collaborazioni da remoto in tutta Italia.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container services-grid">
+      {servizi.map((s) => (
+        <article class="card">
+          <h2 class="service-title">{s.title}</h2>
+          <p class="service-body">{s.body}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container narrow">
+      <h2 class="section-title">Come lavoro</h2>
+      <p>
+        Vengo da quasi quattro anni come Technical Leader in Websolute, dove ho guidato team di
+        sviluppo su progetti .NET per clienti nel settore Brand, Marketing ed E-commerce: questo
+        significa che non affronto solo il codice, ma anche la pianificazione, la comunicazione con
+        i referenti di progetto e la qualità del risultato finale.
+      </p>
+      <p>
+        Lavoro principalmente in modalità di collaborazione occasionale a progetto, compatibile con
+        il mio ruolo di docente. È l'ideale per interventi definiti nel tempo: lo sviluppo di una
+        funzionalità, una consulenza tecnica puntuale, un'automazione, il supporto a un team per un
+        periodo limitato.
+      </p>
+      <a class="btn btn-primary" href="/contatti/">Raccontami il tuo progetto</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .service-title {
+    margin: 0 0 0.75rem;
+    font-size: 1.2rem;
+  }
+
+  .service-body {
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .section-alt {
+    background: var(--color-bg-alt);
+  }
+
+  .narrow {
+    max-width: 42rem;
+  }
+
+  .narrow p {
+    color: var(--color-text-muted);
+  }
+
+  @media (max-width: 720px) {
+    .services-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

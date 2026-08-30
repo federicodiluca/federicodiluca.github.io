@@ -1,0 +1,70 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { publications } from "../../data/site-data";
+import { AUTHOR } from "../../consts";
+
+const description =
+  "Pubblicazioni scientifiche di Federico Di Luca: ricerca su rilevamento umano tramite radar ultra-wideband e machine learning, pubblicata su MDPI Sensors.";
+
+const jsonLd = publications.map((pub) => ({
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  headline: pub.title,
+  datePublished: pub.date,
+  isPartOf: { "@type": "Periodical", name: pub.journal },
+  url: pub.url,
+  author: { "@type": "Person", name: AUTHOR.name },
+  abstract: pub.abstract,
+}));
+---
+
+<BaseLayout title="Pubblicazioni" description={description} jsonLd={jsonLd}>
+  <section class="section page-header">
+    <div class="container">
+      <h1 class="section-title">Pubblicazioni scientifiche</h1>
+      <p class="section-lead">
+        Il lavoro di ricerca svolto durante il percorso universitario in Ingegneria delle
+        Telecomunicazioni.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow">
+      {publications.map((pub) => (
+        <article class="card publication">
+          <p class="publication-journal">{pub.journal} · {pub.date}</p>
+          <h2 class="publication-title">{pub.title}</h2>
+          <p class="publication-abstract">{pub.abstract}</p>
+          <a class="btn btn-outline" href={pub.url} target="_blank" rel="noopener noreferrer">
+            Leggi l'articolo completo
+          </a>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .narrow {
+    max-width: 42rem;
+  }
+
+  .publication-journal {
+    color: var(--color-accent-2);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin: 0 0 0.5rem;
+  }
+
+  .publication-title {
+    margin: 0 0 1rem;
+  }
+
+  .publication-abstract {
+    color: var(--color-text-muted);
+    margin: 0 0 1.5rem;
+  }
+</style>

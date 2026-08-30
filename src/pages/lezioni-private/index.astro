@@ -1,0 +1,37 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { AUTHOR } from "../../consts";
+
+const description =
+  "Lezioni private di matematica, fisica e informatica per studenti delle scuole superiori, a cura di Federico Di Luca.";
+---
+
+<BaseLayout title="Lezioni private" description={description}>
+  <section class="section page-header">
+    <div class="container narrow">
+      <h1 class="section-title">Lezioni private</h1>
+      <p class="section-lead">
+        Sono docente di Informatica nella scuola superiore e offro anche lezioni private di
+        matematica, fisica e informatica, principalmente per studenti delle scuole superiori.
+      </p>
+      <p>
+        Le lezioni sono pensate per consolidare le basi, recuperare argomenti in difficoltà o
+        prepararsi a verifiche ed esami, con un approccio pratico e su misura per ogni studente.
+      </p>
+      <p>
+        Per informazioni su disponibilità e modalità, scrivimi direttamente.
+      </p>
+      <a class="btn btn-outline" href={`mailto:${AUTHOR.email}`}>{AUTHOR.email}</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .narrow {
+    max-width: 38rem;
+  }
+
+  .narrow p {
+    color: var(--color-text-muted);
+  }
+</style>

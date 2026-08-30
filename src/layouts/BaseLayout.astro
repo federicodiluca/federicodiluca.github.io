@@ -1,0 +1,276 @@
+---
+import { SITE_URL, SITE_NAME, AUTHOR, GOOGLE_SITE_VERIFICATION } from "../consts";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  locale?: "it" | "en";
+  image?: string;
+  type?: "website" | "article";
+  noIndex?: boolean;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const {
+  title,
+  description,
+  locale = "it",
+  image = "/images/social-share.jpg",
+  type = "website",
+  noIndex = false,
+  jsonLd,
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, SITE_URL).toString();
+const imageURL = new URL(image, SITE_URL).toString();
+const fullTitle = title === SITE_NAME ? title : `${title} · ${SITE_NAME}`;
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: AUTHOR.name,
+  email: `mailto:${AUTHOR.email}`,
+  jobTitle: AUTHOR.jobTitle,
+  url: SITE_URL,
+  image: imageURL,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: AUTHOR.city,
+    addressRegion: AUTHOR.region,
+    addressCountry: AUTHOR.country,
+  },
+  sameAs: AUTHOR.sameAs,
+};
+
+const schemas = [personSchema, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])];
+---
+
+<!DOCTYPE html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="canonical" href={canonicalURL} />
+
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    {noIndex && <meta name="robots" content="noindex, follow" />}
+
+    <link rel="alternate" hreflang="it" href={new URL(Astro.url.pathname.replace(/^\/en\//, "/"), SITE_URL).toString()} />
+    <link rel="alternate" hreflang="en" href={new URL(`/en${Astro.url.pathname.replace(/^\/en/, "")}`, SITE_URL).toString()} />
+    <link rel="alternate" hreflang="x-default" href={new URL(Astro.url.pathname.replace(/^\/en\//, "/"), SITE_URL).toString()} />
+
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={imageURL} />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:locale" content={locale === "it" ? "it_IT" : "en_US"} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageURL} />
+
+    <meta name="google-site-verification" content={GOOGLE_SITE_VERIFICATION} />
+
+    {schemas.map((schema) => (
+      <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
+    ))}
+
+    <link rel="alternate" type="application/rss+xml" title={`${SITE_NAME} · Blog`} href="/rss.xml" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#0b1021" />
+  </head>
+  <body>
+    <Header locale={locale} />
+    <main>
+      <slot />
+    </main>
+    <Footer locale={locale} />
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --color-bg: #0b1021;
+    --color-bg-alt: #121935;
+    --color-surface: #161f42;
+    --color-text: #e8ecf7;
+    --color-text-muted: #a8b0cc;
+    --color-accent: #4484ce;
+    --color-accent-2: #1ad7c0;
+    --color-accent-3: #9b59b6;
+    --gradient-brand: linear-gradient(136deg, var(--color-accent), var(--color-accent-2), var(--color-accent-3));
+    --max-width: 72rem;
+    --radius: 0.75rem;
+    font-size: 16px;
+  }
+
+  :root.light {
+    --color-bg: #ffffff;
+    --color-bg-alt: #f8f9fb;
+    --color-surface: #f1f3f8;
+    --color-text: #1a2039;
+    --color-text-muted: #5f6b8f;
+    --color-accent: #4484ce;
+    --color-accent-2: #1ad7c0;
+    --color-accent-3: #9b59b6;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  a {
+    color: var(--color-accent-2);
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  img {
+    max-width: 100%;
+    display: block;
+  }
+
+  .container {
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .section {
+    padding: 4.5rem 0;
+  }
+
+  .section-title {
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    margin: 0 0 0.5rem;
+  }
+
+  .section-lead {
+    color: var(--color-text-muted);
+    font-size: 1.125rem;
+    max-width: 42rem;
+    margin: 0 0 2.5rem;
+  }
+
+  .card {
+    background: var(--color-surface);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius);
+    padding: 1.75rem;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 999px;
+    font-weight: 600;
+    border: 1px solid transparent;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+
+  .btn:hover {
+    transform: translateY(-1px);
+    text-decoration: none;
+  }
+
+  .btn-primary {
+    background: var(--gradient-brand);
+    color: #fff;
+  }
+
+  .btn-outline {
+    border-color: rgba(255, 255, 255, 0.35);
+    color: var(--color-text);
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  [data-animate] {
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+
+  [data-animate="delayed"] {
+    animation-delay: 0.2s;
+  }
+</style>
+
+<script>
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: "0px 0px -50px 0px",
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("in-view");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll("[data-animate]").forEach((el) => {
+    observer.observe(el);
+    el.classList.add("animating");
+  });
+
+  document.addEventListener("astro:after-swap", () => {
+    document.querySelectorAll("[data-animate]").forEach((el) => {
+      if (!el.classList.contains("animating")) {
+        observer.observe(el);
+        el.classList.add("animating");
+      }
+    });
+  });
+</script>

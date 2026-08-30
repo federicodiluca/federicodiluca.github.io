@@ -1,0 +1,91 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Timeline from "../../components/Timeline.astro";
+import { education } from "../../data/site-data";
+
+const description =
+  "La storia di Federico Di Luca: da ingegnere delle telecomunicazioni a Technical Leader .NET, oggi docente di Informatica e sviluppatore freelance a Pesaro.";
+---
+
+<BaseLayout title="Chi sono" description={description}>
+  <section class="section page-header">
+    <div class="container">
+      <h1 class="section-title">Chi sono</h1>
+      <p class="section-lead">
+        Ingegnere, sviluppatore, docente. Un percorso che unisce tecnica e didattica.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow">
+      <p>
+        Mi chiamo Federico Di Luca, sono di Pesaro e mi muovo tra due mondi che per me sono
+        complementari: lo sviluppo software e l'insegnamento.
+      </p>
+      <p>
+        Mi sono laureato con lode in Ingegneria Elettronica e delle Telecomunicazioni
+        all'Università di Bologna, dopo una laurea triennale in Ingegneria Biomedica e un periodo
+        di studio Erasmus alla Universitat Politècnica de Catalunya di Barcellona. Durante gli
+        studi ho contribuito a una ricerca sul rilevamento di persone tramite radar ultra-wideband,
+        pubblicata sulla rivista scientifica <a href="/pubblicazioni/">MDPI Sensors</a>.
+      </p>
+      <p>
+        Ho iniziato la carriera come Automation Developer in NGTEC, per poi crescere in Websolute
+        come Technical Leader, guidando team di sviluppo su progetti .NET per Brand, Marketing ed
+        E-commerce: progettazione di architetture software, gestione di progetti IT end-to-end e
+        mentoring di sviluppatori junior.
+      </p>
+      <p>
+        Dal 2024 insegno Informatica nella scuola superiore, prima al Liceo Scientifico Torelli e
+        oggi all'IIS Gobetti De Gasperi. È un cambio di prospettiva che mi ha permesso di
+        riscoprire quanto mi piaccia spiegare, semplificare concetti complessi e trasmettere il
+        modo di pensare tipico di chi lavora con la tecnologia.
+      </p>
+      <p>
+        Oggi affianco all'insegnamento la disponibilità per collaborazioni a progetto: sviluppo
+        software, consulenza tecnica e formazione aziendale, principalmente nell'area tra Pesaro,
+        Fano, Urbino e Rimini, ma anche a distanza per progetti da tutta Italia.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Formazione</h2>
+      <Timeline
+        items={education.map((e) => ({
+          title: e.title,
+          subtitle: e.institute,
+          meta: "mark" in e ? `Voto: ${e.mark}` : undefined,
+          date: e.date,
+        }))}
+      />
+    </div>
+  </section>
+
+  <section class="section cta-section">
+    <div class="container">
+      <a class="btn btn-primary" href="/contatti/">Parliamo del tuo progetto</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .narrow {
+    max-width: 42rem;
+  }
+
+  .narrow p {
+    color: var(--color-text-muted);
+    font-size: 1.05rem;
+  }
+
+  .section-alt {
+    background: var(--color-bg-alt);
+  }
+
+  .cta-section {
+    text-align: center;
+  }
+</style>

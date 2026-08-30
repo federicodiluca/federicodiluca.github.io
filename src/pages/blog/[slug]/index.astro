@@ -1,0 +1,66 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { getCollection, render } from "astro:content";
+import { AUTHOR } from "../../../consts";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog", ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: post.data.date.toISOString(),
+  ...(post.data.updatedDate && { dateModified: post.data.updatedDate.toISOString() }),
+  author: { "@type": "Person", name: AUTHOR.name },
+};
+---
+
+<BaseLayout title={post.data.title} description={post.data.description} type="article" jsonLd={jsonLd}>
+  <article class="section">
+    <div class="container narrow">
+      <p class="post-date">
+        {post.data.date.toLocaleDateString("it-IT", { year: "numeric", month: "long", day: "numeric" })}
+      </p>
+      <h1 class="section-title">{post.data.title}</h1>
+      <div class="post-body">
+        <Content />
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .narrow {
+    max-width: 42rem;
+  }
+
+  .post-date {
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    margin: 0 0 0.5rem;
+  }
+
+  .post-body {
+    color: var(--color-text-muted);
+    margin-top: 2rem;
+  }
+
+  .post-body :global(h2) {
+    color: var(--color-text);
+    margin-top: 2rem;
+  }
+
+  .post-body :global(p) {
+    margin: 0 0 1.25rem;
+  }
+</style>

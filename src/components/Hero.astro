@@ -1,0 +1,169 @@
+---
+interface CTA {
+  href: string;
+  label: string;
+  icon?: "mail" | "download";
+}
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  tagline: string;
+  primaryCta?: CTA;
+  secondaryCta?: CTA;
+}
+const { eyebrow, title, tagline, primaryCta, secondaryCta } = Astro.props;
+
+const getIcon = (type?: string) => {
+  if (type === "mail") {
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>';
+  }
+  if (type === "download") {
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
+  }
+  return "";
+};
+
+function starLayer(count: number, maxW: number, maxH: number) {
+  const shadows: string[] = [];
+  for (let i = 0; i < count; i++) {
+    const x = Math.floor(Math.random() * maxW);
+    const y = Math.floor(Math.random() * maxH);
+    shadows.push(`${x}px ${y}px #fff`);
+  }
+  return shadows.join(", ");
+}
+
+const smallStars = starLayer(90, 1600, 900);
+const bigStars = starLayer(35, 1600, 900);
+---
+
+<section class="hero">
+  <div class="stars stars-sm" style={{ boxShadow: smallStars }}></div>
+  <div class="stars stars-lg" style={{ boxShadow: bigStars }}></div>
+  <div class="container hero-inner">
+    {eyebrow && <p class="hero-eyebrow">{eyebrow}</p>}
+    <h1 class="hero-title">{title}</h1>
+    <p class="hero-tagline">{tagline}</p>
+    <div class="hero-actions">
+      {primaryCta && (
+        <a class="btn btn-outline" href={primaryCta.href}>
+          {primaryCta.icon && <span class="btn-icon" set:html={getIcon(primaryCta.icon)} />}
+          {primaryCta.label}
+        </a>
+      )}
+      {secondaryCta && (
+        <a class="btn btn-outline" href={secondaryCta.href}>
+          {secondaryCta.icon && <span class="btn-icon" set:html={getIcon(secondaryCta.icon)} />}
+          {secondaryCta.label}
+        </a>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    background: var(--gradient-brand);
+    background-size: 200% 200%;
+    animation: heroShift 18s ease infinite;
+    padding: 10rem 0 8rem;
+  }
+
+  @keyframes heroShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background: transparent;
+    animation: floatUp 8s ease-in infinite;
+  }
+
+  .stars-sm {
+    animation: floatUp 8s ease-in infinite, twinkle 6s ease-in-out infinite alternate;
+  }
+
+  .stars-lg {
+    width: 3px;
+    height: 3px;
+    opacity: 0.8;
+    animation: floatUp 10s ease-in infinite, twinkle 6s ease-in-out infinite alternate;
+  }
+
+  @keyframes floatUp {
+    from { transform: translateY(0); opacity: 0; }
+    50% { opacity: 1; }
+    to { transform: translateY(-900px); opacity: 0; }
+  }
+
+  @keyframes twinkle {
+    from { opacity: 0.35; }
+    to { opacity: 0.9; }
+  }
+
+  .hero-inner {
+    position: relative;
+    text-align: center;
+    z-index: 1;
+  }
+
+  .hero-eyebrow {
+    color: rgba(255, 255, 255, 0.85);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  .hero-title {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    color: #fff;
+    margin: 0 0 1rem;
+  }
+
+  .hero-tagline {
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 1.25rem;
+    max-width: 40rem;
+    margin: 0 auto 2.5rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .hero .btn-outline {
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+
+  .btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1em;
+    height: 1em;
+    margin-right: 0.3rem;
+    flex-shrink: 0;
+    vertical-align: middle;
+  }
+
+  .btn-icon svg {
+    width: 0.75em;
+    height: 0.75em;
+    display: block;
+  }
+</style>
