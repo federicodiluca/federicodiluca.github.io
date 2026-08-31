@@ -14,7 +14,7 @@ const description =
     eyebrow="Pesaro · Fano · Urbino · Rimini"
     title="Freelance Software Developer & Computer Science Teacher"
     tagline="Custom software development, technical consulting, programming education and training for companies, schools and universities."
-    primaryCta={{ href: "/contatti/", label: "Contact me", icon: "mail" }}
+    primaryCta={{ href: "/en/contact/", label: "Contact me", icon: "mail" }}
     secondaryCta={{ href: "/cv-federico-di-luca.pdf", label: "Download CV", icon: "download" }}
   />
 
@@ -78,7 +78,19 @@ const description =
   <section class="section section-alt">
     <div class="container">
       <h2 class="section-title">Experience</h2>
-      <Timeline items={experiences.map((e) => ({ title: e.role, subtitle: e.company, date: e.date }))} />
+      <Timeline items={experiences.map((e) => {
+        const roleTranslations: Record<string, string> = {
+          "Docente di Informatica": "Computer Science Teacher",
+          "Docente di Informatica & Formatore STEM": "Computer Science Teacher & STEM Trainer",
+          "Technical Leader": "Technical Leader",
+          "Automation Developer": "Automation Developer"
+        };
+        return {
+          title: roleTranslations[e.role] || e.role,
+          subtitle: e.company,
+          date: e.date
+        };
+      })} />
       <p class="experiences-footer">{experiencesFooter}</p>
     </div>
   </section>
@@ -87,12 +99,25 @@ const description =
     <div class="container">
       <h2 class="section-title">Education</h2>
       <Timeline
-        items={education.map((e) => ({
-          title: e.title,
-          subtitle: e.institute,
-          meta: "mark" in e ? `Grade: ${e.mark}` : undefined,
-          date: e.date,
-        }))}
+        items={education.map((e) => {
+          const titleTranslations: Record<string, string> = {
+            "Laurea Magistrale": "Master's Degree",
+            "Ingegneria Elettronica e delle Telecomunicazioni": "Electronic and Telecommunications Engineering",
+            "Laurea Triennale": "Bachelor's Degree",
+            "Ingegneria Biomedica": "Biomedical Engineering",
+            "Esperienza Erasmus": "Erasmus Exchange"
+          };
+          const instituteTranslations: Record<string, string> = {
+            "Università di Bologna": "University of Bologna",
+            "Universitat Politècnica de Catalunya, Barcellona": "Universitat Politècnica de Catalunya, Barcelona"
+          };
+          return {
+            title: titleTranslations[e.title] || e.title,
+            subtitle: instituteTranslations[e.institute] || e.institute,
+            meta: "mark" in e ? `Grade: ${e.mark}` : undefined,
+            date: e.date
+          };
+        })}
       />
     </div>
   </section>
@@ -102,13 +127,21 @@ const description =
       <h2 class="section-title">Research & Publications</h2>
       <p class="section-lead">Peer-reviewed research in machine learning, signal processing, and industrial automation.</p>
       <div class="container narrow">
-        {publications.map((pub) => (
-          <a class="card publication-card" href={pub.url} target="_blank" rel="noopener noreferrer">
-            <p class="publication-journal">{pub.journal} · {pub.date}</p>
-            <h3 class="publication-title">{pub.title}</h3>
-            <p class="publication-abstract">{pub.abstract}</p>
-          </a>
-        ))}
+        {publications.map((pub) => {
+          const abstractTranslations: any = {
+            "Lo studio analizza il rilevamento di persone in condizioni non-line-of-sight (NLOS) tramite radar ultra-wideband, attraverso una campagna di misurazioni in ambienti reali con orientamenti del corpo, materiali degli ostacoli e distanze radar-ostacolo differenti, valutando l'accuratezza di diversi modelli di machine learning.": "The study analyzes human detection in non-line-of-sight (NLOS) conditions using ultra-wideband radar, through a measurement campaign in real environments with different body orientations, obstacle materials, and radar-obstacle distances, evaluating the accuracy of different machine learning models."
+          };
+          const translatedAbstract = abstractTranslations[pub.abstract] || pub.abstract;
+          const translatedTitle = pub.title.includes("ricerca e pubblicazione") ? pub.title.replace("ricerca e pubblicazione", "Research and Publication") : pub.title;
+          return (
+            <a class="card publication-card" href={pub.url} target="_blank" rel="noopener noreferrer">
+              <p class="publication-journal">{pub.journal} · {pub.date}</p>
+              <h3 class="publication-title">{translatedTitle}</h3>
+              <p class="publication-abstract">{translatedAbstract}</p>
+            </a>
+          );
+        })}
+>>>>>>> 0e7279d (feat: enrich English homepage with translations, add publications to blog, and fix TypeScript types)
       </div>
     </div>
   </section>
@@ -119,7 +152,11 @@ const description =
       <p class="section-lead">
         Whether you need software development, technical consulting, or training, I'm available for project-based collaborations.
       </p>
+<<<<<<< HEAD
       <a class="btn btn-primary" href="/contatti/">Get in touch</a>
+=======
+      <a class="btn btn-primary" href="/en/contact/">Get in touch</a>
+>>>>>>> 0e7279d (feat: enrich English homepage with translations, add publications to blog, and fix TypeScript types)
     </div>
   </section>
 </BaseLayout>

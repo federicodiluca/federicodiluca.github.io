@@ -1,5 +1,5 @@
 ---
-title: "Sicurezza e attacchi hacker: come i criminali "rompono" i sistemi e come difendersi"
+title: "Sicurezza e attacchi hacker: come i criminali rompono i sistemi e come difendersi"
 description: "OWASP Top 10, phishing, SQL injection, XSS e altre vulnerabilità comuni. Come scrivere codice sicuro."
 date: 2025-02-01
 category: "sicurezza"

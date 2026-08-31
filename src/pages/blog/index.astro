@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
+import { publications } from "../../data/site-data";
 
 const description = "Articoli, case study e articoli di ricerca su sviluppo software, automazione industriale, machine learning e didattica.";
 
@@ -57,7 +58,22 @@ const categories = [
             <p class="post-description">{post.data.description}</p>
           </article>
         ))}
-        {allPosts.length === 0 && <p class="section-lead">Presto nuovi articoli.</p>}
+
+        {publications.map((pub) => (
+          <article class="card post-card publication-item" data-category="ricerca">
+            <div class="post-meta">
+              <p class="post-date">{pub.date}</p>
+              <span class="post-category">Ricerca & Pubblicazioni</span>
+            </div>
+            <h2 class="post-title">
+              <a href={pub.url} target="_blank" rel="noopener noreferrer">{pub.title}</a>
+            </h2>
+            <p class="post-description">{pub.abstract}</p>
+            <p class="publication-source">{pub.journal} · {pub.date}</p>
+          </article>
+        ))}
+
+        {allPosts.length === 0 && (publications as any).length === 0 && <p class="section-lead">Presto nuovi articoli.</p>}
       </div>
     </div>
   </section>
@@ -140,6 +156,26 @@ const categories = [
     color: var(--color-text-muted);
     margin: 0;
   }
+
+  .publication-source {
+    color: var(--color-accent-2);
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-top: 0.75rem;
+    margin-bottom: 0;
+  }
+
+  .publication-item .post-title a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .publication-item .post-title a::after {
+    content: "↗";
+    font-size: 0.9em;
+    opacity: 0.6;
+  }
 </style>
 
 <script>
@@ -148,13 +184,13 @@ const categories = [
 
   buttons.forEach((button) => {
     button.addEventListener("click", () => {
-      const selectedCategory = button.dataset.category;
+      const selectedCategory = (button as HTMLElement).dataset.category;
 
       buttons.forEach((btn) => btn.setAttribute("data-active", "false"));
       button.setAttribute("data-active", "true");
 
       posts.forEach((post) => {
-        if (selectedCategory === "all" || post.dataset.category === selectedCategory) {
+        if (selectedCategory === "all" || (post as HTMLElement).dataset.category === selectedCategory) {
           post.setAttribute("data-active", "true");
         } else {
           post.setAttribute("data-active", "false");
