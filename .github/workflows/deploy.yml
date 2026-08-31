@@ -2,7 +2,7 @@ name: Build and deploy site
 
 on:
   push:
-    branches: [main]
+    branches: [main, master]
   workflow_dispatch: {}
 
 permissions:
@@ -33,10 +33,10 @@ jobs:
         run: npm run build
 
       - name: Setup Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v4
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: ./dist
 
