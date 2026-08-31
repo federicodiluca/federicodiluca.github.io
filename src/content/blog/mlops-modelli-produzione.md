@@ -10,43 +10,23 @@ Un modello ML che funziona bene in Jupyter notebook è completamente diverso da 
 
 ## Il ciclo di vita di ML in produzione
 
-```
-1. DATA COLLECTION
-   ├─ Raccolta dati grezzi
-   ├─ Data pipeline
-   └─ Quality checks
-
-        ↓ (input)
-
-2. TRAINING
-   ├─ Feature engineering
-   ├─ Model training
-   ├─ Hyperparameter tuning
-   └─ Evaluation
-
-        ↓ (model)
-
-3. DEPLOYMENT
-   ├─ Containerization
-   ├─ A/B testing
-   └─ Canary release
-
-        ↓ (live)
-
-4. MONITORING
-   ├─ Prediction accuracy
-   ├─ Data drift detection
-   ├─ Performance metrics
-   └─ Alerts
-
-        ↓ (degradation detected)
-
-5. RETRAINING
-   ├─ Nuovi dati
-   ├─ Validation pipeline
-   └─ Back to TRAINING
-
-(Ciclo continuo)
+```mermaid
+flowchart TD
+    A["📊 Data Collection<br/>Raw data + Quality checks"] --> B["🔧 Feature Engineering<br/>Transform & normalize"]
+    B --> C["🤖 Model Training<br/>Hyperparameter tuning"]
+    C --> D["✅ Evaluation<br/>Accuracy > threshold?"]
+    D -->|No| C
+    D -->|Yes| E["📦 Deployment<br/>Containerization + A/B test"]
+    E --> F["🚀 Production<br/>Live inference"]
+    F --> G["📈 Monitoring<br/>Accuracy + Data drift"]
+    G --> H{Performance<br/>degrading?}
+    H -->|No| G
+    H -->|Yes| I["🔄 Retraining<br/>New data + Validation"]
+    I --> A
+    
+    style F fill:#6bcf7f
+    style G fill:#ffd93d
+    style I fill:#ff6b9d
 ```
 
 ## Il problema di Model Decay

@@ -10,21 +10,13 @@ La regressione è forse l'applicazione ML più comune in azienda: predire contin
 
 ## Regressione vs Classificazione
 
-```
-CLASSIFICAZIONE                  REGRESSIONE
-(Categoria discreta)            (Valore continuo)
-
-Input: [età, peso]            Input: [temperature, ora, stagione]
-Output: "Malato" / "Sano"      Output: 24.5°C (previsione temperatura)
-
-Modelli:                        Modelli:
-├─ Logistic Regression        ├─ Linear Regression
-├─ SVM                         ├─ Ridge/Lasso
-├─ Random Forest               ├─ SVR (Support Vector Regression)
-└─ Neural Net                  ├─ Random Forest Regression
-                               ├─ Gradient Boosting Regression
-                               └─ LSTM (Time Series)
-```
+| Aspetto | Classificazione | Regressione |
+|---------|-----------------|-------------|
+| **Output** | Categoria discreta | Valore continuo |
+| **Esempio output** | "Malato" / "Sano" | 24.5°C |
+| **Metrica** | Accuracy, F1 | MAE, RMSE, R² |
+| **Modelli** | Logistic Reg, SVM, RF, NN | Linear Reg, SVR, RF Reg, LSTM |
+| **Use case** | Diagnosi, spam detection | Forecast, pricing, demand |
 
 ## Linear Regression: il fondamento
 

@@ -29,24 +29,20 @@ Colli di bottiglia:
 
 ## Strategy 1: Caching Multi-livello
 
-### L1: Application Cache (In-Memory)
-```
-Request
-  ↓
-┌─────────────────────┐
-│ L1: Local Memory    │  ← HttpContext.Items
-│ (Thread-safe dict)  │      Cache per request
-└─────────────┬───────┘
-              │ MISS
-┌─────────────▼───────┐
-│ L2: Distributed     │  ← Redis / Memcached
-│ Cache (Shared)      │     Cache per istanza
-└─────────────┬───────┘
-              │ MISS
-┌─────────────▼───────┐
-│ L3: Database        │  ← SQL Server
-│ (Source of Truth)   │     Persistente
-└─────────────────────┘
+```mermaid
+graph TD
+    A["📨 Request"] --> B["⚡ L1: Application Cache<br/>In-Memory - Per Request"]
+    B --> C{Cache Hit?}
+    C -->|Sì| D["✅ Return 1ms"]
+    C -->|No| E["🔴 L2: Redis/Memcached<br/>Distributed - Shared"]
+    E --> F{Cache Hit?}
+    F -->|Sì| G["✅ Return 10ms"]
+    F -->|No| H["🗄️ L3: Database<br/>SQL Server - Source of Truth"]
+    H --> I["✅ Return 100ms<br/>+ Update cache"]
+    
+    style D fill:#6bcf7f
+    style G fill:#95e1d3
+    style I fill:#ff6b9d
 ```
 
 ### Cache Invalidation Strategies
@@ -148,23 +144,23 @@ Total: User vede risposta in 50ms
 ```
 
 ### Job Queue Pattern
-```
-┌──────────┐
-│ API      │
-│ Crea job │
-└─────┬────┘
-      │ Enqueue
-┌─────▼─────────────┐
-│ Message Queue     │  (RabbitMQ / Azure Queue)
-│ - SendEmail       │
-│ - UpdateInventory │
-│ - GenerateReport  │
-└─────┬─────────────┘
-      │ Dequeue
-┌─────▼──────────────┐
-│ Workers (N)        │
-│ Processing jobs    │
-└────────────────────┘
+
+```mermaid
+graph LR
+    A["🌐 API<br/>POST /orders"] -->|Enqueue| B["📬 Message Queue<br/>RabbitMQ/Kafka"]
+    B --> C["⚙️ Worker 1<br/>SendEmail"]
+    B --> D["⚙️ Worker 2<br/>UpdateInventory"]
+    B --> E["⚙️ Worker N<br/>Analytics"]
+    
+    A -->|Return 50ms| F["✅ User Response<br/>Order Created"]
+    C -.->|Complete| G["📊 Background<br/>Processing"]
+    D -.->|Complete| G
+    E -.->|Complete| G
+    
+    style A fill:#4ecdc4
+    style F fill:#6bcf7f
+    style B fill:#ffd93d
+    style G fill:#95e1d3
 ```
 
 ## Strategy 4: Content Delivery
