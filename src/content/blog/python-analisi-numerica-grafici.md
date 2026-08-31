@@ -10,11 +10,13 @@ Python è il linguaggio di elezione per data analysis e visualizzazione. Con poc
 
 ## Le librerie essenziali
 
-```python
-import numpy as np          # Calcoli numerici veloci
-import pandas as pd         # Dataframe (tabelle)
-import matplotlib.pyplot    # Grafici
-```
+| Libreria | Uso | Best For |
+|----------|-----|----------|
+| **NumPy** | Calcoli numerici veloci, array | Operazioni matematiche, algebra lineare |
+| **Pandas** | Dataframe (tabelle), manipolazione dati | Data cleaning, analysis, CSV/Excel |
+| **Matplotlib** | Grafici 2D | Visualizzazione scientifica, customizzazione |
+| **Seaborn** | Grafici statistici eleganti | Statistical plots, distribution analysis |
+| **Scikit-learn** | Machine Learning | Classification, regression, clustering |
 
 ## NumPy: Calcoli veloci
 

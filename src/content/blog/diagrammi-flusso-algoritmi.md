@@ -45,23 +45,13 @@ Un diagramma di flusso è una rappresentazione visuale di un algoritmo. Prima ch
 
 **Programma:** Somma di due numeri
 
-```
-       START
-         │
-         ▼
-    Leggi A
-         │
-         ▼
-    Leggi B
-         │
-         ▼
-    C = A + B
-         │
-         ▼
-  Stampa C
-         │
-         ▼
-        END
+```mermaid
+flowchart TD
+    START(["🟢 START"]) --> A["📥 Leggi A"]
+    A --> B["📥 Leggi B"]
+    B --> C["🔢 C = A + B"]
+    C --> D["📤 Stampa C"]
+    D --> END(["🔴 END"])
 ```
 
 ## Esempio 2: Decisione (if)

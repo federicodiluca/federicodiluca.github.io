@@ -10,31 +10,24 @@ La ricerca e sviluppo è il motore dell'innovazione, sia in azienda che in accad
 
 ## Fasi del processo R&D
 
-```
-FASE 1: RICERCA (Accademia/Lab)
-├─ Idea innovativa
-├─ Literatura review
-├─ Esperimenti
-├─ Pubblicazioni
-└─ → Potenziale commerciale?
-
-FASE 2: PROTOTIPO (Startup/Azienda)
-├─ PoC (Proof of Concept)
-├─ Validazione su dati reali
-├─ Optimizzazione
-└─ → Fattibile industrialmente?
-
-FASE 3: INGEGNERIZZAZIONE
-├─ Scalabilità
-├─ Reliability & robustezza
-├─ Integrazioni
-└─ → Production-ready?
-
-FASE 4: COMMERCIALIZZAZIONE
-├─ Market fit
-├─ Go-to-market strategy
-├─ Customer support
-└─ Revenue
+```mermaid
+flowchart LR
+    A["🔬 RICERCA<br/>Academia/Lab<br/>Idea + Experiments"] --> B{Commerciale?}
+    B -->|No| A
+    B -->|Yes| C["🛠️ PROTOTIPO<br/>PoC + Validation<br/>Real data testing"]
+    C --> D{Industriale?}
+    D -->|No| C
+    D -->|Yes| E["⚙️ INGEGNERIZZAZIONE<br/>Scale + Reliability<br/>Production-ready"]
+    E --> F{Mercato?}
+    F -->|No| E
+    F -->|Yes| G["🚀 COMMERCIALIZZAZIONE<br/>Market fit<br/>Customer acquisition"]
+    G --> H["💰 Revenue & Impact"]
+    
+    style A fill:#95e1d3
+    style C fill:#ffd93d
+    style E fill:#4ecdc4
+    style G fill:#6bcf7f
+    style H fill:#ff6b9d
 ```
 
 ## Il mio caso: UWB Person Detection

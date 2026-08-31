@@ -10,18 +10,25 @@ Una VPN è una "rete privata virtuale" che cripta e instrada il tuo traffico att
 
 ## Come funziona una VPN
 
-```
-SENZA VPN:
-Tu (192.168.1.5) → Router → ISP → Sito Web
-                              ↑
-                    ISP vede: chi sei, dove vai, cosa fai
-
-CON VPN:
-Tu → VPN Client → VPN Server → Sito Web
-                      ↓
-     Il sito vede: IP del server VPN, non il tuo
-     ISP vede: traffico criptato, non conosce destinazione
-     Nessuno sa cosa fai (tranne VPN provider)
+```mermaid
+graph LR
+    subgraph without["❌ SENZA VPN"]
+        A["👤 Tu<br/>192.168.1.5"] --> B["🏠 Router"]
+        B --> C["📡 ISP<br/>Vede tutto!"]
+        C --> D["🌐 Sito Web<br/>Vede tuo IP"]
+    end
+    
+    subgraph with["✅ CON VPN"]
+        E["👤 Tu"] --> F["🔐 VPN Client<br/>Cripta traffico"]
+        F --> G["🛡️ VPN Server<br/>IP anonimo"]
+        G --> H["🌐 Sito Web<br/>Vede IP VPN"]
+        I["📡 ISP<br/>Vede solo<br/>traffico criptato"]
+    end
+    
+    style C fill:#ff6b9d
+    style D fill:#ff6b9d
+    style G fill:#6bcf7f
+    style H fill:#95e1d3
 ```
 
 ## Protocolli VPN principali

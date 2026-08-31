@@ -59,14 +59,19 @@ Auto a guida autonoma
 
 ## Quello che CAMBIA
 
+```mermaid
+graph TD
+    A["2015: Pre-AI Era"] --> B["💻 Programmatore Skills<br/>50% Syntax/Debugging<br/>50% Problem Solving"]
+    C["2025: AI Era"] --> D["🤖 AI-Assisted Developer<br/>10% Code Writing<br/>90% Problem Definition"]
+    
+    E["Task Distribution"] --> E1["Typing code: 2015 = 40%"]
+    E1 --> E2["Typing code: 2025 = 5%"]
+    E2 --> E3["Problem thinking: 2015 = 60%"]
+    E3 --> E4["Problem thinking: 2025 = 95%"]
+    
+    style B fill:#ff6b9d
+    style D fill:#6bcf7f
 ```
-PRIMA (2015):
-Programmatore = Sa scrivere sintassi + logica + debugging
-Tempo 50% su "come scrivere", 50% su "cosa scrivere"
-
-OGGI (2025):
-Programmatore = Sa definire problemi + usare AI + validare risultati
-Tempo 10% su "come scrivere", 90% su "cosa scrivere"
 
 RISULTATO: Programmatori più veloci, ma devono sapere di più
 ```

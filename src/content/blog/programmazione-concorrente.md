@@ -10,17 +10,16 @@ La programmazione concorrente è difficile perché il nostro cervello pensa sequ
 
 ## Concorrenza vs Parallelismo
 
-```
-CONCORRENZA: Fare tante cose a turno (1 CPU)
-  ├─ Task A: 100ms
-  ├─ Task B: 100ms
-  ├─ Task A: 100ms
-  └─ Total: 300ms (non risparmi tempo, ma "sembra" parallelo)
-
-PARALLELISMO: Fare tante cose davvero insieme (N CPU)
-  ├─ Core 1: Task A (200ms)
-  └─ Core 2: Task B (200ms)
-     Total: 200ms (risparmi tempo davvero)
+```mermaid
+graph TD
+    A["⚙️ CONCORRENZA<br/>1 CPU, Task a turno<br/>Illusion of parallelism"] 
+    B["💨 PARALLELISMO<br/>N CPU cores<br/>True simultaneity"]
+    
+    A --> A1["CPU Timeline:<br/>Task A [100ms] → Task B [100ms] → Task A [100ms]<br/>Total: 300ms"]
+    B --> B1["Core 1: Task A [200ms]<br/>Core 2: Task B [200ms]<br/>Total: 200ms (33% faster)"]
+    
+    style A fill:#ff6b9d
+    style B fill:#6bcf7f
 ```
 
 ## Thread in Python

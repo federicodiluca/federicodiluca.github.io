@@ -10,29 +10,24 @@ L'automazione industriale è il fondamento della produzione moderna. Una soluzio
 
 ## Livelli dell'automazione industriale
 
-```
-LIVELLO 4: MES / ERP
-   ↑ (HTTP/REST)
-   ├─ Scambio dati produttivi
-   └─ Planificazione e reporting
-
-LIVELLO 3: SCADA / HMI
-   ↑ (Ethernet Industriale)
-   ├─ Monitoraggio in tempo reale
-   ├─ Comandi operatore
-   └─ Allarmi e storicizzazione
-
-LIVELLO 2: PLC / Controllori
-   ↑ (PROFIBUS, PROFINET, EtherCAT)
-   ├─ Logica di controllo
-   ├─ Sequenze di processo
-   └─ Protezioni di sicurezza
-
-LIVELLO 1: Sensori e Attuatori
-   ├─ Sensori di posizione
-   ├─ Motori e valvole
-   ├─ Encoder
-   └─ Switches di emergenza
+```mermaid
+graph TD
+    A["📊 Level 4: MES/ERP<br/>HTTP/REST<br/>Planning & Reporting"] 
+    B["👨‍💼 Level 3: SCADA/HMI<br/>Ethernet Industriale<br/>Real-time monitoring"]
+    C["🎛️ Level 2: PLC/Controllers<br/>PROFIBUS/PROFINET<br/>Control logic"]
+    D["🔌 Level 1: Sensors/Actuators<br/>I/O devices<br/>Field equipment"]
+    
+    A ---|Data| B
+    B ---|Commands| C
+    C ---|Signals| D
+    D ---|Feedback| C
+    C ---|Status| B
+    B ---|Reports| A
+    
+    style A fill:#4ecdc4
+    style B fill:#95e1d3
+    style C fill:#ffd93d
+    style D fill:#ff6b9d
 ```
 
 ## Programmazione PLC: Linguaggi IEC 61131-3

@@ -12,18 +12,17 @@ Il pensiero computazionale non è programmazione. È il modo di pensare che perm
 
 **Pensiero computazionale** = saper scomporre un problema complesso in sottoproblemi semplici, riconoscere pattern, e definire una sequenza di passi per risolverlo.
 
-```
-Problema complesso
-        ↓
-   Decomposizione
-        ↓
-Sottoproblemi semplici
-        ↓
-   Riconoscimento pattern
-        ↓
-   Algoritmo (sequenza di passi)
-        ↓
-   Soluzione
+```mermaid
+flowchart TD
+    A["🎯 Problema Complesso"] --> B["🔍 Decomposizione<br/>Dividi in sottoproblemi"]
+    B --> C["🧩 Sottoproblemi Semplici"]
+    C --> D["🔄 Pattern Recognition<br/>Identifica somiglianze"]
+    D --> E["📋 Astrazione<br/>Estrai dettagli essenziali"]
+    E --> F["📝 Algoritmo<br/>Definisci i passi"]
+    F --> G["✅ Soluzione<br/>Implementa & Testa"]
+    
+    style A fill:#ff6b9d
+    style G fill:#6bcf7f
 ```
 
 ## I 4 pilastri del pensiero computazionale
