@@ -88,23 +88,43 @@ const schemas = [personSchema, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [j
     <meta name="theme-color" content="#0b1021" />
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" is:inline></script>
     <script is:inline>
-      mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+      mermaid.initialize({ startOnLoad: false, theme: 'dark' });
 
-      // Transform markdown mermaid code blocks to renderable diagrams
-      document.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('pre > code.language-mermaid').forEach(codeBlock => {
-          const preBlock = codeBlock.parentElement;
-          const mermaidContent = codeBlock.textContent;
+      async function transformMermaidBlocks() {
+        // Find all code blocks that contain mermaid diagrams
+        const codeBlocks = document.querySelectorAll('pre code');
 
-          const mermaidDiv = document.createElement('pre');
-          mermaidDiv.className = 'mermaid';
-          mermaidDiv.textContent = mermaidContent;
+        codeBlocks.forEach(codeBlock => {
+          const text = codeBlock.textContent.trim();
 
-          preBlock.replaceWith(mermaidDiv);
+          // Check if it's a mermaid diagram (starts with flowchart, graph, sequenceDiagram, etc)
+          if (text.match(/^(flowchart|graph|sequenceDiagram|classDiagram|stateDiagram|pie|bar)/i)) {
+            const preBlock = codeBlock.parentElement;
+
+            // Create new mermaid container
+            const mermaidDiv = document.createElement('pre');
+            mermaidDiv.className = 'mermaid';
+            mermaidDiv.textContent = text;
+
+            // Replace old code block
+            preBlock.replaceWith(mermaidDiv);
+          }
         });
 
-        mermaid.contentLoaded();
-      });
+        // Render all mermaid diagrams
+        await mermaid.run();
+      }
+
+      // Run when DOM is ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', transformMermaidBlocks);
+      } else {
+        transformMermaidBlocks();
+      }
+
+      // Also run on route changes (for SPA navigation if any)
+      const observer = new MutationObserver(transformMermaidBlocks);
+      observer.observe(document.body, { childList: true, subtree: true });
     </script>
   </head>
   <body>
