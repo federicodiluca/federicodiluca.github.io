@@ -2,40 +2,76 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Hero from "../../components/Hero.astro";
 import Timeline from "../../components/Timeline.astro";
+import SkillsGrid from "../../components/SkillsGrid.astro";
 import { experiences, experiencesFooter, education, publications } from "../../data/site-data";
 
 const description =
   "Federico Di Luca: freelance software developer (.NET, C#, Python) and Computer Science teacher based in Pesaro, Italy.";
 ---
 
-<BaseLayout title="Federico Di Luca" description={description} locale="en">
+<BaseLayout title="Software Developer & CS Teacher - Freelance" description={description} locale="en">
   <Hero
-    eyebrow="Pesaro, Italy"
-    title="Federico Di Luca"
-    tagline="Freelance software developer and Computer Science teacher. Available for project-based software development, technical consulting, and training."
-    primaryCta={{ href: "/contatti/", label: "Contact me" }}
-    secondaryCta={{ href: "/cv-federico-di-luca.pdf", label: "Download CV" }}
+    eyebrow="Pesaro · Fano · Urbino · Rimini"
+    title="Freelance Software Developer & Computer Science Teacher"
+    tagline="Custom software development, technical consulting, programming education and training for companies, schools and universities."
+    primaryCta={{ href: "/contatti/", label: "Contact me", icon: "mail" }}
+    secondaryCta={{ href: "/cv-federico-di-luca.pdf", label: "Download CV", icon: "download" }}
   />
 
   <section class="section" id="about">
-    <div class="container narrow">
-      <h2 class="section-title">About</h2>
-      <p>
-        I am a Computer Science teacher and former .NET Technical Leader with experience in
-        developing web solutions for Brand, Marketing and E-commerce. Throughout my career, I have
-        led development teams, designed software architectures, and managed end-to-end IT
-        projects.
-      </p>
-      <p>
-        I hold a Master's Degree (with honors) in Electronic and Telecommunications Engineering
-        from the University of Bologna, and a Bachelor's Degree in Biomedical Engineering, with an
-        Erasmus exchange at Universitat Politècnica de Catalunya, Barcelona.
-      </p>
-      <p>
-        Today I combine my technical background with a strong passion for education, and I'm
-        available for project-based collaborations in software development, consulting, and
-        technical training.
-      </p>
+    <div class="container about-grid">
+      <div>
+        <p class="section-title">About me</p>
+        <p class="about-text">
+          I'm a Computer Science teacher and former .NET Technical Leader with 5+ years of experience developing web solutions for Brand, Marketing and E-commerce clients. Throughout my career, I have led development teams, designed software architectures, and managed end-to-end IT projects.
+        </p>
+        <p class="about-text">
+          Today I combine my technical expertise with a strong passion for education. I teach Computer Science at high schools and provide technical consulting and training for companies seeking to build or scale their development teams.
+        </p>
+        <p class="about-text">
+          I offer expertise in SCADA systems for industrial automation, machine learning models for classification and regression, backend architecture design, and concurrent programming. Available for project-based collaborations.
+        </p>
+        <a class="btn btn-outline" href="/en/">Learn more</a>
+      </div>
+      <img
+        src="/images/federico-di-luca.webp"
+        alt="Federico Di Luca"
+        width="320"
+        height="320"
+        class="about-photo"
+      />
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Services</h2>
+      <p class="section-lead">Custom software solutions, technical expertise, and technical training for companies and educational institutions.</p>
+      <div class="services-grid">
+        <div class="service-card">
+          <h3>Software Development</h3>
+          <p>Backend architecture, web applications, system design, and technical consulting for startups and established companies.</p>
+        </div>
+        <div class="service-card">
+          <h3>Technical Training</h3>
+          <p>Programming courses, computer science education, and team upskilling in modern technologies and best practices.</p>
+        </div>
+        <div class="service-card">
+          <h3>Industrial Automation</h3>
+          <p>SCADA systems, PLC programming, and automation solutions for manufacturing and warehouse management.</p>
+        </div>
+        <div class="service-card">
+          <h3>Machine Learning</h3>
+          <p>ML model development for classification, regression, and predictive analytics. Research and development support.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Core Technologies</h2>
+      <SkillsGrid />
     </div>
   </section>
 
@@ -61,27 +97,52 @@ const description =
     </div>
   </section>
 
-  <section class="section section-alt">
-    <div class="container narrow">
-      <h2 class="section-title">Publications</h2>
-      {publications.map((pub) => (
-        <a class="card publication-card" href={pub.url} target="_blank" rel="noopener noreferrer">
-          <p class="publication-journal">{pub.journal} · {pub.date}</p>
-          <h3 class="publication-title">{pub.title}</h3>
-        </a>
-      ))}
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Research & Publications</h2>
+      <p class="section-lead">Peer-reviewed research in machine learning, signal processing, and industrial automation.</p>
+      <div class="container narrow">
+        {publications.map((pub) => (
+          <a class="card publication-card" href={pub.url} target="_blank" rel="noopener noreferrer">
+            <p class="publication-journal">{pub.journal} · {pub.date}</p>
+            <h3 class="publication-title">{pub.title}</h3>
+            <p class="publication-abstract">{pub.abstract}</p>
+          </a>
+        ))}
+      </div>
     </div>
   </section>
 
   <section class="section cta-section" id="contact">
-    <div class="container">
-      <h2 class="section-title">Let's work together</h2>
+    <div class="container cta-inner">
+      <h2 class="section-title">Ready to work together?</h2>
+      <p class="section-lead">
+        Whether you need software development, technical consulting, or training, I'm available for project-based collaborations.
+      </p>
       <a class="btn btn-primary" href="/contatti/">Get in touch</a>
     </div>
   </section>
 </BaseLayout>
 
 <style>
+  .about-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .about-text {
+    color: var(--color-text-muted);
+  }
+
+  .about-photo {
+    border-radius: var(--radius);
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
   .narrow {
     max-width: 42rem;
   }
@@ -118,7 +179,50 @@ const description =
     margin: 0;
   }
 
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .service-card {
+    background: var(--color-surface);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+  }
+
+  .service-card h3 {
+    color: var(--color-text);
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+  }
+
+  .service-card p {
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
   .cta-section {
     text-align: center;
+  }
+
+  .cta-inner .section-title {
+    margin-bottom: 0.5rem;
+  }
+
+  .cta-inner .section-lead {
+    margin: 0 auto 2rem;
+  }
+
+  @media (max-width: 720px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .about-photo {
+      order: -1;
+    }
   }
 </style>

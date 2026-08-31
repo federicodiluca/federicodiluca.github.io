@@ -1,0 +1,107 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { AUTHOR } from "../../../consts";
+
+const description =
+  "Get in touch with Federico Di Luca for software development projects, technical consulting, or training programs.";
+
+const FORMSPREE_ID = "moqrwnnr";
+---
+
+<BaseLayout title="Contact" description={description} locale="en">
+  <section class="section page-header">
+    <div class="container">
+      <h1 class="section-title">Get in Touch</h1>
+      <p class="section-lead">
+        Tell me about your project or training needs — I'll get back to you via email.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container contact-grid">
+      <form class="card contact-form" action={`https://formspree.io/f/${FORMSPREE_ID}`} method="POST">
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" required />
+
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required />
+
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="6" required></textarea>
+
+        <button class="btn btn-primary" type="submit">Send Message</button>
+      </form>
+
+      <div class="contact-info card">
+        <h2 class="card-title">Direct Contact</h2>
+        <p>
+          <a href={`mailto:${AUTHOR.email}`}>{AUTHOR.email}</a>
+        </p>
+        <p class="contact-area">Based in: Pesaro, Italy — Available for remote projects worldwide.</p>
+        <p class="contact-area">Service areas: Pesaro, Fano, Urbino, Rimini, and surrounding regions in Italy.</p>
+        <div class="contact-links">
+          <a href={AUTHOR.sameAs[0]} target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href={AUTHOR.sameAs[1]} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .contact-form label {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    margin-top: 0.75rem;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    background: var(--color-bg-alt);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 0.5rem;
+    padding: 0.65rem 0.85rem;
+    color: var(--color-text);
+    font-family: inherit;
+    font-size: 1rem;
+  }
+
+  .contact-form button {
+    margin-top: 1.5rem;
+    align-self: flex-start;
+  }
+
+  .card-title {
+    margin-top: 0;
+  }
+
+  .contact-area {
+    color: var(--color-text-muted);
+  }
+
+  .contact-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 780px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
