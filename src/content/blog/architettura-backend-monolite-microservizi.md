@@ -23,8 +23,8 @@ graph TD
     F --> G
     
     style B fill:#ff6b6b
-    style G fill:#4ecdc4
-    style A fill:#95e1d3
+    style G fill:#4ecdc4,color:#fff
+    style A fill:#95e1d3,color:#000
 ```
 
 ### Vantaggi
@@ -44,25 +44,22 @@ graph TD
 
 ```mermaid
 graph TD
-    A["👥 Client"] --> B["🚪 API Gateway<br/>Routing • Auth • Rate Limit"]
+    A[Client] --> B[API Gateway]
+    B --> C[Users MS]
+    B --> D[Products MS]
+    B --> E[Orders MS]
+    C --> F[(users_db)]
+    D --> G[(products_db)]
+    E --> H[(orders_db)]
+    C -.-> Q[Message Bus]
+    D -.-> Q
+    E -.-> Q
     
-    B --> C["👤 Users MS<br/>.NET Core + SQL"]
-    B --> D["📦 Products MS<br/>Node.js + MongoDB"]
-    B --> E["📋 Orders MS<br/>Go + PostgreSQL"]
-    
-    C --> F[("👥 users_db")]
-    D --> G[("📦 products_db")]
-    E --> H[("📋 orders_db")]
-    
-    C -.→ Q["📨 Message Bus<br/>RabbitMQ/Kafka"]
-    D -.→ Q
-    E -.→ Q
-    
-    style B fill:#ffd93d
-    style C fill:#6bcf7f
-    style D fill:#6bcf7f
-    style E fill:#6bcf7f
-    style Q fill:#ff6b9d
+    style B fill:#ffd93d,color:#000
+    style C fill:#6bcf7f,color:#fff
+    style D fill:#6bcf7f,color:#fff
+    style E fill:#6bcf7f,color:#fff
+    style Q fill:#ff6b9d,color:#fff
 ```
 
 ## Fasi della migrazione

@@ -18,8 +18,8 @@ graph TD
     A --> A1["CPU Timeline:<br/>Task A [100ms] → Task B [100ms] → Task A [100ms]<br/>Total: 300ms"]
     B --> B1["Core 1: Task A [200ms]<br/>Core 2: Task B [200ms]<br/>Total: 200ms (33% faster)"]
     
-    style A fill:#ff6b9d
-    style B fill:#6bcf7f
+    style A fill:#ff6b9d,color:#fff
+    style B fill:#6bcf7f,color:#fff
 ```
 
 ## Thread in Python

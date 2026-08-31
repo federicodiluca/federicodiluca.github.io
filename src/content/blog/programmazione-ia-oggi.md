@@ -69,8 +69,8 @@ graph TD
     E2 --> E3["Problem thinking: 2015 = 60%"]
     E3 --> E4["Problem thinking: 2025 = 95%"]
     
-    style B fill:#ff6b9d
-    style D fill:#6bcf7f
+    style B fill:#ff6b9d,color:#fff
+    style D fill:#6bcf7f,color:#fff
 ```
 
 RISULTATO: Programmatori più veloci, ma devono sapere di più

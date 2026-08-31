@@ -26,10 +26,10 @@ graph TD
     C -->|Stato| B
     B -->|Aggiorna| A
     
-    style A fill:#4ecdc4
-    style B fill:#95e1d3
-    style C fill:#ffd93d
-    style D fill:#ff6b9d
+    style A fill:#4ecdc4,color:#fff
+    style B fill:#95e1d3,color:#000
+    style C fill:#ffd93d,color:#000
+    style D fill:#ff6b9d,color:#fff
 ```
 
 ## Componenti chiave
@@ -72,10 +72,10 @@ flowchart TD
     L --> M["💾 Aggiorna database<br/>& spedizione"]
     M --> N["✅ Ordine completato"]
     
-    style A fill:#95e1d3
-    style N fill:#6bcf7f
-    style D fill:#ff6b9d
-    style K fill:#ff6b9d
+    style A fill:#95e1d3,color:#000
+    style N fill:#6bcf7f,color:#fff
+    style D fill:#ff6b9d,color:#fff
+    style K fill:#ff6b9d,color:#fff
 ```
 
 ## Vantaggi di un SCADA ben progettato
