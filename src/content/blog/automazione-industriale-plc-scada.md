@@ -24,10 +24,10 @@ graph TD
     C ---|Status| B
     B ---|Reports| A
     
-    style A fill:#4ecdc4
-    style B fill:#95e1d3
-    style C fill:#ffd93d
-    style D fill:#ff6b9d
+    style A fill:#4ecdc4,color:#fff
+    style B fill:#95e1d3,color:#000
+    style C fill:#ffd93d,color:#000
+    style D fill:#ff6b9d,color:#fff
 ```
 
 ## Programmazione PLC: Linguaggi IEC 61131-3

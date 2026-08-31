@@ -23,11 +23,11 @@ flowchart LR
     F -->|Yes| G["🚀 COMMERCIALIZZAZIONE<br/>Market fit<br/>Customer acquisition"]
     G --> H["💰 Revenue & Impact"]
     
-    style A fill:#95e1d3
-    style C fill:#ffd93d
-    style E fill:#4ecdc4
-    style G fill:#6bcf7f
-    style H fill:#ff6b9d
+    style A fill:#95e1d3,color:#000
+    style C fill:#ffd93d,color:#000
+    style E fill:#4ecdc4,color:#fff
+    style G fill:#6bcf7f,color:#fff
+    style H fill:#ff6b9d,color:#fff
 ```
 
 ## Il mio caso: UWB Person Detection

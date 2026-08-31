@@ -24,9 +24,9 @@ flowchart TD
     H -->|Yes| I["🔄 Retraining<br/>New data + Validation"]
     I --> A
     
-    style F fill:#6bcf7f
-    style G fill:#ffd93d
-    style I fill:#ff6b9d
+    style F fill:#6bcf7f,color:#fff
+    style G fill:#ffd93d,color:#000
+    style I fill:#ff6b9d,color:#fff
 ```
 
 ## Il problema di Model Decay

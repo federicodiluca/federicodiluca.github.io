@@ -40,9 +40,9 @@ graph TD
     F -->|No| H["🗄️ L3: Database<br/>SQL Server - Source of Truth"]
     H --> I["✅ Return 100ms<br/>+ Update cache"]
     
-    style D fill:#6bcf7f
-    style G fill:#95e1d3
-    style I fill:#ff6b9d
+    style D fill:#6bcf7f,color:#fff
+    style G fill:#95e1d3,color:#000
+    style I fill:#ff6b9d,color:#fff
 ```
 
 ### Cache Invalidation Strategies
@@ -157,10 +157,10 @@ graph LR
     D -.->|Complete| G
     E -.->|Complete| G
     
-    style A fill:#4ecdc4
-    style F fill:#6bcf7f
-    style B fill:#ffd93d
-    style G fill:#95e1d3
+    style A fill:#4ecdc4,color:#fff
+    style F fill:#6bcf7f,color:#fff
+    style B fill:#ffd93d,color:#000
+    style G fill:#95e1d3,color:#000
 ```
 
 ## Strategy 4: Content Delivery

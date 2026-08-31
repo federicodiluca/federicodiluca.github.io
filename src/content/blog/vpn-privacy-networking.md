@@ -25,10 +25,10 @@ graph LR
         I["📡 ISP<br/>Vede solo<br/>traffico criptato"]
     end
     
-    style C fill:#ff6b9d
-    style D fill:#ff6b9d
-    style G fill:#6bcf7f
-    style H fill:#95e1d3
+    style C fill:#ff6b9d,color:#fff
+    style D fill:#ff6b9d,color:#fff
+    style G fill:#6bcf7f,color:#fff
+    style H fill:#95e1d3,color:#000
 ```
 
 ## Protocolli VPN principali

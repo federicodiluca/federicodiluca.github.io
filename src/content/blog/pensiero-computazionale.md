@@ -21,8 +21,8 @@ flowchart TD
     E --> F["📝 Algoritmo<br/>Definisci i passi"]
     F --> G["✅ Soluzione<br/>Implementa & Testa"]
     
-    style A fill:#ff6b9d
-    style G fill:#6bcf7f
+    style A fill:#ff6b9d,color:#fff
+    style G fill:#6bcf7f,color:#fff
 ```
 
 ## I 4 pilastri del pensiero computazionale
