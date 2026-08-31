@@ -23,8 +23,8 @@ graph TD
     F --> G
     
     style B fill:#ff6b6b
-    style G fill:#4ecdc4,color:#fff
-    style A fill:#95e1d3,color:#000
+    style G fill:#4ecdc4
+    style A fill:#95e1d3
 ```
 
 ### Vantaggi
