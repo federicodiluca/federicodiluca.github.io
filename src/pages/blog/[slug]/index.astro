@@ -1,7 +1,19 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Breadcrumb from "../../../components/Breadcrumb.astro";
 import { getCollection, render } from "astro:content";
 import { AUTHOR } from "../../../consts";
+
+const categories: Record<string, string> = {
+  blog: "Blog",
+  educazione: "Educazione & Programmazione",
+  ai: "AI & Machine Learning",
+  backend: "Backend & Architetture",
+  scada: "SCADA & Automazione",
+  sicurezza: "Sicurezza & Hacking",
+  ricerca: "Ricerca & Pubblicazioni",
+  altro: "Altro",
+};
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog", ({ data }) => !data.draft);
@@ -28,6 +40,10 @@ const jsonLd = {
 <BaseLayout title={post.data.title} description={post.data.description} type="article" jsonLd={jsonLd}>
   <article class="section">
     <div class="container narrow">
+      <Breadcrumb items={[
+        { label: "Articoli", href: "/blog/" },
+        { label: categories[post.data.category] || "Articoli", href: "/blog/" }
+      ]} />
       <p class="post-date">
         {post.data.date.toLocaleDateString("it-IT", { year: "numeric", month: "long", day: "numeric" })}
       </p>
@@ -51,16 +67,100 @@ const jsonLd = {
   }
 
   .post-body {
-    color: var(--color-text-muted);
+    color: var(--color-text);
     margin-top: 2rem;
+    line-height: 1.8;
   }
 
   .post-body :global(h2) {
     color: var(--color-text);
-    margin-top: 2rem;
+    margin: 2rem 0 1rem;
+    font-size: 1.4rem;
+  }
+
+  .post-body :global(h3) {
+    color: var(--color-text);
+    margin: 1.5rem 0 0.75rem;
+    font-size: 1.1rem;
   }
 
   .post-body :global(p) {
     margin: 0 0 1.25rem;
+    color: var(--color-text-muted);
+  }
+
+  .post-body :global(pre) {
+    background: var(--color-surface);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    overflow-x: auto;
+    margin: 1.25rem 0;
+  }
+
+  .post-body :global(code) {
+    font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+    font-size: 0.9rem;
+  }
+
+  .post-body :global(pre code) {
+    color: var(--color-accent-2);
+  }
+
+  .post-body :global(p code) {
+    background: var(--color-surface);
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.25rem;
+    color: var(--color-accent-2);
+  }
+
+  .post-body :global(ul),
+  .post-body :global(ol) {
+    margin: 1.25rem 0;
+    padding-left: 2rem;
+  }
+
+  .post-body :global(li) {
+    margin: 0.5rem 0;
+    color: var(--color-text-muted);
+  }
+
+  .post-body :global(blockquote) {
+    border-left: 4px solid var(--color-accent-2);
+    padding-left: 1.25rem;
+    margin: 1.25rem 0;
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+
+  .post-body :global(a) {
+    color: var(--color-accent-2);
+  }
+
+  .post-body :global(a:hover) {
+    text-decoration: underline;
+  }
+
+  .post-body :global(strong) {
+    color: var(--color-text);
+    font-weight: 700;
+  }
+
+  .post-body :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.25rem 0;
+  }
+
+  .post-body :global(th),
+  .post-body :global(td) {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.75rem;
+    text-align: left;
+  }
+
+  .post-body :global(th) {
+    background: var(--color-surface);
+    font-weight: 600;
   }
 </style>

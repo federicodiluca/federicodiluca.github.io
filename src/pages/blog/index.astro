@@ -2,35 +2,63 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 
-const description = "Articoli su sviluppo software, didattica e tecnologia scritti da Federico Di Luca.";
+const description = "Articoli, case study e articoli di ricerca su sviluppo software, automazione industriale, machine learning e didattica.";
 
-const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+const allPosts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
+
+const categories = [
+  { value: "all", label: "Tutti gli articoli" },
+  { value: "educazione", label: "Educazione & Programmazione" },
+  { value: "ai", label: "AI & Machine Learning" },
+  { value: "backend", label: "Backend & Architetture" },
+  { value: "scada", label: "SCADA & Automazione" },
+  { value: "sicurezza", label: "Sicurezza & Hacking" },
+  { value: "ricerca", label: "Ricerca & Pubblicazioni" },
+  { value: "blog", label: "Blog" },
+] as const;
 ---
 
-<BaseLayout title="Blog" description={description}>
+<BaseLayout title="Articoli & Case Study" description={description}>
   <section class="section page-header">
     <div class="container">
-      <h1 class="section-title">Blog</h1>
-      <p class="section-lead">Riflessioni su sviluppo software, didattica e tecnologia.</p>
+      <h1 class="section-title">Articoli & Case Study</h1>
+      <p class="section-lead">Blog personale, case study tecnici, ricerca e articoli su sviluppo software, automazione e machine learning.</p>
     </div>
   </section>
 
   <section class="section">
     <div class="container narrow">
-      {posts.map((post) => (
-        <article class="card post-card">
-          <p class="post-date">
-            {post.data.date.toLocaleDateString("it-IT", { year: "numeric", month: "long", day: "numeric" })}
-          </p>
-          <h2 class="post-title">
-            <a href={`/blog/${post.id}/`}>{post.data.title}</a>
-          </h2>
-          <p class="post-description">{post.data.description}</p>
-        </article>
-      ))}
-      {posts.length === 0 && <p class="section-lead">Presto nuovi articoli.</p>}
+      <div class="category-filters">
+        {categories.map((cat) => (
+          <button
+            class="category-btn"
+            data-category={cat.value}
+            data-active={cat.value === "all"}
+          >
+            {cat.label}
+          </button>
+        ))}
+      </div>
+
+      <div id="posts-container">
+        {allPosts.map((post) => (
+          <article class="card post-card" data-category={post.data.category}>
+            <div class="post-meta">
+              <p class="post-date">
+                {post.data.date.toLocaleDateString("it-IT", { year: "numeric", month: "long", day: "numeric" })}
+              </p>
+              <span class="post-category">{categories.find((c) => c.value === post.data.category)?.label}</span>
+            </div>
+            <h2 class="post-title">
+              <a href={`/blog/${post.id}/`}>{post.data.title}</a>
+            </h2>
+            <p class="post-description">{post.data.description}</p>
+          </article>
+        ))}
+        {allPosts.length === 0 && <p class="section-lead">Presto nuovi articoli.</p>}
+      </div>
     </div>
   </section>
 </BaseLayout>
@@ -40,14 +68,67 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
     max-width: 42rem;
   }
 
+  .category-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .category-btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: transparent;
+    color: var(--color-text-muted);
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+  }
+
+  .category-btn:hover {
+    border-color: var(--color-accent-2);
+    color: var(--color-accent-2);
+  }
+
+  .category-btn[data-active="true"] {
+    background: var(--gradient-brand);
+    border-color: transparent;
+    color: #fff;
+  }
+
+  .post-card {
+    display: block;
+  }
+
+  .post-card[data-active="false"] {
+    display: none;
+  }
+
   .post-card + .post-card {
     margin-top: 1.5rem;
+  }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
   }
 
   .post-date {
     color: var(--color-text-muted);
     font-size: 0.85rem;
-    margin: 0 0 0.5rem;
+    margin: 0;
+  }
+
+  .post-category {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--color-accent-2);
+    letter-spacing: 0.04em;
   }
 
   .post-title {
@@ -60,3 +141,25 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
     margin: 0;
   }
 </style>
+
+<script>
+  const buttons = document.querySelectorAll(".category-btn");
+  const posts = document.querySelectorAll(".post-card");
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const selectedCategory = button.dataset.category;
+
+      buttons.forEach((btn) => btn.setAttribute("data-active", "false"));
+      button.setAttribute("data-active", "true");
+
+      posts.forEach((post) => {
+        if (selectedCategory === "all" || post.dataset.category === selectedCategory) {
+          post.setAttribute("data-active", "true");
+        } else {
+          post.setAttribute("data-active", "false");
+        }
+      });
+    });
+  });
+</script>

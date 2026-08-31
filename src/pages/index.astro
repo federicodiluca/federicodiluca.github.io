@@ -6,14 +6,14 @@ import SkillsGrid from "../components/SkillsGrid.astro";
 import { experiences, experiencesFooter, education, publications, aboutMessages } from "../data/site-data";
 
 const description =
-  "Federico Di Luca: sviluppatore software freelance (.NET, C#, Python) e docente di Informatica. Consulenza tecnica, sviluppo web e formazione per aziende e scuole a Pesaro, Fano, Urbino e Rimini.";
+  "Sviluppatore software freelance (.NET, C#, Python) e docente di Informatica. Lezioni private, ripetizioni e formazione tecnica a Pesaro, Fano, Urbino, Rimini.";
 ---
 
-<BaseLayout title="Federico Di Luca" description={description}>
+<BaseLayout title="Sviluppatore Software & Docente Informatica - Lezioni Private" description={description}>
   <Hero
     eyebrow="Pesaro · Fano · Urbino · Rimini"
-    title="Federico Di Luca"
-    tagline="Sviluppatore software freelance e docente di Informatica. Progetti su misura, consulenza tecnica e formazione per aziende e scuole."
+    title="Sviluppatore Software & Docente di Informatica"
+    tagline="Sviluppo software freelance, lezioni private, ripetizioni di informatica e formazione tecnica per aziende, scuole e università."
     primaryCta={{ href: "/contatti/", label: "Contattami", icon: "mail" }}
     secondaryCta={{ href: "/cv-federico-di-luca.pdf", label: "Scarica il CV", icon: "download" }}
   />
@@ -25,6 +25,9 @@ const description =
         {aboutMessages.map((message) => (
           <p class="about-text">{message}</p>
         ))}
+        <p class="about-text">
+          Offro lezioni private di informatica, matematica e fisica a studenti di scuole superiori e università. Dispongo anche di competenze in analisi di dati, machine learning e sviluppo di sistemi SCADA per automazione industriale.
+        </p>
         <a class="btn btn-outline" href="/chi-sono/">Scopri di più su di me</a>
       </div>
       <img
