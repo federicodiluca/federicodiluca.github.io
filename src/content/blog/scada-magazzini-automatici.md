@@ -12,33 +12,24 @@ Un sistema SCADA (Supervisory Control and Data Acquisition) è fondamentale per 
 
 Un'architettura SCADA tipica per magazzini automatici si compone di diversi strati:
 
-```
-┌─────────────────────────────────────────┐
-│   Interfaccia Operatore (HMI)           │
-│   - Dashboard real-time                 │
-│   - Allarmi e notifiche                 │
-│   - Report e analitiche                 │
-└────────────┬────────────────────────────┘
-             │
-┌────────────▼────────────────────────────┐
-│   Applicazione SCADA                    │
-│   - Logica di controllo                 │
-│   - Elaborazione dati                   │
-│   - Gestione allarmi                    │
-└────────────┬────────────────────────────┘
-             │
-┌────────────▼────────────────────────────┐
-│   PLC & Controllori                     │
-│   - Siemens S7-1200/1500                │
-│   - Allen-Bradley CompactLogix          │
-└────────────┬────────────────────────────┘
-             │
-┌────────────▼────────────────────────────┐
-│   Dispositivi di Campo                  │
-│   - Sensori (fotocellule, prossimità)   │
-│   - Motori e attuatori                  │
-│   - Codec di lettura (barcode, RFID)    │
-└─────────────────────────────────────────┘
+```mermaid
+graph TD
+    A["👨‍💼 HMI - Interfaccia Operatore<br/>📊 Dashboard | ⚠️ Allarmi | 📈 Report"]
+    B["⚙️ Applicazione SCADA<br/>🎯 Logica controllo | 📊 Dati | 🚨 Allarmi"]
+    C["🎛️ PLC & Controllori<br/>Siemens S7 | Allen-Bradley"]
+    D["🔌 Dispositivi di Campo<br/>Sensori | Motori | RFID"]
+    
+    A -->|Visualizza| B
+    B -->|Controlla| C
+    C -->|Monitora| D
+    D -->|Feedback| C
+    C -->|Stato| B
+    B -->|Aggiorna| A
+    
+    style A fill:#4ecdc4
+    style B fill:#95e1d3
+    style C fill:#ffd93d
+    style D fill:#ff6b9d
 ```
 
 ## Componenti chiave
@@ -65,22 +56,26 @@ Realizzata tipicamente con:
 
 ## Implementazione: Flusso di un ordine di prelievo
 
-```
-1. Ordine ricevuto
-   ↓
-2. SCADA verifica inventario
-   ↓
-3. Invia comando al sistema di movimentazione
-   ↓
-4. Sensori tracciamento merci → feedback a PLC
-   ↓
-5. Raggiunta location → blocco braccio robotico
-   ↓
-6. Prelievo e trasporto
-   ↓
-7. Lettura RFID per verifica
-   ↓
-8. Destinazione finale → aggiornamento database
+```mermaid
+flowchart TD
+    A["📦 Ordine Ricevuto"] --> B["🔍 SCADA Verifica<br/>Inventario"]
+    B --> C{Articoli<br/>disponibili?}
+    C -->|No| D["❌ Ordine in sospeso"]
+    C -->|Sì| E["🚀 Invia comando<br/>movimentazione"]
+    E --> F["📍 Sistema trasporta<br/>merci a location"]
+    F --> G["🎯 Sensori verificano<br/>arrivo & blocco braccio"]
+    G --> H["🤖 Prelievo automatico<br/>dalla location"]
+    H --> I["📱 Lettura RFID<br/>verifica prodotto"]
+    I --> J{Verifica<br/>OK?}
+    J -->|No| K["⚠️ Alert qualità"]
+    J -->|Sì| L["🎁 Trasporto verso<br/>confezionamento"]
+    L --> M["💾 Aggiorna database<br/>& spedizione"]
+    M --> N["✅ Ordine completato"]
+    
+    style A fill:#95e1d3
+    style N fill:#6bcf7f
+    style D fill:#ff6b9d
+    style K fill:#ff6b9d
 ```
 
 ## Vantaggi di un SCADA ben progettato
@@ -94,10 +89,13 @@ Realizzata tipicamente con:
 ## Tecnologie utilizzate
 
 Nel progetto che ho seguito in NGTEC abbiamo utilizzato:
-- **PLC**: Siemens S7-1200
-- **HMI**: Pannello touchscreen Siemens KTP
-- **Comunicazione**: Protocollo PROFIBUS DP
-- **Database**: SQL Server per storicizzazione dati
-- **Networking**: VLAN separate per OT e IT
+
+| Componente | Tecnologia | Motivo della scelta |
+|-----------|-----------|-------------------|
+| **PLC** | Siemens S7-1200 | Affidabilità industriale, ecosistema maturo |
+| **HMI** | Pannello touchscreen Siemens KTP | Integrazione native con PLC, interfaccia robusta |
+| **Comunicazione** | PROFIBUS DP | Determinismo real-time, bassa latenza |
+| **Database** | SQL Server | Storicizzazione dati, report avanzati |
+| **Networking** | VLAN OT/IT separate | Sicurezza e isolamento critico |
 
 Un sistema SCADA ben progettato è l'ossatura dell'Industria 4.0: permette di collegare macchine, sensori e sistemi informativi in un ecosistema coeso e controllato.

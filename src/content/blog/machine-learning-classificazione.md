@@ -26,25 +26,35 @@ Output: Classe = "Approvato" / "Rifiutato"
 
 ## Albero decisionale dei modelli
 
-```
-               Classificazione?
-                      │
-        ┌─────────────┼──────────────┐
-        │             │              │
-    Lineare       Non-lineare    Insieme
-        │             │              │
-        ├─Logistic  ├─SVM (RBF)  ├─Random Forest
-        │ Regression │             │ ├─Gradient Boosting
-        │          ├─Neural Net  │ ├─Voting
-        │          │             │ └─Stacking
-        │          └─KNN         │
-        │                         │
-    Semplice             Complesso  Robusto
-    Fast                 Lento      Slow
-    Interpretabile       Black Box  Gray Box
+```mermaid
+flowchart TD
+    Start["🎯 Problema di Classificazione"] --> DataSize{Quanti dati?}
+    DataSize -->|< 10k| Size1["Dataset piccolo"]
+    DataSize -->|10k-100k| Size2["Dataset medio"]
+    DataSize -->|> 100k| Size3["Dataset grande"]
+    
+    Size1 --> Interp{Serve interpretabilità?}
+    Interp -->|Sì| Model1["📊 Logistic Regression<br/>- Veloce, semplice<br/>- Coefficienti interpretabili"]
+    Interp -->|No| Model2["🌳 Random Forest<br/>- Robusto<br/>- Feature importance"]
+    
+    Size2 --> NonLin{Classi non-lineari?}
+    NonLin -->|Sì| Model3["⚡ SVM RBF / XGBoost<br/>- Accuratezza alta<br/>- Complessi"]
+    NonLin -->|No| Model2
+    
+    Size3 --> Deep["🧠 Reti Neurali<br/>- Transfer learning<br/>- Pattern complessi"]
 ```
 
 ## Modelli principali e use case
+
+### Comparazione modelli
+
+| Modello | Accuratezza | Velocità | Interpretabilità | Best For |
+|---------|-------------|----------|------------------|----------|
+| **Logistic Regression** | ⭐⭐⭐ | ⚡⚡⚡⚡⚡ | 💯 Eccellente | Dataset piccoli, baseline |
+| **SVM (RBF)** | ⭐⭐⭐⭐⭐ | ⚡⚡ | ⚠️ Black box | Classification complessa, high-dim |
+| **Random Forest** | ⭐⭐⭐⭐ | ⚡⚡⚡ | ✅ Buona | Robusto, feature importance |
+| **Gradient Boosting** | ⭐⭐⭐⭐⭐ | ⚡⚡ | ⚠️ Gray box | Kaggle, max accuracy |
+| **Reti Neurali** | ⭐⭐⭐⭐⭐ | ⚡ | ❌ Black box | Immagini, testo, big data |
 
 ### 1. Logistic Regression
 
@@ -194,44 +204,18 @@ F1 = 2 * (Precision * Recall) / (Precision + Recall)  ← Balance
 
 ## Workflow di ML in pratica
 
-```
-1. Data Collection
-   └─ 1000 email (spam/non-spam)
-
-2. Exploratory Data Analysis (EDA)
-   ├─ Distribuzioni
-   ├─ Outliers
-   └─ Correlazioni
-
-3. Feature Engineering
-   ├─ Tokenizzazione
-   ├─ TF-IDF
-   └─ Normalizzazione
-
-4. Train/Test Split
-   ├─ 80% training
-   ├─ 10% validation
-   └─ 10% test
-
-5. Model Selection & Training
-   ├─ Logistic Regression (baseline)
-   ├─ SVM
-   ├─ Random Forest
-   └─ XGBoost
-
-6. Hyperparameter Tuning
-   ├─ Grid Search
-   ├─ Random Search
-   └─ Bayesian Optimization
-
-7. Cross-Validation
-   └─ K-fold per robustezza
-
-8. Final Evaluation
-   └─ Test set (unseen data)
-
-9. Deployment
-   └─ Model serving (Flask, FastAPI, ONNX)
+```mermaid
+flowchart LR
+    A["📊 Data Collection<br/>Raw data"] --> B["🔍 EDA<br/>Distribuzioni,<br/>outliers"]
+    B --> C["🛠️ Feature Engineering<br/>Trasformazioni"]
+    C --> D["✂️ Train/Val/Test Split<br/>80/10/10"]
+    D --> E["🤖 Model Selection<br/>Baseline + Advanced"]
+    E --> F["🎯 Hyperparameter<br/>Tuning"]
+    F --> G["🔄 Cross-Validation<br/>K-fold"]
+    G --> H{Performance<br/>acceptable?}
+    H -->|No| E
+    H -->|Yes| I["🧪 Final Evaluation<br/>Test set"]
+    I --> J["🚀 Deployment<br/>Production"]
 ```
 
 ## Racconto dalla ricerca: UWB Person Detection

@@ -10,18 +10,21 @@ Durante il mio lavoro come Technical Leader in Websolute, ho guidato l'evoluzion
 
 ## Architettura monolitica: vantaggi e limiti
 
-```
-┌─────────────────────────────────────────┐
-│          Applicazione Monolitica        │
-├─────────────────────────────────────────┤
-│  Utenti │ Prodotti │ Ordini │ Pagamenti │
-├─────────────────────────────────────────┤
-│  Business Logic (tutta unita)           │
-├─────────────────────────────────────────┤
-│  Database Condiviso                     │
-└─────────────────────────────────────────┘
-     ↓
-Deployment unico, scaling olistico
+```mermaid
+graph TD
+    A["👥 Client Requests"] --> B["🎯 Monolite<br/>Single App Instance"]
+    B --> C["Users Module"]
+    B --> D["Products Module"]
+    B --> E["Orders Module"]
+    B --> F["Payments Module"]
+    C --> G[("🗄️ Shared DB<br/>Single Instance")]
+    D --> G
+    E --> G
+    F --> G
+    
+    style B fill:#ff6b6b
+    style G fill:#4ecdc4
+    style A fill:#95e1d3
 ```
 
 ### Vantaggi
@@ -39,23 +42,27 @@ Deployment unico, scaling olistico
 
 ## Transizione a microservizi
 
-```
-┌──────────────┐  ┌──────────────┐  ┌──────────────┐
-│ Utenti MS    │  │ Prodotti MS  │  │ Ordini MS    │
-├──────────────┤  ├──────────────┤  ├──────────────┤
-│  .NET Core   │  │  Node.js     │  │  Go          │
-│  SQL Server  │  │  MongoDB     │  │  PostgreSQL  │
-└──────┬───────┘  └──────┬───────┘  └──────┬───────┘
-       │                 │                  │
-       └─────────┬───────┴──────────┬───────┘
-                 │                  │
-          ┌──────▼──────────────────▼────────┐
-          │   API Gateway                    │
-          │   (Routing, Auth, Rate Limiting) │
-          └──────────────────────────────────┘
-                 ↑
-          [Message Queue]
-          (RabbitMQ / Kafka)
+```mermaid
+graph TD
+    A["👥 Client"] --> B["🚪 API Gateway<br/>Routing • Auth • Rate Limit"]
+    
+    B --> C["👤 Users MS<br/>.NET Core + SQL"]
+    B --> D["📦 Products MS<br/>Node.js + MongoDB"]
+    B --> E["📋 Orders MS<br/>Go + PostgreSQL"]
+    
+    C --> F[("👥 users_db")]
+    D --> G[("📦 products_db")]
+    E --> H[("📋 orders_db")]
+    
+    C -.→ Q["📨 Message Bus<br/>RabbitMQ/Kafka"]
+    D -.→ Q
+    E -.→ Q
+    
+    style B fill:#ffd93d
+    style C fill:#6bcf7f
+    style D fill:#6bcf7f
+    style E fill:#6bcf7f
+    style Q fill:#ff6b9d
 ```
 
 ## Fasi della migrazione
@@ -119,12 +126,30 @@ Per decoupling e resilienza:
 Problema: Come garantire consistenza quando un ordine coinvolge 3 servizi?
 
 Soluzione: **Saga Pattern**
-```
-OrderService → PaymentService → InventoryService
-                    ↓
-            Se uno fallisce:
-            Compensating transactions
-            (rollback distribuito)
+
+```mermaid
+sequenceDiagram
+    participant OMS as Orders MS
+    participant PMS as Payments MS
+    participant IMS as Inventory MS
+    
+    OMS->>OMS: Create Order (pending)
+    OMS->>PMS: Charge Payment
+    alt Payment Success
+        PMS-->>OMS: ✅ Payment OK
+        OMS->>IMS: Reserve Inventory
+        alt Inventory Success
+            IMS-->>OMS: ✅ Reserved
+            OMS->>OMS: Order Confirmed
+        else Inventory Failed
+            OMS->>PMS: Refund Payment (compensate)
+            PMS-->>OMS: ✅ Refunded
+            OMS->>OMS: Order Cancelled
+        end
+    else Payment Failed
+        PMS-->>OMS: ❌ Payment Declined
+        OMS->>OMS: Order Cancelled
+    end
 ```
 
 ### 2. **Network Latency**
@@ -158,13 +183,24 @@ Total: 165ms (bottleneck: Orders)
 
 ## Quando usare microservizi
 
-✅ **Buoni candidati:**
+| Aspetto | Monolite | Microservizi |
+|---------|----------|-------------|
+| **Deployment** | 📦 Unico, atomico | 🚀 Indipendente per servizio |
+| **Scaling** | ⚖️ Tutto insieme | 🎯 Granulare per modulo |
+| **Failure** | ⚠️ Tutta app giù | 🔒 Isolato a un servizio |
+| **Latency** | ⚡ Minima (in-process) | 🌐 Network overhead |
+| **Complessità** | 📚 Bassa | 🔧 Altissima |
+| **Team Size** | 👥 5-15 persone | 👥👥 20+ persone |
+| **Debugging** | 🔍 Stack trace semplice | 🔎 Distributed tracing |
+| **Testing** | ✅ Facile | 🧪 Integration test complessi |
+
+### ✅ **Buoni candidati:**
 - Team grandi (>20 persone)
 - Diverse aree di business
 - Scaling requirements asimmetrici
 - Tecnologie diverse necessarie
 
-❌ **Sconsigliato:**
+### ❌ **Sconsigliato:**
 - Team piccoli (<5 persone)
 - Prototipo/MVP
 - Requisiti molto accoppiati
