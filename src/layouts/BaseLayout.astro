@@ -89,7 +89,22 @@ const schemas = [personSchema, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [j
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" is:inline></script>
     <script is:inline>
       mermaid.initialize({ startOnLoad: true, theme: 'dark' });
-      mermaid.contentLoaded();
+
+      // Transform markdown mermaid code blocks to renderable diagrams
+      document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('pre > code.language-mermaid').forEach(codeBlock => {
+          const preBlock = codeBlock.parentElement;
+          const mermaidContent = codeBlock.textContent;
+
+          const mermaidDiv = document.createElement('pre');
+          mermaidDiv.className = 'mermaid';
+          mermaidDiv.textContent = mermaidContent;
+
+          preBlock.replaceWith(mermaidDiv);
+        });
+
+        mermaid.contentLoaded();
+      });
     </script>
   </head>
   <body>
