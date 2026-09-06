@@ -63,8 +63,10 @@
   const htmlElement = document.documentElement;
   const toggleButton = document.getElementById("theme-toggle");
 
+  // Restituisce null se l'utente non ha ancora scelto: solo così initTheme()
+  // può ricadere sulla preferenza di sistema.
   const getStoredTheme = () => {
-    return localStorage.getItem("theme") || "dark";
+    return localStorage.getItem("theme");
   };
 
   const setTheme = (theme: string) => {
@@ -86,8 +88,9 @@
   initTheme();
 
   toggleButton?.addEventListener("click", () => {
-    const currentTheme = getStoredTheme();
-    const newTheme = currentTheme === "dark" ? "light" : "dark";
-    setTheme(newTheme);
+    // Si legge la classe applicata, non lo storage: al primo clic lo storage
+    // può essere vuoto (tema deciso dalla preferenza di sistema).
+    const isLight = htmlElement.classList.contains("light");
+    setTheme(isLight ? "dark" : "light");
   });
 </script>

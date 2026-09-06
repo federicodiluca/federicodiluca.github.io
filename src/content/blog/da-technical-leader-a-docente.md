@@ -1,6 +1,6 @@
 ---
 title: "Da Technical Leader a docente di Informatica: perché ho cambiato rotta"
-description: "Dopo quasi quattro anni come Technical Leader .NET in Websolute, ho scelto di insegnare Informatica nella scuola superiore. Ecco cosa mi ha portato a questa scelta."
+description: "Dopo quasi quattro anni come Technical Leader .NET, ho scelto di insegnare Informatica alle superiori. Cosa mi ha portato a questa scelta."
 date: 2025-09-15
 category: "blog"
 tags: ["carriera", "insegnamento"]

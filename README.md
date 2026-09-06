@@ -25,8 +25,9 @@ e pubblicato su GitHub Pages. Statico, bilingue (IT/EN), zero backend, zero data
   trasformati e renderizzati lato client dallo script nel [BaseLayout](src/layouts/BaseLayout.astro)
 - **Pubblicazioni scientifiche** collegate come card esterne (senza pagina dedicata), sia in home
   che nella sezione Ricerca del blog
-- **SEO**: sitemap automatica, JSON-LD (schema.org Person), Open Graph, hreflang, redirect
-  www→non-www, `robots.txt` generato dinamicamente
+- **SEO**: sitemap automatica (esclude le pagine di redirect), JSON-LD (schema.org Person),
+  Open Graph, hreflang, `robots.txt` generato dinamicamente, favicon conforme ai requisiti
+  Google (48px e multipli)
 
 ## Sviluppo locale
 
@@ -50,8 +51,7 @@ src/
   layouts/           Layout condivisi (BaseLayout = head, header, footer, dark mode, Mermaid)
   components/        Componenti riusabili (Hero, Timeline, ThemeToggle, Breadcrumb, ...)
   pages/             Routing basato su file (IT alla radice, EN sotto pages/en/)
-  middleware.ts      Redirect www → non-www
-public/              Asset statici (favicon, CV, immagini, manifest)
+public/              Asset statici (favicon, icone PWA, CV, immagini, manifest)
 .github/workflows/   CI/CD (build + deploy su GitHub Pages)
 ```
 
