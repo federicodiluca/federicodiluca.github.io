@@ -14,9 +14,6 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      // /progetti/ è solo un redirect 301 verso /blog/: se resta in sitemap
-      // Search Console lo segnala come "pagina con reindirizzamento".
-      filter: (page) => !page.includes("/progetti/"),
       i18n: {
         defaultLocale: DEFAULT_LOCALE,
         locales: { it: "it", en: "en" },
