@@ -15,6 +15,7 @@ export const AUTHOR = {
   sameAs: [
     "https://github.com/federicodiluca",
     "https://www.linkedin.com/in/federico-di-luca-ing/",
+    "https://federicodiluca.github.io/vocabe",
   ],
 };
 
