@@ -5,7 +5,13 @@ import { AUTHOR } from "../../../consts";
 const description =
   "Get in touch with Federico Di Luca for software development projects, technical consulting, or training programs.";
 
-const FORMSPREE_ID = "moqrwnnr";
+// The mailto pre-fills subject and a message outline: the sender gets a structure to start from,
+// and the site itself never collects or forwards any data to third parties.
+const mailSubject = encodeURIComponent("Contact request from your website");
+const mailBody = encodeURIComponent(
+  "Hi Federico,\n\nI'm reaching out about: [software development / consulting / training]\n\nIn short:\n\n\nThanks,\n",
+);
+const mailHref = `mailto:${AUTHOR.email}?subject=${mailSubject}&body=${mailBody}`;
 ---
 
 <BaseLayout title="Contact" description={description} locale="en">
@@ -13,37 +19,42 @@ const FORMSPREE_ID = "moqrwnnr";
     <div class="container">
       <h1 class="section-title">Get in Touch</h1>
       <p class="section-lead">
-        Tell me about your project or training needs — I'll get back to you via email.
+        Tell me about your project or training needs. I reply by email, usually within a couple of
+        business days.
       </p>
     </div>
   </section>
 
   <section class="section">
     <div class="container contact-grid">
-      <form class="card contact-form" action={`https://formspree.io/f/${FORMSPREE_ID}`} method="POST">
-        <label for="name">Name</label>
-        <input id="name" name="name" type="text" required />
-
-        <label for="email">Email</label>
-        <input id="email" name="email" type="email" required />
-
-        <label for="message">Message</label>
-        <textarea id="message" name="message" rows="6" required></textarea>
-
-        <button class="btn btn-primary" type="submit">Send Message</button>
-      </form>
-
-      <div class="contact-info card">
-        <h2 class="card-title">Direct Contact</h2>
-        <p>
-          <a href={`mailto:${AUTHOR.email}`}>{AUTHOR.email}</a>
+      <div class="card contact-main">
+        <p class="contact-label">Write to</p>
+        <a class="contact-email" href={`mailto:${AUTHOR.email}`}>{AUTHOR.email}</a>
+        <p class="contact-hint">
+          Copy the address and write from your favourite email service. If you have a mail client
+          set up, the second button opens it with the subject and a message outline already filled in.
         </p>
-        <p class="contact-area">Based in: Pesaro, Italy — Available for remote projects worldwide.</p>
-        <p class="contact-area">Service areas: Pesaro, Fano, Urbino, Rimini, and surrounding regions in Italy.</p>
-        <div class="contact-links">
-          <a href={AUTHOR.sameAs[0]} target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href={AUTHOR.sameAs[1]} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <div class="contact-actions">
+          <button class="btn btn-primary" type="button" data-copy-email={AUTHOR.email}>
+            Copy address
+          </button>
+          <a class="btn btn-outline" href={mailHref}>Open mail client</a>
         </div>
+      </div>
+
+      <div class="card contact-side">
+        <h2 class="card-title">Other channels</h2>
+        <div class="contact-links">
+          <a href={AUTHOR.sameAs[1]} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href={AUTHOR.sameAs[0]} target="_blank" rel="noopener noreferrer">GitHub</a>
+        </div>
+        <p class="contact-area">
+          Based in Pesaro, Italy — available for remote projects worldwide.
+        </p>
+        <p class="contact-privacy">
+          This site collects no data: when you write to me, your email stays in my inbox only.
+          <a href="/en/privacy/">Privacy notice</a>
+        </p>
       </div>
     </div>
   </section>
@@ -57,46 +68,70 @@ const FORMSPREE_ID = "moqrwnnr";
     align-items: start;
   }
 
-  .contact-form {
+  .contact-main {
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    align-items: flex-start;
+    gap: 0.5rem;
   }
 
-  .contact-form label {
-    font-size: 0.9rem;
+  .contact-label {
+    margin: 0;
     color: var(--color-text-muted);
-    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
   }
 
-  .contact-form input,
-  .contact-form textarea {
-    background: var(--color-bg-alt);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 0.5rem;
-    padding: 0.65rem 0.85rem;
+  .contact-email {
+    font-size: clamp(1.2rem, 3vw, 1.6rem);
+    font-weight: 700;
     color: var(--color-text);
-    font-family: inherit;
-    font-size: 1rem;
+    word-break: break-all;
   }
 
-  .contact-form button {
-    margin-top: 1.5rem;
-    align-self: flex-start;
+  .contact-hint {
+    color: var(--color-text-muted);
+    margin: 0.75rem 0 1rem;
+  }
+
+  .contact-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .contact-actions .btn {
+    font: inherit;
+    cursor: pointer;
+  }
+
+  /* "Copied" state: the button itself becomes the confirmation, no toast or layout shift */
+  .contact-actions .btn[data-copied="true"] {
+    background: var(--color-accent-2);
+    color: #0b1021;
   }
 
   .card-title {
     margin-top: 0;
   }
 
-  .contact-area {
-    color: var(--color-text-muted);
-  }
-
   .contact-links {
     display: flex;
     gap: 1rem;
-    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .contact-area,
+  .contact-privacy {
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+  }
+
+  .contact-privacy {
+    margin-bottom: 0;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
   }
 
   @media (max-width: 780px) {
@@ -105,3 +140,30 @@ const FORMSPREE_ID = "moqrwnnr";
     }
   }
 </style>
+
+<script>
+  // "Copy address" works everywhere, unlike mailto which needs a mail client configured
+  // in the browser (webmail-only users often don't have one).
+  document.querySelectorAll<HTMLButtonElement>("[data-copy-email]").forEach((btn) => {
+    const email = btn.dataset.copyEmail || "";
+    const label = btn.textContent;
+
+    btn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(email);
+        btn.textContent = "Copied!";
+        btn.dataset.copied = "true";
+      } catch {
+        // Clipboard unavailable (insecure context or permission denied):
+        // select the visible address so Ctrl+C is enough.
+        const link = document.querySelector(".contact-email");
+        if (link) window.getSelection()?.selectAllChildren(link);
+        btn.textContent = "Select and copy";
+      }
+      setTimeout(() => {
+        btn.textContent = label;
+        delete btn.dataset.copied;
+      }, 2200);
+    });
+  });
+</script>

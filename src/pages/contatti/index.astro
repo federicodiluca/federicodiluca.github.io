@@ -5,7 +5,13 @@ import { AUTHOR } from "../../consts";
 const description =
   "Contatta Federico Di Luca per progetti di sviluppo software, consulenza tecnica o formazione a Pesaro, Fano, Urbino e Rimini.";
 
-const FORMSPREE_ID = "moqrwnnr";
+// Il mailto pre-compila oggetto e traccia del messaggio: chi scrive trova già la struttura,
+// senza che il sito raccolga o inoltri alcun dato a terzi.
+const mailSubject = encodeURIComponent("Richiesta di contatto dal sito");
+const mailBody = encodeURIComponent(
+  "Ciao Federico,\n\nti scrivo per: [sviluppo software / consulenza / formazione / lezioni private]\n\nIn breve:\n\n\nGrazie,\n",
+);
+const mailHref = `mailto:${AUTHOR.email}?subject=${mailSubject}&body=${mailBody}`;
 ---
 
 <BaseLayout title="Contatti" description={description}>
@@ -20,29 +26,35 @@ const FORMSPREE_ID = "moqrwnnr";
 
   <section class="section">
     <div class="container contact-grid">
-      <form class="card contact-form" action={`https://formspree.io/f/${FORMSPREE_ID}`} method="POST">
-        <label for="name">Nome</label>
-        <input id="name" name="name" type="text" required />
-
-        <label for="email">Email</label>
-        <input id="email" name="email" type="email" required />
-
-        <label for="message">Messaggio</label>
-        <textarea id="message" name="message" rows="6" required></textarea>
-
-        <button class="btn btn-primary" type="submit">Invia messaggio</button>
-      </form>
-
-      <div class="contact-info card">
-        <h2 class="card-title">Contatto diretto</h2>
-        <p>
-          <a href={`mailto:${AUTHOR.email}`}>{AUTHOR.email}</a>
+      <div class="card contact-main">
+        <p class="contact-label">Scrivimi a</p>
+        <a class="contact-email" href={`mailto:${AUTHOR.email}`}>{AUTHOR.email}</a>
+        <p class="contact-hint">
+          Copia l'indirizzo e scrivimi dal tuo servizio di posta preferito. Se hai un client di posta
+          configurato, il secondo pulsante lo apre con oggetto e traccia del messaggio già pronti.
         </p>
-        <p class="contact-area">Area operativa: Pesaro, Fano, Urbino, Rimini — disponibile anche da remoto.</p>
-        <div class="contact-links">
-          <a href={AUTHOR.sameAs[0]} target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href={AUTHOR.sameAs[1]} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <div class="contact-actions">
+          <button class="btn btn-primary" type="button" data-copy-email={AUTHOR.email}>
+            Copia indirizzo
+          </button>
+          <a class="btn btn-outline" href={mailHref}>Apri client di posta</a>
         </div>
+      </div>
+
+      <div class="card contact-side">
+        <h2 class="card-title">Altri canali</h2>
+        <div class="contact-links">
+          <a href={AUTHOR.sameAs[1]} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href={AUTHOR.sameAs[0]} target="_blank" rel="noopener noreferrer">GitHub</a>
+        </div>
+        <p class="contact-area">
+          Area operativa: Pesaro, Fano, Urbino, Rimini — disponibile anche da remoto per progetti da
+          tutta Italia.
+        </p>
+        <p class="contact-privacy">
+          Questo sito non raccoglie dati: scrivendomi, la tua email resta solo nella mia casella di
+          posta. <a href="/privacy/">Informativa privacy</a>
+        </p>
       </div>
     </div>
   </section>
@@ -56,46 +68,70 @@ const FORMSPREE_ID = "moqrwnnr";
     align-items: start;
   }
 
-  .contact-form {
+  .contact-main {
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    align-items: flex-start;
+    gap: 0.5rem;
   }
 
-  .contact-form label {
-    font-size: 0.9rem;
+  .contact-label {
+    margin: 0;
     color: var(--color-text-muted);
-    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
   }
 
-  .contact-form input,
-  .contact-form textarea {
-    background: var(--color-bg-alt);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 0.5rem;
-    padding: 0.65rem 0.85rem;
+  .contact-email {
+    font-size: clamp(1.2rem, 3vw, 1.6rem);
+    font-weight: 700;
     color: var(--color-text);
-    font-family: inherit;
-    font-size: 1rem;
+    word-break: break-all;
   }
 
-  .contact-form button {
-    margin-top: 1.5rem;
-    align-self: flex-start;
+  .contact-hint {
+    color: var(--color-text-muted);
+    margin: 0.75rem 0 1rem;
+  }
+
+  .contact-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .contact-actions .btn {
+    font: inherit;
+    cursor: pointer;
+  }
+
+  /* Stato "copiato": il pulsante diventa la conferma stessa, senza toast o layout shift */
+  .contact-actions .btn[data-copied="true"] {
+    background: var(--color-accent-2);
+    color: #0b1021;
   }
 
   .card-title {
     margin-top: 0;
   }
 
-  .contact-area {
-    color: var(--color-text-muted);
-  }
-
   .contact-links {
     display: flex;
     gap: 1rem;
-    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .contact-area,
+  .contact-privacy {
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+  }
+
+  .contact-privacy {
+    margin-bottom: 0;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
   }
 
   @media (max-width: 780px) {
@@ -104,3 +140,30 @@ const FORMSPREE_ID = "moqrwnnr";
     }
   }
 </style>
+
+<script>
+  // "Copia indirizzo" funziona ovunque, a differenza del mailto che richiede un client
+  // di posta configurato nel browser (chi usa solo la webmail spesso non ce l'ha).
+  document.querySelectorAll<HTMLButtonElement>("[data-copy-email]").forEach((btn) => {
+    const email = btn.dataset.copyEmail || "";
+    const label = btn.textContent;
+
+    btn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(email);
+        btn.textContent = "Copiato!";
+        btn.dataset.copied = "true";
+      } catch {
+        // Clipboard non disponibile (contesto non sicuro o permesso negato):
+        // si seleziona l'indirizzo visibile, così basta Ctrl+C.
+        const link = document.querySelector(".contact-email");
+        if (link) window.getSelection()?.selectAllChildren(link);
+        btn.textContent = "Seleziona e copia";
+      }
+      setTimeout(() => {
+        btn.textContent = label;
+        delete btn.dataset.copied;
+      }, 2200);
+    });
+  });
+</script>

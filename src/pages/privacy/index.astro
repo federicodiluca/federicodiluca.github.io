@@ -1,0 +1,107 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { AUTHOR } from "../../consts";
+
+const description =
+  "Informativa privacy del sito di Federico Di Luca: nessun dato raccolto, nessun cookie, nessun tracciamento.";
+
+const updated = "11 settembre 2026";
+---
+
+<BaseLayout title="Privacy" description={description}>
+  <section class="section page-header">
+    <div class="container">
+      <h1 class="section-title">Informativa privacy</h1>
+      <p class="section-lead">
+        La versione breve: questo sito non raccoglie dati personali, non usa cookie e non traccia
+        chi lo visita. Sotto, i dettagli.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow privacy-body">
+      <h2>Titolare</h2>
+      <p>
+        {AUTHOR.name}, {AUTHOR.city} ({AUTHOR.province}). Per qualsiasi domanda su questa informativa
+        o sui tuoi dati: <a href={`mailto:${AUTHOR.email}`}>{AUTHOR.email}</a>.
+      </p>
+
+      <h2>Cosa raccoglie questo sito</h2>
+      <p>
+        Niente. Non ci sono moduli da compilare, sistemi di analisi del traffico, pixel di
+        tracciamento o pulsanti social che comunicano con terze parti. Tutti i contenuti (immagini,
+        icone, script) sono serviti da questo stesso dominio: il tuo browser non contatta altri
+        server per visualizzare le pagine.
+      </p>
+
+      <h2>Cookie e preferenze</h2>
+      <p>
+        Il sito non imposta cookie. L'unica informazione salvata è la scelta tra tema chiaro e
+        scuro, memorizzata nel <em>localStorage</em> del tuo browser: resta sul tuo dispositivo, non
+        viene mai trasmessa e puoi cancellarla in qualsiasi momento dalle impostazioni del browser.
+        È una preferenza puramente tecnica, per la quale non è richiesto consenso.
+      </p>
+
+      <h2>Hosting</h2>
+      <p>
+        Il sito è ospitato su <strong>GitHub Pages</strong> (GitHub, Inc.). Come ogni servizio di
+        hosting, GitHub può registrare nei log del server l'indirizzo IP dei visitatori, per
+        finalità di sicurezza e per adempiere a obblighi di legge. Questo trattamento avviene
+        secondo l'<a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer">informativa privacy di GitHub</a>.
+      </p>
+
+      <h2>Se mi scrivi</h2>
+      <p>
+        Se decidi di contattarmi via email, il tuo indirizzo e il contenuto del messaggio arrivano
+        nella mia casella di posta e li uso esclusivamente per risponderti. Non li condivido con
+        nessuno e li conservo per il tempo necessario a gestire la conversazione o l'eventuale
+        collaborazione. La base giuridica è l'esecuzione di misure precontrattuali su tua richiesta
+        (art. 6, par. 1, lett. b, GDPR).
+      </p>
+
+      <h2>Link verso altri siti</h2>
+      <p>
+        Il sito contiene link a servizi esterni (LinkedIn, GitHub, MDPI, l'app Vocabe). Sono
+        semplici collegamenti: nessun dato viene scambiato finché non li apri. Una volta su quei
+        siti, valgono le loro informative.
+      </p>
+
+      <h2>I tuoi diritti</h2>
+      <p>
+        Hai diritto di chiedere accesso, rettifica o cancellazione dei dati che ti riguardano
+        (nel caso di questo sito, in pratica, solo le email che mi hai eventualmente inviato) e di
+        proporre reclamo al Garante per la protezione dei dati personali. Per esercitarli, scrivimi
+        all'indirizzo indicato sopra.
+      </p>
+
+      <p class="privacy-updated">Ultimo aggiornamento: {updated}</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .narrow {
+    max-width: 42rem;
+  }
+
+  .privacy-body h2 {
+    font-size: 1.15rem;
+    margin: 2rem 0 0.5rem;
+  }
+
+  .privacy-body h2:first-child {
+    margin-top: 0;
+  }
+
+  .privacy-body p {
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .privacy-updated {
+    margin-top: 2.5rem !important;
+    font-size: 0.85rem;
+    opacity: 0.8;
+  }
+</style>

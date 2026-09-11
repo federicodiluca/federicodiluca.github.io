@@ -59,18 +59,18 @@ export const publications = [
 ] as const;
 
 export const hardSkills = [
-  { url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg", alt: "net-core" },
-  { url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg", alt: "c#" },
-  { url: "https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg", alt: "python" },
-  { url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/visualstudio/visualstudio-plain.svg", alt: "visual-studio" },
-  { url: "https://www.vectorlogo.zone/logos/git-scm/git-scm-icon.svg", alt: "git" },
-  { url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-plain.svg", alt: "sql-server" },
-  { url: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg", alt: "my-sql" },
-  { url: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg", alt: "mongodb" },
-  { url: "https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg", alt: "javascript" },
-  { url: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg", alt: "typescript" },
-  { url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg", alt: "react" },
-  { url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-plain.svg", alt: "docker" },
+  { url: "/icons/netcore.svg", alt: "net-core" },
+  { url: "/icons/csharp.svg", alt: "c#" },
+  { url: "/icons/python.svg", alt: "python" },
+  { url: "/icons/visualstudio.svg", alt: "visual-studio" },
+  { url: "/icons/git.svg", alt: "git" },
+  { url: "/icons/sqlserver.svg", alt: "sql-server" },
+  { url: "/icons/mysql.svg", alt: "my-sql" },
+  { url: "/icons/mongodb.svg", alt: "mongodb" },
+  { url: "/icons/javascript.svg", alt: "javascript" },
+  { url: "/icons/typescript.svg", alt: "typescript" },
+  { url: "/icons/react.svg", alt: "react" },
+  { url: "/icons/docker.svg", alt: "docker" },
 ] as const;
 
 export const aboutMessages = [

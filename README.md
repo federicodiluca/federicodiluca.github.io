@@ -12,8 +12,9 @@ e pubblicato su GitHub Pages. Statico, bilingue (IT/EN), zero backend, zero data
 - **[Astro](https://astro.build)** — static site generator, output 100% statico
 - **Content Collections** (`astro:content`) per gli articoli del blog in Markdown
 - **[@astrojs/sitemap](https://docs.astro.build/en/guides/integrations-guide/sitemap/)** per la sitemap automatica
-- **[Mermaid](https://mermaid.js.org/)** (via CDN) per i diagrammi nel blog
-- Nessun framework JS lato client oltre a piccoli script inline (dark mode, filtri blog, Mermaid)
+- **[Mermaid](https://mermaid.js.org/)** (dipendenza npm, bundlata) per i diagrammi nel blog
+- Nessun framework JS lato client oltre a piccoli script (dark mode, filtri blog, bootstrap di Mermaid)
+- Nessuna richiesta verso domini terzi: tutto è servito da GitHub Pages
 - Hosting: **GitHub Pages**, deploy via **GitHub Actions**
 
 ## Funzionalità
@@ -22,7 +23,12 @@ e pubblicato su GitHub Pages. Statico, bilingue (IT/EN), zero backend, zero data
 - **Dark/light mode** con persistenza in `localStorage` e rispetto della preferenza di sistema
 - **Blog a categorie** con filtro client-side ([src/pages/blog/index.astro](src/pages/blog/index.astro))
 - **Diagrammi Mermaid** nei contenuti del blog (flowchart, sequence diagram, architetture),
-  trasformati e renderizzati lato client dallo script nel [BaseLayout](src/layouts/BaseLayout.astro)
+  renderizzati lato client dallo script nel [BaseLayout](src/layouts/BaseLayout.astro). Mermaid è
+  una dipendenza npm bundlata da Vite e caricata con import dinamico solo nelle pagine che
+  contengono diagrammi
+- **Privacy by design**: nessun form, nessun analytics, nessun cookie, nessuna risorsa caricata
+  da CDN di terzi (icone e script sono serviti dal dominio stesso). Il contatto avviene via email.
+  Informativa in [src/pages/privacy/](src/pages/privacy/) (IT) e [src/pages/en/privacy/](src/pages/en/privacy/) (EN)
 - **Pubblicazioni scientifiche** collegate come card esterne (senza pagina dedicata), sia in home
   che nella sezione Ricerca del blog
 - **SEO**: sitemap automatica (esclude le pagine di redirect), JSON-LD (schema.org Person),

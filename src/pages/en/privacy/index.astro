@@ -1,0 +1,103 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { AUTHOR } from "../../../consts";
+
+const description =
+  "Privacy notice for Federico Di Luca's website: no data collected, no cookies, no tracking.";
+
+const updated = "11 September 2026";
+---
+
+<BaseLayout title="Privacy" description={description} locale="en">
+  <section class="section page-header">
+    <div class="container">
+      <h1 class="section-title">Privacy notice</h1>
+      <p class="section-lead">
+        The short version: this site collects no personal data, sets no cookies and does not track
+        its visitors. Details below.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow privacy-body">
+      <h2>Data controller</h2>
+      <p>
+        {AUTHOR.name}, {AUTHOR.city}, Italy. For any question about this notice or your data:
+        <a href={`mailto:${AUTHOR.email}`}>{AUTHOR.email}</a>.
+      </p>
+
+      <h2>What this site collects</h2>
+      <p>
+        Nothing. There are no forms, no traffic analytics, no tracking pixels and no social
+        buttons talking to third parties. Every asset (images, icons, scripts) is served from this
+        very domain: your browser contacts no other server to display these pages.
+      </p>
+
+      <h2>Cookies and preferences</h2>
+      <p>
+        The site sets no cookies. The only stored information is your light/dark theme choice,
+        kept in your browser's <em>localStorage</em>: it stays on your device, is never
+        transmitted, and you can clear it anytime from your browser settings. It is a purely
+        technical preference, for which no consent is required.
+      </p>
+
+      <h2>Hosting</h2>
+      <p>
+        The site is hosted on <strong>GitHub Pages</strong> (GitHub, Inc.). Like any hosting
+        provider, GitHub may log visitors' IP addresses for security purposes and to comply with
+        legal obligations, under the
+        <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer">GitHub Privacy Statement</a>.
+      </p>
+
+      <h2>If you write to me</h2>
+      <p>
+        If you choose to email me, your address and message land in my inbox and I use them solely
+        to reply. I share them with no one and keep them only as long as needed to handle the
+        conversation or any resulting collaboration. The legal basis is taking steps at your request
+        prior to entering into a contract (Art. 6(1)(b) GDPR).
+      </p>
+
+      <h2>Links to other sites</h2>
+      <p>
+        The site links to external services (LinkedIn, GitHub, MDPI, the Vocabe app). They are
+        plain links: no data is exchanged until you open them. Once there, their own policies apply.
+      </p>
+
+      <h2>Your rights</h2>
+      <p>
+        You may request access to, rectification or erasure of your data (for this site, in
+        practice, only any emails you sent me) and lodge a complaint with a supervisory authority.
+        To exercise them, write to the address above.
+      </p>
+
+      <p class="privacy-updated">Last updated: {updated}</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .narrow {
+    max-width: 42rem;
+  }
+
+  .privacy-body h2 {
+    font-size: 1.15rem;
+    margin: 2rem 0 0.5rem;
+  }
+
+  .privacy-body h2:first-child {
+    margin-top: 0;
+  }
+
+  .privacy-body p {
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .privacy-updated {
+    margin-top: 2.5rem !important;
+    font-size: 0.85rem;
+    opacity: 0.8;
+  }
+</style>

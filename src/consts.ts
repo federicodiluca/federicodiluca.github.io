@@ -9,6 +9,7 @@ export const AUTHOR = {
   email: "federico.diluca95@gmail.com",
   jobTitle: "Sviluppatore software freelance & Docente di Informatica",
   city: "Pesaro",
+  province: "PU",
   region: "Marche",
   country: "IT",
   serviceArea: ["Pesaro", "Fano", "Urbino", "Rimini"],
