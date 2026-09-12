@@ -3,9 +3,10 @@
 Sito personale (portfolio + blog) di Federico Di Luca, costruito con [Astro](https://astro.build)
 e pubblicato su GitHub Pages. Statico, bilingue (IT/EN), zero backend, zero database.
 
-> **Se hai forkato questo repo**: il codice/template è liberamente riusabile, ma i contenuti
-> (testi biografici, esperienze, foto, CV, pubblicazioni) sono personali di Federico Di Luca — vanno
-> sostituiti con i tuoi prima di pubblicare. Vedi [Personalizzazione](#personalizzazione) sotto.
+> **Se hai forkato questo repo**: il codice/template è liberamente riusabile (licenza MIT), ma i
+> contenuti (testi biografici, esperienze, foto, CV, pubblicazioni, articoli) sono personali di
+> Federico Di Luca e **non** sono coperti dalla licenza — vanno sostituiti con i tuoi prima di
+> pubblicare. Vedi [Personalizzazione](#personalizzazione) e [Licenza](#licenza) sotto.
 
 ## Stack
 
@@ -135,3 +136,19 @@ automaticamente perché derivano tutti da `SITE_URL`.
   è dichiarata nel [robots.txt](src/pages/robots.txt.ts) di questo sito, perché GitHub Pages
   serve un solo `robots.txt` per l'intero dominio (quello del repo root/user page) — un
   `robots.txt` pubblicato da un altro repo sotto un sottopercorso viene ignorato dai crawler.
+
+## Licenza
+
+Il repository contiene due cose diverse, con due regimi diversi:
+
+- **Il codice** — componenti, layout, script, configurazione, workflow, struttura del progetto —
+  è rilasciato sotto **licenza [MIT](LICENSE)**. Puoi usarlo, modificarlo e ridistribuirlo
+  liberamente, anche per scopi commerciali, mantenendo la nota di copyright.
+- **I contenuti** — testi biografici, esperienze e formazione, articoli del blog in
+  `src/content/blog/`, fotografie, CV, immagine social, pubblicazioni — sono **© Federico Di Luca,
+  tutti i diritti riservati**, e **non** sono coperti dalla licenza MIT. Sono nel repository solo
+  perché il sito è il sito di una persona reale: se fai un fork, sostituiscili con i tuoi.
+
+Le icone delle tecnologie in `public/icons/` provengono da [Devicon](https://github.com/devicons/devicon)
+(licenza MIT) e da [VectorLogoZone](https://www.vectorlogo.zone/) (CC0); i marchi raffigurati
+appartengono ai rispettivi titolari.
