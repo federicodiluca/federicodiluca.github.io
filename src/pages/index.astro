@@ -4,12 +4,29 @@ import Hero from "../components/Hero.astro";
 import Timeline from "../components/Timeline.astro";
 import SkillsGrid from "../components/SkillsGrid.astro";
 import { experiences, experiencesFooter, education, publications, aboutMessages } from "../data/site-data";
+import { SITE_URL, AUTHOR } from "../consts";
 
 const description =
   "Sviluppatore software freelance (.NET, C#, Python) e docente di Informatica. Lezioni private, ripetizioni e formazione tecnica a Pesaro, Fano, Urbino, Rimini.";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: `${AUTHOR.name} — Sviluppo Software & Lezioni Private`,
+  url: SITE_URL,
+  image: new URL("/images/social-share.jpg", SITE_URL).toString(),
+  areaServed: AUTHOR.serviceArea,
+  founder: { "@type": "Person", name: AUTHOR.name },
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: AUTHOR.city,
+    addressRegion: AUTHOR.region,
+    addressCountry: AUTHOR.country,
+  },
+};
 ---
 
-<BaseLayout title="Sviluppatore Software & Docente Informatica - Lezioni Private" description={description}>
+<BaseLayout title="Sviluppatore Software & Docente di Informatica" description={description} jsonLd={jsonLd}>
   <Hero
     eyebrow="Pesaro · Fano · Urbino · Rimini"
     title="Sviluppatore Software & Docente di Informatica"

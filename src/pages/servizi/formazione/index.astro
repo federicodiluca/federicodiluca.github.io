@@ -1,8 +1,19 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { AUTHOR } from "../../../consts";
 
 const description =
   "Formazione tecnica e corsi di informatica per aziende e scuole a Pesaro: programmazione, automazione e alfabetizzazione digitale.";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  serviceType: "Formazione e corsi di informatica",
+  name: "Formazione e corsi di informatica",
+  description,
+  provider: { "@type": "Person", name: AUTHOR.name },
+  areaServed: AUTHOR.serviceArea,
+};
 
 const percorsi = [
   {
@@ -20,7 +31,7 @@ const percorsi = [
 ];
 ---
 
-<BaseLayout title="Formazione e corsi di informatica" description={description}>
+<BaseLayout title="Formazione e corsi di informatica" description={description} jsonLd={jsonLd}>
   <section class="section page-header">
     <div class="container">
       <h1 class="section-title">Formazione e corsi di informatica</h1>

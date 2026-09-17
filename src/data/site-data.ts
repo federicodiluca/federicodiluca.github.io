@@ -59,18 +59,18 @@ export const publications = [
 ] as const;
 
 export const hardSkills = [
-  { url: "/icons/netcore.svg", alt: "net-core" },
-  { url: "/icons/csharp.svg", alt: "c#" },
-  { url: "/icons/python.svg", alt: "python" },
-  { url: "/icons/visualstudio.svg", alt: "visual-studio" },
-  { url: "/icons/git.svg", alt: "git" },
-  { url: "/icons/sqlserver.svg", alt: "sql-server" },
-  { url: "/icons/mysql.svg", alt: "my-sql" },
-  { url: "/icons/mongodb.svg", alt: "mongodb" },
-  { url: "/icons/javascript.svg", alt: "javascript" },
-  { url: "/icons/typescript.svg", alt: "typescript" },
-  { url: "/icons/react.svg", alt: "react" },
-  { url: "/icons/docker.svg", alt: "docker" },
+  { url: "/icons/netcore.svg", alt: ".NET" },
+  { url: "/icons/csharp.svg", alt: "C#" },
+  { url: "/icons/python.svg", alt: "Python" },
+  { url: "/icons/visualstudio.svg", alt: "Visual Studio" },
+  { url: "/icons/git.svg", alt: "Git" },
+  { url: "/icons/sqlserver.svg", alt: "SQL Server" },
+  { url: "/icons/mysql.svg", alt: "MySQL" },
+  { url: "/icons/mongodb.svg", alt: "MongoDB" },
+  { url: "/icons/javascript.svg", alt: "JavaScript" },
+  { url: "/icons/typescript.svg", alt: "TypeScript" },
+  { url: "/icons/react.svg", alt: "React" },
+  { url: "/icons/docker.svg", alt: "Docker" },
 ] as const;
 
 export const aboutMessages = [

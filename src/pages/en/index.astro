@@ -4,12 +4,29 @@ import Hero from "../../components/Hero.astro";
 import Timeline from "../../components/Timeline.astro";
 import SkillsGrid from "../../components/SkillsGrid.astro";
 import { experiences, experiencesFooter, education, publications } from "../../data/site-data";
+import { SITE_URL, AUTHOR } from "../../consts";
 
 const description =
   "Federico Di Luca: freelance software developer (.NET, C#, Python) and Computer Science teacher based in Pesaro, Italy.";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: `${AUTHOR.name} — Software Development & Private Lessons`,
+  url: new URL("/en/", SITE_URL).toString(),
+  image: new URL("/images/social-share.jpg", SITE_URL).toString(),
+  areaServed: AUTHOR.serviceArea,
+  founder: { "@type": "Person", name: AUTHOR.name },
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: AUTHOR.city,
+    addressRegion: AUTHOR.region,
+    addressCountry: AUTHOR.country,
+  },
+};
 ---
 
-<BaseLayout title="Software Developer & CS Teacher - Freelance" description={description} locale="en">
+<BaseLayout title="Software Developer & CS Teacher - Freelance" description={description} locale="en" jsonLd={jsonLd}>
   <Hero
     eyebrow="Pesaro · Fano · Urbino · Rimini"
     title="Freelance Software Developer & Computer Science Teacher"

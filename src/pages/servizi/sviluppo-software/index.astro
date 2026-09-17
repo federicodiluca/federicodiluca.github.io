@@ -1,8 +1,19 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { AUTHOR } from "../../../consts";
 
 const description =
   "Sviluppo software e consulenza IT freelance a Pesaro, Fano, Urbino e Rimini: applicazioni .NET e Python, integrazioni e automazione.";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  serviceType: "Sviluppo software",
+  name: "Sviluppo software freelance",
+  description,
+  provider: { "@type": "Person", name: AUTHOR.name },
+  areaServed: AUTHOR.serviceArea,
+};
 
 const servizi = [
   {
@@ -24,7 +35,7 @@ const servizi = [
 ];
 ---
 
-<BaseLayout title="Sviluppo software freelance" description={description}>
+<BaseLayout title="Sviluppo software freelance" description={description} jsonLd={jsonLd}>
   <section class="section page-header">
     <div class="container">
       <h1 class="section-title">Sviluppo software freelance</h1>

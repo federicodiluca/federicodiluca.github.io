@@ -27,6 +27,22 @@ const canonicalURL = new URL(Astro.url.pathname, SITE_URL).toString();
 const imageURL = new URL(image, SITE_URL).toString();
 const fullTitle = title === SITE_NAME ? title : `${title} · ${SITE_NAME}`;
 
+// Solo le pagine elencate qui hanno una vera controparte tradotta: un hreflang che punta
+// a una pagina inesistente (es. /en/chi-sono/, mai creata) è peggio che non averlo.
+const IT_TO_EN_PATHS: Record<string, string> = {
+  "/": "/en/",
+  "/contatti/": "/en/contact/",
+  "/privacy/": "/en/privacy/",
+};
+const EN_TO_IT_PATHS: Record<string, string> = Object.fromEntries(
+  Object.entries(IT_TO_EN_PATHS).map(([it, en]) => [en, it]),
+);
+
+const currentPath = Astro.url.pathname;
+const itPath = locale === "en" ? EN_TO_IT_PATHS[currentPath] : currentPath;
+const enPath = locale === "en" ? currentPath : IT_TO_EN_PATHS[currentPath];
+const hasTranslation = Boolean(itPath && enPath);
+
 const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
@@ -61,9 +77,13 @@ const schemas = [personSchema, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [j
     <meta name="description" content={description} />
     {noIndex && <meta name="robots" content="noindex, follow" />}
 
-    <link rel="alternate" hreflang="it" href={new URL(Astro.url.pathname.replace(/^\/en\//, "/"), SITE_URL).toString()} />
-    <link rel="alternate" hreflang="en" href={new URL(`/en${Astro.url.pathname.replace(/^\/en/, "")}`, SITE_URL).toString()} />
-    <link rel="alternate" hreflang="x-default" href={new URL(Astro.url.pathname.replace(/^\/en\//, "/"), SITE_URL).toString()} />
+    {hasTranslation && (
+      <>
+        <link rel="alternate" hreflang="it" href={new URL(itPath, SITE_URL).toString()} />
+        <link rel="alternate" hreflang="en" href={new URL(enPath, SITE_URL).toString()} />
+        <link rel="alternate" hreflang="x-default" href={new URL(itPath, SITE_URL).toString()} />
+      </>
+    )}
 
     <meta property="og:type" content={type} />
     <meta property="og:title" content={fullTitle} />
