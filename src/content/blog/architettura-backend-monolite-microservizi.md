@@ -6,7 +6,7 @@ category: "backend"
 tags: ["architettura", "microservizi", "scalabilità", ".net"]
 ---
 
-Durante il mio lavoro come Technical Leader in Websolute, ho guidato l'evoluzione di molteplici sistemi da architettura monolitica a microservizi. Questa transizione non è solo una scelta tecnologica, ma un cambio di paradigma organizzativo.
+Passare da un'architettura monolitica ai microservizi non è solo una scelta tecnologica: è un cambio di paradigma organizzativo, che tocca il modo in cui i team lavorano, rilasciano e si dividono le responsabilità. Vediamo cosa comporta davvero, e quando conviene.
 
 ## Architettura monolitica: vantaggi e limiti
 
@@ -203,7 +203,7 @@ Total: 165ms (bottleneck: Orders)
 - Requisiti molto accoppiati
 - Poca esperienza con deployment
 
-## Stack che abbiamo usato in Websolute
+## Uno stack di riferimento in ambito .NET
 
 - **API Gateway**: Ocelot / Kong
 - **Message Bus**: RabbitMQ (considerando Kafka)

@@ -46,6 +46,32 @@ export const education = [
   },
 ] as const;
 
+/** Progetti personali, usati sia nella fascia in home che nella pagina /progetti/. */
+export const projects = [
+  {
+    name: "Vocabe",
+    icon: "/projects/vocabe.svg",
+    tagline: "Una parola italiana al giorno",
+    description:
+      "App per ampliare il lessico italiano: ogni giorno una parola con significato, esempi, etimologia e curiosità, e un ripasso guidato da un algoritmo di ripetizione spaziata. Funziona offline, non chiede account e non salva nulla su un server: i progressi restano sul dispositivo.",
+    stack: ["React", "TypeScript", "Vite", "PWA", "Capacitor"],
+    url: "https://federicodiluca.github.io/vocabe/",
+    repo: "https://github.com/federicodiluca/Vocabe",
+    cta: "Prova l'app",
+  },
+  {
+    name: "School Feed Monitor",
+    icon: "/projects/school-feed-monitor.svg",
+    tagline: "Gli avvisi della scuola italiana, su Telegram",
+    description:
+      "Monitora i siti e i feed di USR, USP e MIM e recapita su Telegram avvisi per parole chiave e digest giornalieri. Nato da un'esigenza concreta di chi lavora nella scuola: non perdere bandi, graduatorie e circolari sparsi su decine di portali diversi. Self-hosted, ogni utente configura le proprie fonti.",
+    stack: ["Python", "SQLite", "Telegram Bot API", "RSS", "Web scraping"],
+    url: "https://federicodiluca.github.io/school-feed-monitor/",
+    repo: "https://github.com/federicodiluca/school-feed-monitor",
+    cta: "Scopri com'è fatto",
+  },
+] as const;
+
 export const publications = [
   {
     title:

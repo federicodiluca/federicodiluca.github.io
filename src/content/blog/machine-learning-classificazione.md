@@ -220,7 +220,10 @@ flowchart LR
 
 ## Racconto dalla ricerca: UWB Person Detection
 
-Nel mio paper su MDPI (Febbraio 2022), abbiamo confrontato modelli ML per rilevare persone da radar UWB in condizioni NLOS (non-line-of-sight):
+Nella ricerca [pubblicata su MDPI Sensors nel febbraio 2022](https://www.mdpi.com/1424-8220/22/4/1507)
+abbiamo confrontato diversi modelli ML per rilevare persone da radar UWB in condizioni NLOS
+(non-line-of-sight). I valori qui sotto sono indicativi dell'ordine di grandezza del confronto —
+i risultati completi e la metodologia sono nel paper:
 
 ```
 Dataset: 5000 samples da diverse posizioni

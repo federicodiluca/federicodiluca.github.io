@@ -6,7 +6,7 @@ category: "scada"
 tags: ["scada", "automazione", "magazzino", "programmazione"]
 ---
 
-Un sistema SCADA (Supervisory Control and Data Acquisition) è fondamentale per automatizzare e monitorare le operazioni di magazzino moderno. Durante il mio lavoro in NGTEC, ho sviluppato soluzioni SCADA per controllare sistemi di movimentazione automatica, gestire inventari in tempo reale e ottimizzare i flussi logistici.
+Un sistema SCADA (Supervisory Control and Data Acquisition) è fondamentale per automatizzare e monitorare le operazioni di un magazzino moderno: controllare i sistemi di movimentazione, tenere l'inventario aggiornato in tempo reale, ottimizzare i flussi logistici. Vediamo come è fatto, strato per strato.
 
 ## Architettura di un sistema SCADA per magazzini
 
@@ -86,9 +86,9 @@ flowchart TD
 - **Sicurezza**: Protezioni e interblocchi automatici
 - **Manutenzione predittiva**: Monitoraggio consumi e usura
 
-## Tecnologie utilizzate
+## Uno stack di riferimento
 
-Nel progetto che ho seguito in NGTEC abbiamo utilizzato:
+Una combinazione diffusa per impianti di queste dimensioni:
 
 | Componente | Tecnologia | Motivo della scelta |
 |-----------|-----------|-------------------|

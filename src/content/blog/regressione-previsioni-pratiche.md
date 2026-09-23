@@ -6,7 +6,7 @@ category: "ai"
 tags: ["machine learning", "regressione", "forecasting", "time series"]
 ---
 
-La regressione è forse l'applicazione ML più comune in azienda: predire continuità (prezzo, quantità, tempo) da dati storici. Ho sviluppato sistemi di forecasting per inventory planning e anomaly detection durante il mio tempo in Websolute.
+La regressione è forse l'applicazione ML più comune in azienda: predire una grandezza continua (prezzo, quantità, tempo) a partire da dati storici. Dietro a inventory planning, previsione della domanda e anomaly detection c'è quasi sempre un modello di regressione.
 
 ## Regressione vs Classificazione
 

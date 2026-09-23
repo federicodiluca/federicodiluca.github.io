@@ -30,11 +30,16 @@ flowchart LR
     style H fill:#ff6b9d,color:#fff
 ```
 
-## Il mio caso: UWB Person Detection
+## Un caso concreto: UWB Person Detection
 
-Nel 2021-2022 ho sviluppato una soluzione per il rilevamento di persone da radar ultra-wideband (UWB) in condizioni sfavorevoli (NLOS - non-line-of-sight).
+Prendiamo come esempio una ricerca a cui ho partecipato durante il percorso universitario, sul
+rilevamento di persone tramite radar ultra-wideband (UWB) in condizioni non-line-of-sight,
+[pubblicata su MDPI Sensors nel febbraio 2022](https://www.mdpi.com/1424-8220/22/4/1507).
+La Fase 1 qui sotto è quella effettivamente svolta e documentata nel paper; le fasi successive
+sono la ricostruzione di come un risultato del genere proseguirebbe verso il prodotto — utile
+proprio perché mostra quanta strada separa un buon risultato scientifico da qualcosa di vendibile.
 
-### Fase 1: Ricerca
+### Fase 1: Ricerca (svolta)
 
 ```
 Problem: Come rilevare persone dietro muri/ostacoli?
@@ -57,7 +62,7 @@ Result: 94% accuracy in NLOS conditions
 → Articolo pubblicato su MDPI Sensors (Feb 2022)
 ```
 
-### Fase 2: Prototipo
+### Fase 2: Prototipo (come proseguirebbe)
 
 ```
 Proof of Concept:
@@ -78,7 +83,7 @@ Feedback:
 └─ ❓ Costo hardware ancora alto
 ```
 
-### Fase 3: Ingegnerizzazione
+### Fase 3: Ingegnerizzazione (come proseguirebbe)
 
 ```
 Scalabilità:
@@ -106,7 +111,7 @@ Production readiness:
 └─ Update OTA (over-the-air)
 ```
 
-### Fase 4: Commercializzazione (teorica)
+### Fase 4: Commercializzazione (come proseguirebbe)
 
 ```
 Product-Market Fit:
@@ -239,7 +244,7 @@ Oversell risultati nel marketing
 
 ## R&D in azienda: cicli veloci
 
-In Websolute abbiamo adottato il modello di "ricerca continua":
+Un modello diffuso per non far morire la ricerca dentro le scadenze di progetto è la "ricerca continua":
 
 ```
 Sprint di 2 settimane:

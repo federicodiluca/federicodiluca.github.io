@@ -1,0 +1,79 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
+import { projects } from "../../data/site-data";
+import { SITE_URL } from "../../consts";
+
+const description =
+  "I progetti personali di Federico Di Luca: Vocabe, app per il lessico italiano, e School Feed Monitor, avvisi della scuola italiana su Telegram. Codice aperto.";
+
+// Una voce per progetto: aiuta Google a capire che sono software reali e non pagine di testo.
+const jsonLd = projects.map((p) => ({
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: p.name,
+  description: p.description,
+  url: p.url,
+  codeRepository: p.repo,
+  applicationCategory: "UtilitiesApplication",
+  author: { "@type": "Person", name: "Federico Di Luca", url: SITE_URL },
+  offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
+}));
+---
+
+<BaseLayout title="Progetti" description={description} jsonLd={jsonLd}>
+  <section class="section page-header">
+    <div class="container">
+      <h1 class="section-title">Progetti</h1>
+      <p class="section-lead">
+        Strumenti nati da un bisogno concreto — il mio o di chi lavora intorno a me — e portati
+        fino al punto in cui potessero servire anche ad altri. Sono tutti gratuiti e con il
+        codice pubblico: si possono usare, leggere e, volendo, migliorare.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="projects-list">
+        {projects.map((project) => <ProjectCard {...project} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt cta-section">
+    <div class="container cta-inner">
+      <h2 class="section-title">Hai un'idea da costruire?</h2>
+      <p class="section-lead">
+        Se stai pensando a uno strumento simile, o hai un progetto che ha bisogno di qualcuno che
+        lo porti dall'idea al funzionante, scrivimi.
+      </p>
+      <a class="btn btn-primary" href="/contatti/">Parliamone</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .projects-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+    gap: 1.5rem;
+  }
+
+  .section-alt {
+    background: var(--color-bg-alt);
+  }
+
+  .cta-section {
+    text-align: center;
+  }
+
+  .cta-inner .section-title {
+    margin-bottom: 0.5rem;
+  }
+
+  .cta-inner .section-lead {
+    margin: 0 auto 2rem;
+    max-width: 40rem;
+  }
+</style>
