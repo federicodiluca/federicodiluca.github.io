@@ -104,69 +104,8 @@ const schemas = [personSchema, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [j
       <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
     ))}
 
-    <link rel="alternate" type="application/rss+xml" title={`${SITE_NAME} · Blog`} href="/rss.xml" />
     <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#0b1021" />
-    <script>
-      // Mermaid è servito da questo stesso dominio (dipendenza npm bundlata da Vite),
-      // così il browser del visitatore non contatta CDN di terzi. L'import è dinamico:
-      // il chunk (~1MB) viene scaricato solo se la pagina contiene davvero un diagramma,
-      // cioè quasi solo negli articoli del blog.
-
-      // Astro/Shiki marca i blocchi ```mermaid con data-language="mermaid": è il selettore
-      // affidabile. Il testo va letto dal <code> perché il syntax highlighter avvolge ogni
-      // riga in <span> annidati.
-      function collectDiagrams(): { pre: HTMLElement; text: string }[] {
-        const found: { pre: HTMLElement; text: string }[] = [];
-        document.querySelectorAll<HTMLElement>('pre[data-language="mermaid"]').forEach((pre) => {
-          const code = pre.querySelector("code") || pre;
-          const text = (code.textContent || "").trim();
-          if (text) found.push({ pre, text });
-        });
-        return found;
-      }
-
-      function currentTheme(): "default" | "dark" {
-        return document.documentElement.classList.contains("light") ? "default" : "dark";
-      }
-
-      async function init() {
-        const diagrams = collectDiagrams();
-        if (diagrams.length === 0) return; // niente diagrammi: nessun download
-
-        // Sostituisce i blocchi <pre><code> con i contenitori che Mermaid sa renderizzare,
-        // conservando il sorgente per poter ri-renderizzare al cambio tema.
-        const containers = diagrams.map(({ pre, text }) => {
-          const el = document.createElement("pre");
-          el.className = "mermaid";
-          el.textContent = text;
-          el.dataset.source = text;
-          pre.replaceWith(el);
-          return el;
-        });
-
-        const { default: mermaid } = await import("mermaid");
-        mermaid.initialize({ startOnLoad: false, theme: currentTheme() });
-        await mermaid.run();
-
-        // Al cambio tema i grafici già renderizzati resterebbero con i colori vecchi:
-        // si ripristina il sorgente e si ri-renderizza.
-        let lastTheme = currentTheme();
-        new MutationObserver(async () => {
-          const theme = currentTheme();
-          if (theme === lastTheme) return;
-          lastTheme = theme;
-          containers.forEach((el) => {
-            el.removeAttribute("data-processed");
-            el.innerHTML = el.dataset.source || "";
-          });
-          mermaid.initialize({ startOnLoad: false, theme });
-          await mermaid.run();
-        }).observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
-      }
-
-      init();
-    </script>
   </head>
   <body>
     <Header locale={locale} />

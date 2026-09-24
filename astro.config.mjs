@@ -1,35 +1,41 @@
-import { readdirSync, readFileSync } from "node:fs";
-import { fileURLToPath } from "node:url";
-import { dirname, join } from "node:path";
 import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import { SITE_URL, LOCALES, DEFAULT_LOCALE } from "./src/consts.ts";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
-// @astrojs/sitemap non conosce le date del frontmatter dei post: le leggiamo qui
-// (semplice regex, il frontmatter è sempre "date: YYYY-MM-DD") per dare a ogni
-// URL di articolo un lastmod reale invece di ometterlo del tutto.
-function getBlogLastmods() {
-  const blogDir = join(__dirname, "src/content/blog");
-  const lastmods = {};
-  for (const file of readdirSync(blogDir)) {
-    if (!file.endsWith(".md")) continue;
-    const slug = file.replace(/\.md$/, "");
-    const content = readFileSync(join(blogDir, file), "utf-8");
-    const updated = content.match(/^updatedDate:\s*"?([\d-]+)"?/m);
-    const published = content.match(/^date:\s*"?([\d-]+)"?/m);
-    const dateStr = updated?.[1] ?? published?.[1];
-    if (dateStr) lastmods[slug] = new Date(dateStr).toISOString();
-  }
-  return lastmods;
-}
-
-const blogLastmods = getBlogLastmods();
+// La sezione articoli è stata rimossa: i vecchi URL già indicizzati puntano alla
+// pagina più vicina per argomento. GitHub Pages non fa 301 veri, Astro genera una
+// pagina con meta refresh + canonical, che Google tratta come redirect.
+const SVILUPPO = "/servizi/sviluppo-software/";
+const FORMAZIONE = "/servizi/formazione/";
+const PUBBLICAZIONI = "/pubblicazioni/";
+const blogRedirects = {
+  "da-technical-leader-a-docente": "/chi-sono/",
+  "architettura-backend-monolite-microservizi": SVILUPPO,
+  "automazione-industriale-plc-scada": SVILUPPO,
+  "mlops-modelli-produzione": SVILUPPO,
+  "programmazione-concorrente": SVILUPPO,
+  "regressione-previsioni-pratiche": SVILUPPO,
+  "scada-magazzini-automatici": SVILUPPO,
+  "scalabilita-backend-patterns": SVILUPPO,
+  "diagrammi-flusso-algoritmi": FORMAZIONE,
+  "pensiero-computazionale": FORMAZIONE,
+  "programmazione-ia-oggi": FORMAZIONE,
+  "python-analisi-numerica-grafici": FORMAZIONE,
+  "sicurezza-attacchi-hacker": FORMAZIONE,
+  "vpn-privacy-networking": FORMAZIONE,
+  "machine-learning-classificazione": PUBBLICAZIONI,
+  "ricerca-sviluppo-azienda": PUBBLICAZIONI,
+};
 
 export default defineConfig({
   site: SITE_URL,
   trailingSlash: "always",
+  redirects: {
+    "/blog/": "/",
+    ...Object.fromEntries(
+      Object.entries(blogRedirects).map(([slug, to]) => [`/blog/${slug}/`, to]),
+    ),
+  },
   i18n: {
     defaultLocale: DEFAULT_LOCALE,
     locales: LOCALES,
@@ -42,11 +48,6 @@ export default defineConfig({
       i18n: {
         defaultLocale: DEFAULT_LOCALE,
         locales: { it: "it", en: "en" },
-      },
-      serialize(item) {
-        const slug = item.url.match(/\/blog\/([^/]+)\/$/)?.[1];
-        const lastmod = slug ? blogLastmods[slug] : undefined;
-        return lastmod ? { ...item, lastmod } : item;
       },
     }),
   ],

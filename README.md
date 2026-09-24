@@ -1,37 +1,30 @@
 # federicodiluca.github.io
 
-Sito personale (portfolio + blog) di Federico Di Luca, costruito con [Astro](https://astro.build)
+Sito personale (portfolio) di Federico Di Luca, costruito con [Astro](https://astro.build)
 e pubblicato su GitHub Pages. Statico, bilingue (IT/EN), zero backend, zero database.
 
 > **Se hai forkato questo repo**: il codice/template è liberamente riusabile (licenza MIT), ma i
-> contenuti (testi biografici, esperienze, foto, CV, pubblicazioni, articoli) sono personali di
+> contenuti (testi biografici, esperienze, foto, CV, pubblicazioni) sono personali di
 > Federico Di Luca e **non** sono coperti dalla licenza — vanno sostituiti con i tuoi prima di
 > pubblicare. Vedi [Personalizzazione](#personalizzazione) e [Licenza](#licenza) sotto.
 
 ## Stack
 
 - **[Astro](https://astro.build)** — static site generator, output 100% statico
-- **Content Collections** (`astro:content`) per gli articoli del blog in Markdown
 - **[@astrojs/sitemap](https://docs.astro.build/en/guides/integrations-guide/sitemap/)** per la sitemap automatica
-- **[Mermaid](https://mermaid.js.org/)** (dipendenza npm, bundlata) per i diagrammi nel blog
-- Nessun framework JS lato client oltre a piccoli script (dark mode, filtri blog, bootstrap di Mermaid)
+- Nessun framework JS lato client oltre a piccoli script (dark mode)
 - Nessuna richiesta verso domini terzi: tutto è servito da GitHub Pages
 - Hosting: **GitHub Pages**, deploy via **GitHub Actions**
 
 ## Funzionalità
 
-- **Bilingue** (IT/EN), con routing i18n nativo di Astro (`/en/` per l'inglese; il blog resta solo IT)
+- **Bilingue** (IT/EN), con routing i18n nativo di Astro (`/en/` per l'inglese)
 - **Dark/light mode** con persistenza in `localStorage` e rispetto della preferenza di sistema
-- **Blog a categorie** con filtro client-side ([src/pages/blog/index.astro](src/pages/blog/index.astro))
-- **Diagrammi Mermaid** nei contenuti del blog (flowchart, sequence diagram, architetture),
-  renderizzati lato client dallo script nel [BaseLayout](src/layouts/BaseLayout.astro). Mermaid è
-  una dipendenza npm bundlata da Vite e caricata con import dinamico solo nelle pagine che
-  contengono diagrammi
 - **Privacy by design**: nessun form, nessun analytics, nessun cookie, nessuna risorsa caricata
   da CDN di terzi (icone e script sono serviti dal dominio stesso). Il contatto avviene via email.
   Informativa in [src/pages/privacy/](src/pages/privacy/) (IT) e [src/pages/en/privacy/](src/pages/en/privacy/) (EN)
-- **Pubblicazioni scientifiche** collegate come card esterne (senza pagina dedicata), sia in home
-  che nella sezione Ricerca del blog
+- **Pubblicazioni scientifiche** collegate come card esterne, in home e in
+  [src/pages/pubblicazioni/](src/pages/pubblicazioni/)
 - **SEO**: sitemap automatica (esclude le pagine di redirect), JSON-LD (schema.org Person),
   Open Graph, hreflang, `robots.txt` generato dinamicamente, favicon conforme ai requisiti
   Google (48px e multipli)
@@ -53,9 +46,7 @@ Richiede Node.js 20.3+ o 22+.
 src/
   consts.ts          Dati anagrafici/configurazione (vedi sotto)
   data/site-data.ts  Esperienze, formazione, pubblicazioni, skill
-  content/blog/      Articoli del blog in Markdown
-  content.config.ts  Schema/validazione frontmatter degli articoli
-  layouts/           Layout condivisi (BaseLayout = head, header, footer, dark mode, Mermaid)
+  layouts/           Layout condivisi (BaseLayout = head, header, footer, dark mode)
   components/        Componenti riusabili (Hero, Timeline, ThemeToggle, Breadcrumb, ...)
   pages/             Routing basato su file (IT alla radice, EN sotto pages/en/)
 public/              Asset statici (favicon, icone PWA, CV, immagini, manifest)
@@ -73,25 +64,8 @@ Se stai adattando questo template al posto tuo, i punti da toccare sono:
 3. **[src/pages/](src/pages/)** — testi discorsivi delle singole pagine (chi-sono, servizi, home,
    ecc. — non sono in `site-data.ts`, sono scritti direttamente nei file `.astro`)
 4. **[public/](public/)** — sostituisci foto, CV (`cv-*.pdf`), favicon, `images/social-share.jpg`
-5. **[src/content/blog/](src/content/blog/)** — cancella o riscrivi gli articoli d'esempio
-
-### Aggiungere un articolo al blog
-
-Crea un file `.md` in `src/content/blog/` con frontmatter:
-
-```yaml
----
-title: "Titolo articolo"
-description: "Descrizione breve per meta tag e anteprima"
-date: 2025-01-01
-category: "ai" # blog | scada | ai | backend | ricerca | educazione | sicurezza | altro
-tags: ["tag1", "tag2"]
----
-```
-
-Le categorie valide sono definite in [src/content.config.ts](src/content.config.ts) — aggiungine
-altre lì se ti servono. Per un diagramma, usa un blocco ` ```mermaid ` nel corpo dell'articolo:
-viene rilevato e renderizzato automaticamente lato client, nessuna configurazione aggiuntiva.
+5. **[astro.config.mjs](astro.config.mjs)** — togli i `redirects` dei vecchi URL `/blog/`, che
+   servono solo a questo sito
 
 ## Deploy
 
@@ -144,8 +118,8 @@ Il repository contiene due cose diverse, con due regimi diversi:
 - **Il codice** — componenti, layout, script, configurazione, workflow, struttura del progetto —
   è rilasciato sotto **licenza [MIT](LICENSE)**. Puoi usarlo, modificarlo e ridistribuirlo
   liberamente, anche per scopi commerciali, mantenendo la nota di copyright.
-- **I contenuti** — testi biografici, esperienze e formazione, articoli del blog in
-  `src/content/blog/`, fotografie, CV, immagine social, pubblicazioni — sono **© Federico Di Luca,
+- **I contenuti** — testi biografici, esperienze e formazione,
+  fotografie, CV, immagine social, pubblicazioni — sono **© Federico Di Luca,
   tutti i diritti riservati**, e **non** sono coperti dalla licenza MIT. Sono nel repository solo
   perché il sito è il sito di una persona reale: se fai un fork, sostituiscili con i tuoi.
 

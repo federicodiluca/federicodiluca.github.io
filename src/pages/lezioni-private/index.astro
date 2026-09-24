@@ -3,35 +3,244 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import { AUTHOR } from "../../consts";
 
 const description =
-  "Lezioni private di matematica, fisica e informatica per studenti delle scuole superiori, a cura di Federico Di Luca.";
+  "Lezioni private e ripetizioni di informatica (TPSIT, sistemi e reti, GPOI, programmazione), matematica e fisica: in presenza a Pesaro e online in tutta Italia, dalle scuole medie alla maturità.";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  serviceType: "Lezioni private e ripetizioni",
+  name: "Lezioni private di informatica, matematica e fisica",
+  description,
+  provider: { "@type": "Person", name: AUTHOR.name },
+  areaServed: [{ "@type": "City", name: AUTHOR.city }, { "@type": "Country", name: "Italia" }],
+};
+
+const materie = [
+  {
+    title: "Informatica",
+    lead: "La materia che insegno a scuola, compresa quella degli istituti tecnici a indirizzo informatico.",
+    items: [
+      { name: "Informatica", topics: "algoritmi, strutture dati, programmazione a oggetti, basi di dati e SQL" },
+      { name: "TPSIT", topics: "processi e thread, programmazione concorrente, socket e applicazioni client-server" },
+      { name: "Sistemi e reti", topics: "modello ISO/OSI e TCP/IP, indirizzi IP e subnetting, routing, sicurezza, crittografia, VLAN, VPN" },
+      { name: "GPOI", topics: "gestione di progetto, WBS, diagrammi di Gantt e PERT, costi" },
+      { name: "Programmazione", topics: "C, C++, C#, Python, Java, HTML, CSS, JavaScript, dalle basi ai progetti" },
+    ],
+  },
+  {
+    title: "Matematica",
+    lead: "Dalle frazioni delle medie allo studio di funzione.",
+    items: [
+      { name: "Scuole medie", topics: "frazioni e proporzioni, potenze, calcolo letterale, prime equazioni, geometria piana e solida" },
+      { name: "Biennio", topics: "algebra, equazioni e disequazioni, sistemi, geometria" },
+      { name: "Triennio", topics: "geometria analitica, goniometria, esponenziali e logaritmi" },
+      { name: "Quinto anno", topics: "limiti, derivate, integrali, studio di funzione" },
+    ],
+  },
+  {
+    title: "Fisica",
+    lead: "Capire il perché delle formule prima di applicarle negli esercizi.",
+    items: [
+      { name: "Meccanica", topics: "cinematica, dinamica, lavoro ed energia, quantità di moto" },
+      { name: "Termodinamica e onde", topics: "calore, principi della termodinamica, oscillazioni e onde" },
+      { name: "Elettromagnetismo", topics: "campo elettrico e magnetico, circuiti, induzione" },
+    ],
+  },
+];
+
+const faq = [
+  {
+    q: "Come si svolgono le lezioni online?",
+    a: "In videochiamata, con lavagna digitale condivisa. Per la programmazione lavoriamo sul codice in tempo reale, anche sul tuo computer. Dopo la lezione ti restano appunti ed esercizi.",
+  },
+  {
+    q: "Aiuti anche per la maturità?",
+    a: "Sì, sia per la seconda prova degli istituti tecnici informatici sia per matematica e fisica al liceo scientifico, con simulazioni sulle tracce degli anni precedenti.",
+  },
+  {
+    q: "Dai lezioni anche agli studenti della tua scuola?",
+    a: "No: da docente non posso dare lezioni private agli studenti dell'istituto in cui insegno.",
+  },
+];
 ---
 
-<BaseLayout title="Lezioni private" description={description}>
+<BaseLayout
+  title="Lezioni private di informatica, matematica e fisica a Pesaro e online"
+  description={description}
+  jsonLd={jsonLd}
+>
   <section class="section page-header">
     <div class="container narrow">
-      <h1 class="section-title">Lezioni private</h1>
+      <h1 class="section-title">Lezioni private di informatica, matematica e fisica</h1>
       <p class="section-lead">
-        Sono docente di Informatica nella scuola superiore e offro anche lezioni private di
-        matematica, fisica e informatica, principalmente per studenti delle scuole superiori.
+        In presenza a Pesaro e online in tutta Italia, dalle scuole medie alla maturità.
       </p>
       <p>
-        Le lezioni sono pensate per consolidare le basi, recuperare argomenti in difficoltà o
-        prepararsi a verifiche ed esami, con un approccio pratico e su misura per ogni studente.
+        Sono docente di Informatica nella scuola superiore e ingegnere, con anni di lavoro come
+        sviluppatore software. Che si tratti di una ripetizione prima di un compito o di un percorso
+        durante l'anno, le lezioni servono a recuperare le basi, prepararsi a verifiche ed
+        esami o andare oltre il programma, con un approccio pratico e su misura.
       </p>
+      <a class="btn btn-primary" href="/contatti/">Scrivimi per una lezione</a>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Materie</h2>
+      <div class="materie-grid">
+        {materie.map((m) => (
+          <article class="card">
+            <h3 class="materia-title">{m.title}</h3>
+            <p class="materia-lead">{m.lead}</p>
+            <dl class="materia-list">
+              {m.items.map((item) => (
+                <div>
+                  <dt>{item.name}</dt>
+                  <dd>{item.topics}</dd>
+                </div>
+              ))}
+            </dl>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow">
+      <h2 class="section-title">Per chi sono</h2>
+      <ul class="plain-list">
+        <li>
+          <strong>Scuole medie</strong>: matematica, per consolidare le basi prima delle superiori.
+        </li>
+        <li>
+          <strong>Scuole superiori</strong>: licei e istituti tecnici, dal biennio alla maturità.
+        </li>
+        <li>
+          <strong>Università</strong>: per alcuni esami dei primi anni, da valutare caso per caso.
+        </li>
+        <li>
+          <strong>Chi impara a programmare</strong>: anche fuori dalla scuola, per iniziare da zero
+          o prepararsi a un colloquio tecnico.
+        </li>
+      </ul>
+
+      <h2 class="section-title">Come funzionano</h2>
+      <ul class="plain-list">
+        <li><strong>In presenza</strong> a Pesaro.</li>
+        <li>
+          <strong>Online</strong> in tutta Italia, con videochiamata e lavagna condivisa.
+        </li>
+        <li>
+          <strong>Su misura</strong>: partiamo dal tuo programma, dai tuoi appunti e dalle verifiche
+          che hai davanti.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container narrow">
+      <h2 class="section-title">Domande frequenti</h2>
+      {faq.map((item) => (
+        <details class="faq-item">
+          <summary>{item.q}</summary>
+          <p>{item.a}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow">
+      <h2 class="section-title">Disponibilità</h2>
       <p>
-        Per informazioni su disponibilità e modalità, scrivimi direttamente.
+        Scrivimi indicando materia e classe (o esame) e se preferisci lezioni in presenza o online.
       </p>
-      <a class="btn btn-outline" href={`mailto:${AUTHOR.email}`}>{AUTHOR.email}</a>
+      <a class="btn btn-primary" href="/contatti/">Contattami</a>
     </div>
   </section>
 </BaseLayout>
 
 <style>
   .narrow {
-    max-width: 38rem;
+    max-width: 42rem;
   }
 
-  .narrow p {
+  .narrow p,
+  .plain-list {
     color: var(--color-text-muted);
+  }
+
+  .section-alt {
+    background: var(--color-bg-alt);
+  }
+
+  .materie-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .materia-title {
+    margin: 0 0 0.5rem;
+    font-size: 1.25rem;
+  }
+
+  .materia-lead {
+    color: var(--color-text-muted);
+    margin: 0 0 1.25rem;
+  }
+
+  .materia-list {
+    margin: 0;
+  }
+
+  .materia-list div + div {
+    margin-top: 0.85rem;
+  }
+
+  .materia-list dt {
+    font-weight: 600;
+  }
+
+  .materia-list dd {
+    margin: 0.15rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+  }
+
+  .plain-list {
+    padding-left: 1.2rem;
+    margin: 0 0 2.5rem;
+  }
+
+  .plain-list li + li {
+    margin-top: 0.6rem;
+  }
+
+  .plain-list strong {
+    color: var(--color-text);
+  }
+
+  .faq-item {
+    border-bottom: 1px solid rgba(127, 127, 127, 0.25);
+    padding: 1rem 0;
+  }
+
+  .faq-item summary {
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  .faq-item p {
+    margin: 0.75rem 0 0;
+  }
+
+  @media (max-width: 900px) {
+    .materie-grid {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
