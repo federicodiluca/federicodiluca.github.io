@@ -10,6 +10,26 @@ import { SITE_URL, AUTHOR } from "../consts";
 const description =
   "Sviluppatore software freelance (.NET, C#, Python) e docente di Informatica. Lezioni private, ripetizioni e formazione tecnica a Pesaro, Fano, Urbino, Rimini.";
 
+// Lavoro e studi in un'unica timeline, dalla voce più recente.
+const path = [
+  ...experiences.map((e) => ({
+    kind: "work" as const,
+    start: e.start,
+    title: e.role,
+    subtitle: e.company,
+    date: e.date,
+  })),
+  ...education.map((e) => ({
+    kind: "education" as const,
+    start: e.start,
+    title: `${e.title} in ${e.subTitle}`,
+    subtitle: e.institute,
+    meta: `Voto: ${e.mark}`,
+    date: e.date,
+    steps: e.steps.map((s) => ({ title: s.title, subtitle: s.institute, meta: s.note, date: s.date })),
+  })),
+].sort((a, b) => b.start.localeCompare(a.start));
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
@@ -107,39 +127,23 @@ const jsonLd = {
     </div>
   </section>
 
-  <section class="section" data-animate>
+  <section class="section" id="percorso" data-animate>
     <div class="container">
-      <h2 class="section-title">Esperienza</h2>
-      <p class="section-lead">Un percorso tra sviluppo software e formazione tecnica.</p>
-      <Timeline
-        items={experiences.map((e) => ({ title: e.role, subtitle: e.company, date: e.date }))}
-      />
+      <h2 class="section-title">Percorso</h2>
+      <p class="section-lead">Dall'ingegneria allo sviluppo software, fino all'insegnamento.</p>
+      <Timeline items={path} legend={{ work: "Lavoro", education: "Studi" }} />
       <p class="experiences-footer">{experiencesFooter}</p>
     </div>
   </section>
 
   <section class="section section-alt" data-animate>
     <div class="container">
-      <h2 class="section-title">Formazione</h2>
-      <Timeline
-        items={education.map((e) => ({
-          title: e.title,
-          subtitle: e.institute,
-          meta: "mark" in e ? `Voto: ${e.mark}` : undefined,
-          date: e.date,
-        }))}
-      />
-    </div>
-  </section>
-
-  <section class="section" data-animate>
-    <div class="container">
       <h2 class="section-title">Strumenti principali</h2>
       <SkillsGrid />
     </div>
   </section>
 
-  <section class="section section-alt" data-animate>
+  <section class="section" data-animate>
     <div class="container">
       <h2 class="section-title">Pubblicazioni scientifiche</h2>
       {publications.map((pub) => (

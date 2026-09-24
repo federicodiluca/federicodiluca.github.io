@@ -1,48 +1,63 @@
 export const experiences = [
   {
-    company: "IIS Gobetti De Gasperi",
+    company: "ISISS \"P. Gobetti - A. De Gasperi\"",
     role: "Docente di Informatica",
     date: "Settembre 2025 – Presente",
+    start: "2025-09",
   },
   {
-    company: "Liceo Scientifico Torelli",
+    company: "Liceo Scientifico Statale G. Torelli",
     role: "Docente di Informatica & Formatore STEM",
     date: "Anno scolastico 2024–2025",
+    start: "2024-09",
   },
   {
     company: "Websolute",
     role: "Technical Leader",
     date: "Maggio 2021 – Dicembre 2024",
+    start: "2021-05",
   },
   {
     company: "NGTEC",
     role: "Automation Developer",
     date: "Gennaio 2020 – Aprile 2021",
+    start: "2020-01",
   },
 ] as const;
 
 export const experiencesFooter =
   "C#, Python, .NET Core, .NET Framework, Razor Pages, MVC, Web API, Blazor, JavaScript, TypeScript, React, Next.js, jQuery, Bootstrap, Entity Framework, Hangfire, Postman, Swagger, Docker, Git, TFS, SQL Server, SSMS, IIS, MongoDB, MySQL, WPF, XAML.";
 
+/**
+ * Percorso di studi, dal più recente. `start` (AAAA-MM) serve a ordinare le voci
+ * insieme alle esperienze nella timeline unica della home; `steps` sono le tappe
+ * interne a un corso, mostrate annidate sotto di esso.
+ */
 export const education = [
   {
     title: "Laurea Magistrale",
     institute: "Università di Bologna",
     mark: "110 L / 110",
     subTitle: "Ingegneria Elettronica e delle Telecomunicazioni",
-    date: "Settembre 2017 - Dicembre 2019",
+    date: "Settembre 2017 – Dicembre 2019",
+    start: "2017-09",
+    steps: [
+      {
+        title: "Erasmus",
+        institute: "Universitat Politècnica de Catalunya, Barcellona",
+        note: "Primo semestre del secondo anno",
+        date: "Settembre 2018 – Febbraio 2019",
+      },
+    ],
   },
   {
     title: "Laurea Triennale",
     institute: "Università di Bologna",
     mark: "109 / 110",
     subTitle: "Ingegneria Biomedica",
-    date: "Settembre 2014 - Luglio 2017",
-  },
-  {
-    title: "Esperienza Erasmus",
-    institute: "Universitat Politècnica de Catalunya, Barcellona",
-    date: "Settembre 2018 - Febbraio 2019",
+    date: "Settembre 2014 – Luglio 2017",
+    start: "2014-09",
+    steps: [],
   },
 ] as const;
 

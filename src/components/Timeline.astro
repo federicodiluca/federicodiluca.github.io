@@ -1,25 +1,51 @@
 ---
-interface Item {
+interface Step {
   title: string;
   subtitle?: string;
   meta?: string;
   date: string;
 }
+interface Item extends Step {
+  /** Colora il pallino: lavoro (teal) o studi (viola). */
+  kind?: "work" | "education";
+  /** Tappe interne alla voce (es. un Erasmus dentro una laurea). */
+  steps?: readonly Step[];
+}
 interface Props {
   items: readonly Item[];
+  /** Etichette della legenda; se assente la legenda non viene mostrata. */
+  legend?: { work: string; education: string };
 }
-const { items } = Astro.props;
+const { items, legend } = Astro.props;
 ---
 
+{legend && (
+  <ul class="timeline-legend" aria-hidden="true">
+    <li class="kind-work">{legend.work}</li>
+    <li class="kind-education">{legend.education}</li>
+  </ul>
+)}
 <ol class="timeline">
   {items.map((item) => (
-    <li class="timeline-item">
+    <li class:list={["timeline-item", `kind-${item.kind ?? "work"}`]}>
       <div class="timeline-dot"></div>
       <div class="timeline-content">
         <p class="timeline-date">{item.date}</p>
         <h3 class="timeline-title">{item.title}</h3>
         {item.subtitle && <p class="timeline-subtitle">{item.subtitle}</p>}
         {item.meta && <p class="timeline-meta">{item.meta}</p>}
+        {item.steps && item.steps.length > 0 && (
+          <ol class="timeline-steps">
+            {item.steps.map((step) => (
+              <li class="timeline-step">
+                <p class="timeline-date">{step.date}</p>
+                <h4 class="timeline-step-title">{step.title}</h4>
+                {step.subtitle && <p class="timeline-subtitle">{step.subtitle}</p>}
+                {step.meta && <p class="timeline-meta">{step.meta}</p>}
+              </li>
+            ))}
+          </ol>
+        )}
       </div>
     </li>
   ))}
@@ -27,17 +53,47 @@ const { items } = Astro.props;
 
 <style>
   .timeline {
+    --line: color-mix(in srgb, var(--color-text-muted) 30%, transparent);
     list-style: none;
     margin: 0;
     padding: 0;
     position: relative;
   }
 
+  .kind-work {
+    --dot: var(--color-accent-2);
+  }
+
+  .kind-education {
+    --dot: var(--color-accent-3);
+  }
+
+  .timeline-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    list-style: none;
+    margin: 0 0 1.75rem;
+    padding: 0;
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+  }
+
+  .timeline-legend li::before {
+    content: "";
+    display: inline-block;
+    width: 0.6rem;
+    height: 0.6rem;
+    margin-right: 0.5rem;
+    border-radius: 50%;
+    background: var(--dot);
+  }
+
   .timeline-item {
     position: relative;
     padding-left: 2rem;
     padding-bottom: 2rem;
-    border-left: 2px solid rgba(255, 255, 255, 0.12);
+    border-left: 2px solid var(--line);
   }
 
   .timeline-item:last-child {
@@ -52,7 +108,7 @@ const { items } = Astro.props;
     width: 0.7rem;
     height: 0.7rem;
     border-radius: 50%;
-    background: var(--color-accent-2);
+    background: var(--dot);
   }
 
   .timeline-date {
@@ -77,5 +133,32 @@ const { items } = Astro.props;
     margin: 0.15rem 0 0;
     color: var(--color-text-muted);
     font-size: 0.9rem;
+  }
+
+  .timeline-steps {
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+  }
+
+  .timeline-step {
+    position: relative;
+    padding: 0.75rem 1rem;
+    border-left: 2px solid var(--dot);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    background: color-mix(in srgb, var(--dot) 8%, transparent);
+  }
+
+  .timeline-step + .timeline-step {
+    margin-top: 0.75rem;
+  }
+
+  .timeline-step .timeline-date {
+    font-size: 0.8rem;
+  }
+
+  .timeline-step-title {
+    margin: 0;
+    font-size: 1rem;
   }
 </style>

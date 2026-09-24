@@ -37,8 +37,8 @@ const description =
         mentoring di sviluppatori junior.
       </p>
       <p>
-        Dal 2024 insegno Informatica nella scuola superiore, prima al Liceo Scientifico Torelli e
-        oggi all'IIS Gobetti De Gasperi. È un cambio di prospettiva che mi ha permesso di
+        Dal 2024 insegno Informatica nella scuola superiore, prima al Liceo Scientifico G. Torelli e
+        oggi all'ISISS "P. Gobetti - A. De Gasperi". È un cambio di prospettiva che mi ha permesso di
         riscoprire quanto mi piaccia spiegare, semplificare concetti complessi e trasmettere il
         modo di pensare tipico di chi lavora con la tecnologia.
       </p>
@@ -60,10 +60,12 @@ const description =
       <h2 class="section-title">Formazione</h2>
       <Timeline
         items={education.map((e) => ({
-          title: e.title,
+          kind: "education" as const,
+          title: `${e.title} in ${e.subTitle}`,
           subtitle: e.institute,
-          meta: "mark" in e ? `Voto: ${e.mark}` : undefined,
+          meta: `Voto: ${e.mark}`,
           date: e.date,
+          steps: e.steps.map((s) => ({ title: s.title, subtitle: s.institute, meta: s.note, date: s.date })),
         }))}
       />
     </div>

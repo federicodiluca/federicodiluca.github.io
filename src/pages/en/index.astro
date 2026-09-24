@@ -9,6 +9,46 @@ import { SITE_URL, AUTHOR } from "../../consts";
 const description =
   "Federico Di Luca: freelance software developer (.NET, C#, Python) and Computer Science teacher based in Pesaro, Italy.";
 
+const translations: Record<string, string> = {
+  "Docente di Informatica": "Computer Science Teacher",
+  "Docente di Informatica & Formatore STEM": "Computer Science Teacher & STEM Trainer",
+  "Laurea Magistrale": "Master's Degree",
+  "Laurea Triennale": "Bachelor's Degree",
+  "Ingegneria Elettronica e delle Telecomunicazioni": "Electronic and Telecommunications Engineering",
+  "Ingegneria Biomedica": "Biomedical Engineering",
+  "Università di Bologna": "University of Bologna",
+  "Universitat Politècnica de Catalunya, Barcellona": "Universitat Politècnica de Catalunya, Barcelona",
+  "Primo semestre del secondo anno": "First semester of the second year",
+  "Settembre 2025 – Presente": "September 2025 – Present",
+  "Anno scolastico 2024–2025": "School year 2024–2025",
+  "Maggio 2021 – Dicembre 2024": "May 2021 – December 2024",
+  "Gennaio 2020 – Aprile 2021": "January 2020 – April 2021",
+  "Settembre 2017 – Dicembre 2019": "September 2017 – December 2019",
+  "Settembre 2014 – Luglio 2017": "September 2014 – July 2017",
+  "Settembre 2018 – Febbraio 2019": "September 2018 – February 2019",
+};
+const t = (it: string) => translations[it] ?? it;
+
+// Work and education in a single timeline, most recent first.
+const path = [
+  ...experiences.map((e) => ({
+    kind: "work" as const,
+    start: e.start,
+    title: t(e.role),
+    subtitle: e.company,
+    date: t(e.date),
+  })),
+  ...education.map((e) => ({
+    kind: "education" as const,
+    start: e.start,
+    title: `${t(e.title)} in ${t(e.subTitle)}`,
+    subtitle: t(e.institute),
+    meta: `Grade: ${e.mark}`,
+    date: t(e.date),
+    steps: e.steps.map((s) => ({ title: s.title, subtitle: t(s.institute), meta: t(s.note), date: t(s.date) })),
+  })),
+].sort((a, b) => b.start.localeCompare(a.start));
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
@@ -92,50 +132,12 @@ const jsonLd = {
     </div>
   </section>
 
-  <section class="section section-alt">
+  <section class="section section-alt" id="career">
     <div class="container">
-      <h2 class="section-title">Experience</h2>
-      <Timeline items={experiences.map((e) => {
-        const roleTranslations: Record<string, string> = {
-          "Docente di Informatica": "Computer Science Teacher",
-          "Docente di Informatica & Formatore STEM": "Computer Science Teacher & STEM Trainer",
-          "Technical Leader": "Technical Leader",
-          "Automation Developer": "Automation Developer"
-        };
-        return {
-          title: roleTranslations[e.role] || e.role,
-          subtitle: e.company,
-          date: e.date
-        };
-      })} />
+      <h2 class="section-title">Career path</h2>
+      <p class="section-lead">From engineering to software development, and on to teaching.</p>
+      <Timeline items={path} legend={{ work: "Work", education: "Education" }} />
       <p class="experiences-footer">{experiencesFooter}</p>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <h2 class="section-title">Education</h2>
-      <Timeline
-        items={education.map((e) => {
-          const titleTranslations: Record<string, string> = {
-            "Laurea Magistrale": "Master's Degree",
-            "Ingegneria Elettronica e delle Telecomunicazioni": "Electronic and Telecommunications Engineering",
-            "Laurea Triennale": "Bachelor's Degree",
-            "Ingegneria Biomedica": "Biomedical Engineering",
-            "Esperienza Erasmus": "Erasmus Exchange"
-          };
-          const instituteTranslations: Record<string, string> = {
-            "Università di Bologna": "University of Bologna",
-            "Universitat Politècnica de Catalunya, Barcellona": "Universitat Politècnica de Catalunya, Barcelona"
-          };
-          return {
-            title: titleTranslations[e.title] || e.title,
-            subtitle: instituteTranslations[e.institute] || e.institute,
-            meta: "mark" in e ? `Grade: ${e.mark}` : undefined,
-            date: e.date
-          };
-        })}
-      />
     </div>
   </section>
 
