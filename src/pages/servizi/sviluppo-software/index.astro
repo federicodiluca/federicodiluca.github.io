@@ -1,6 +1,10 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import { AUTHOR } from "../../../consts";
+import Icon from "../../../components/Icon.astro";
+import PageHeader from "../../../components/PageHeader.astro";
+import CtaBand from "../../../components/CtaBand.astro";
+import SkillsGrid from "../../../components/SkillsGrid.astro";
 
 const description =
   "Sviluppo software e consulenza IT freelance a Pesaro, Fano, Urbino e Rimini: applicazioni .NET e Python, integrazioni e automazione.";
@@ -17,64 +21,102 @@ const jsonLd = {
 
 const servizi = [
   {
+    icon: "globe" as const,
     title: "Sviluppo applicazioni web",
     body: "Progettazione e realizzazione di applicazioni web con .NET (C#, Blazor, Web API), python e stack JavaScript/TypeScript/Astro moderno, dal backend all'interfaccia utente.",
   },
   {
+    icon: "automation" as const,
     title: "Automazione e integrazione",
     body: "Script e servizi per automatizzare processi ripetitivi, integrare sistemi esistenti e collegare API di terze parti, spesso in Python o .NET.",
   },
   {
+    icon: "compass" as const,
     title: "Consulenza tecnica e architetturale",
     body: "Revisione di codice e architetture esistenti, scelta dello stack tecnologico, definizione di best practice per team che vogliono strutturare o consolidare il proprio prodotto software.",
   },
   {
+    icon: "team" as const,
     title: "Supporto a progetti in corso",
     body: "Affiancamento a team di sviluppo su progetti già avviati, per periodi definiti o su singole funzionalità, con particolare esperienza in contesti Brand, Marketing ed E-commerce.",
   },
 ];
+
+// Gli interventi per cui la collaborazione a progetto è più adatta
+const idealePer = [
+  "Lo sviluppo di una funzionalità",
+  "Una consulenza tecnica puntuale",
+  "Un'automazione",
+  "Il supporto a un team per un periodo limitato",
+];
 ---
 
 <BaseLayout title="Sviluppo software freelance" description={description} jsonLd={jsonLd}>
-  <section class="section page-header">
-    <div class="container">
-      <h1 class="section-title">Sviluppo software freelance</h1>
-      <p class="section-lead">
-        Consulenza e sviluppo su misura per aziende e team a Pesaro, Fano, Urbino e Rimini, oltre a
-        collaborazioni da remoto in tutta Italia.
-      </p>
-    </div>
-  </section>
+  <PageHeader
+    eyebrow="Pesaro · Fano · Urbino · Rimini · da remoto"
+    title="Sviluppo software freelance"
+    highlight="freelance"
+    lead="Consulenza e sviluppo su misura per aziende e team a Pesaro, Fano, Urbino e Rimini, oltre a collaborazioni da remoto in tutta Italia."
+    icons={["code", "automation", "compass"]}
+  >
+    <a class="btn btn-primary" href="/contatti/">Raccontami il tuo progetto</a>
+    <a class="btn btn-outline" href="/progetti/">Vedi i progetti <Icon name="arrow" /></a>
+  </PageHeader>
 
   <section class="section">
-    <div class="container services-grid">
-      {servizi.map((s) => (
-        <article class="card">
-          <h2 class="service-title">{s.title}</h2>
-          <p class="service-body">{s.body}</p>
-        </article>
-      ))}
+    <div class="container">
+      <h2 class="section-title">Cosa posso fare per te</h2>
+      <div class="services-grid">
+        {servizi.map((s) => (
+          <article class="card">
+            <Icon name={s.icon} badge class="service-icon" />
+            <h3 class="service-title">{s.title}</h3>
+            <p class="service-body">{s.body}</p>
+          </article>
+        ))}
+      </div>
     </div>
   </section>
 
   <section class="section section-alt">
-    <div class="container narrow">
-      <h2 class="section-title">Come lavoro</h2>
-      <p>
-        Vengo da quasi quattro anni come Technical Leader in Websolute, dove ho guidato team di
-        sviluppo su progetti .NET per clienti nel settore Brand, Marketing ed E-commerce: questo
-        significa che non affronto solo il codice, ma anche la pianificazione, la comunicazione con
-        i referenti di progetto e la qualità del risultato finale.
-      </p>
-      <p>
-        Lavoro principalmente in modalità di collaborazione occasionale a progetto, compatibile con
-        il mio ruolo di docente. È l'ideale per interventi definiti nel tempo: lo sviluppo di una
-        funzionalità, una consulenza tecnica puntuale, un'automazione, il supporto a un team per un
-        periodo limitato.
-      </p>
-      <a class="btn btn-primary" href="/contatti/">Raccontami il tuo progetto</a>
+    <div class="container">
+      <h2 class="section-title">Tecnologie con cui lavoro</h2>
+      <SkillsGrid />
     </div>
   </section>
+
+  <section class="section">
+    <div class="container how-grid">
+      <div>
+        <h2 class="section-title">Come lavoro</h2>
+        <p>
+          Vengo da quasi quattro anni come Technical Leader in Websolute, dove ho guidato team di
+          sviluppo su progetti .NET per clienti nel settore Brand, Marketing ed E-commerce: questo
+          significa che non affronto solo il codice, ma anche la pianificazione, la comunicazione con
+          i referenti di progetto e la qualità del risultato finale.
+        </p>
+        <p>
+          Lavoro principalmente in modalità di collaborazione occasionale a progetto, compatibile con
+          il mio ruolo di docente. È l'ideale per interventi definiti nel tempo.
+        </p>
+      </div>
+      <aside class="card ideal-card">
+        <p class="ideal-label">Ideale per</p>
+        <ul class="ideal-list">
+          {idealePer.map((item) => (
+            <li><Icon name="check" /> {item}</li>
+          ))}
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <CtaBand
+    title="Hai un progetto in mente?"
+    text="Raccontami di cosa hai bisogno: una funzionalità, un'integrazione, una revisione tecnica. Ti rispondo via email."
+    primary={{ href: "/contatti/", label: "Contattami" }}
+    secondary={{ href: "/cv-federico-di-luca.pdf", label: "Scarica il CV", icon: "download" }}
+  />
 </BaseLayout>
 
 <style>
@@ -82,6 +124,10 @@ const servizi = [
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
+  }
+
+  .service-icon {
+    margin-bottom: 1.25rem;
   }
 
   .service-title {
@@ -98,12 +144,48 @@ const servizi = [
     background: var(--color-bg-alt);
   }
 
-  .narrow {
-    max-width: 42rem;
+  .how-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: 3rem;
+    align-items: center;
   }
 
-  .narrow p {
+  .how-grid p {
     color: var(--color-text-muted);
+  }
+
+  .ideal-label {
+    color: var(--color-accent-2);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 1.25rem;
+  }
+
+  .ideal-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .ideal-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-weight: 600;
+  }
+
+  .ideal-list li + li {
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 860px) {
+    .how-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
   }
 
   @media (max-width: 720px) {

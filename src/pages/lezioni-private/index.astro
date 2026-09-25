@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { AUTHOR } from "../../consts";
+import Icon from "../../components/Icon.astro";
 
 const description =
   "Lezioni private e ripetizioni di informatica (TPSIT, sistemi e reti, GPOI, programmazione), matematica e fisica: in presenza a Pesaro e online in tutta Italia, dalle scuole medie alla maturità.";
@@ -17,6 +18,7 @@ const jsonLd = {
 
 const materie = [
   {
+    icon: "cpu" as const,
     title: "Informatica",
     lead: "La materia che insegno a scuola, compresa quella degli istituti tecnici a indirizzo informatico.",
     items: [
@@ -28,6 +30,7 @@ const materie = [
     ],
   },
   {
+    icon: "chart" as const,
     title: "Matematica",
     lead: "Dalle frazioni delle medie allo studio di funzione.",
     items: [
@@ -38,6 +41,7 @@ const materie = [
     ],
   },
   {
+    icon: "atom" as const,
     title: "Fisica",
     lead: "Capire il perché delle formule prima di applicarle negli esercizi.",
     items: [
@@ -91,6 +95,7 @@ const faq = [
       <div class="materie-grid">
         {materie.map((m) => (
           <article class="card">
+            <Icon name={m.icon} badge class="materia-icon" />
             <h3 class="materia-title">{m.title}</h3>
             <p class="materia-lead">{m.lead}</p>
             <dl class="materia-list">
@@ -110,29 +115,35 @@ const faq = [
   <section class="section">
     <div class="container narrow">
       <h2 class="section-title">Per chi sono</h2>
-      <ul class="plain-list">
+      <ul class="plain-list icon-list">
         <li>
+          <Icon name="backpack" />
           <strong>Scuole medie</strong>: matematica, per consolidare le basi prima delle superiori.
         </li>
         <li>
+          <Icon name="school" />
           <strong>Scuole superiori</strong>: licei e istituti tecnici, dal biennio alla maturità.
         </li>
         <li>
+          <Icon name="cap" />
           <strong>Università</strong>: per alcuni esami dei primi anni, da valutare caso per caso.
         </li>
         <li>
+          <Icon name="terminal" />
           <strong>Chi impara a programmare</strong>: anche fuori dalla scuola, per iniziare da zero
           o prepararsi a un colloquio tecnico.
         </li>
       </ul>
 
       <h2 class="section-title">Come funzionano</h2>
-      <ul class="plain-list">
-        <li><strong>In presenza</strong> a Pesaro.</li>
+      <ul class="plain-list icon-list">
+        <li><Icon name="pin" /><strong>In presenza</strong> a Pesaro.</li>
         <li>
+          <Icon name="video" />
           <strong>Online</strong> in tutta Italia, con videochiamata e lavagna condivisa.
         </li>
         <li>
+          <Icon name="target" />
           <strong>Su misura</strong>: partiamo dal tuo programma, dai tuoi appunti e dalle verifiche
           che hai davanti.
         </li>
@@ -183,6 +194,10 @@ const faq = [
     gap: 1.5rem;
   }
 
+  .materia-icon {
+    margin-bottom: 1rem;
+  }
+
   .materia-title {
     margin: 0 0 0.5rem;
     font-size: 1.25rem;
@@ -218,6 +233,23 @@ const faq = [
 
   .plain-list li + li {
     margin-top: 0.6rem;
+  }
+
+  /* Liste con icona al posto del pallino: l'icona sta nel rientro, il testo a capo resta allineato */
+  .icon-list {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .icon-list li {
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  .icon-list li > :global(.icon-inline) {
+    position: absolute;
+    left: 0;
+    top: 0.15em;
   }
 
   .plain-list strong {

@@ -4,6 +4,7 @@ import Hero from "../components/Hero.astro";
 import Timeline from "../components/Timeline.astro";
 import SkillsGrid from "../components/SkillsGrid.astro";
 import ProjectCard from "../components/ProjectCard.astro";
+import Icon from "../components/Icon.astro";
 import { experiences, experiencesFooter, education, publications, aboutMessages, projects } from "../data/site-data";
 import { SITE_URL, AUTHOR } from "../consts";
 
@@ -51,7 +52,7 @@ const jsonLd = {
   <Hero
     eyebrow="Pesaro · Fano · Urbino · Rimini"
     title="Sviluppatore Software & Docente di Informatica"
-    tagline="Sviluppo software freelance, lezioni private, ripetizioni di informatica e formazione tecnica per aziende, scuole e università."
+    tagline="Sviluppo software freelance, lezioni private, ripetizioni STEM e formazione tecnica per aziende, scuole e privati."
     primaryCta={{ href: "/contatti/", label: "Contattami", icon: "mail" }}
     secondaryCta={{ href: "/cv-federico-di-luca.pdf", label: "Scarica il CV", icon: "download" }}
   />
@@ -100,6 +101,7 @@ const jsonLd = {
       </p>
       <div class="services-grid">
         <a class="card service-card" href="/servizi/sviluppo-software/">
+          <Icon name="code" badge class="service-icon" />
           <h3>Sviluppo software</h3>
           <p>
             Applicazioni .NET e Python, integrazioni tra sistemi, automazione e supporto tecnico
@@ -108,6 +110,7 @@ const jsonLd = {
           <span class="service-link">Vedi i servizi →</span>
         </a>
         <a class="card service-card" href="/servizi/formazione/">
+          <Icon name="board" badge class="service-icon" />
           <h3>Formazione</h3>
           <p>
             Corsi di programmazione e informatica per aziende e scuole, dall'alfabetizzazione
@@ -116,6 +119,7 @@ const jsonLd = {
           <span class="service-link">Vedi i percorsi →</span>
         </a>
         <a class="card service-card" href="/lezioni-private/">
+          <Icon name="book" badge class="service-icon" />
           <h3>Lezioni private</h3>
           <p>
             Ripetizioni di informatica, matematica e fisica per studenti di scuole medie, superiori e
@@ -148,7 +152,7 @@ const jsonLd = {
       <h2 class="section-title">Pubblicazioni scientifiche</h2>
       {publications.map((pub) => (
         <a class="card publication-card" href={pub.url} target="_blank" rel="noopener noreferrer">
-          <p class="publication-journal">{pub.journal} · {pub.date}</p>
+          <p class="publication-journal"><Icon name="paper" /> {pub.journal} · {pub.date}</p>
           <h3 class="publication-title">{pub.title}</h3>
           <p class="publication-abstract">{pub.abstract}</p>
         </a>
@@ -158,6 +162,7 @@ const jsonLd = {
 
   <section class="section cta-section" data-animate>
     <div class="container cta-inner">
+      <Icon name="rocket" badge class="cta-icon" />
       <h2 class="section-title">Hai un progetto in mente?</h2>
       <p class="section-lead">
         Sviluppo software, consulenza tecnica o formazione: scrivimi per parlarne.
@@ -219,6 +224,10 @@ const jsonLd = {
     border-color: var(--color-accent-2);
   }
 
+  .service-icon {
+    margin-bottom: 1rem;
+  }
+
   .service-card h3 {
     margin: 0 0 0.6rem;
     font-size: 1.15rem;
@@ -275,6 +284,13 @@ const jsonLd = {
 
   .cta-section {
     text-align: center;
+  }
+
+  .cta-icon {
+    width: 4rem;
+    height: 4rem;
+    font-size: 2.2rem;
+    margin-bottom: 1.25rem;
   }
 
   .cta-inner .section-title {

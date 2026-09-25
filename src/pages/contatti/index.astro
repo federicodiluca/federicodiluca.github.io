@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { AUTHOR } from "../../consts";
+import Icon from "../../components/Icon.astro";
 
 const description =
   "Contatta Federico Di Luca per progetti di sviluppo software, consulenza tecnica, formazione o lezioni private a Pesaro, Fano, Urbino e Rimini.";
@@ -27,6 +28,7 @@ const mailHref = `mailto:${AUTHOR.email}?subject=${mailSubject}&body=${mailBody}
   <section class="section">
     <div class="container contact-grid">
       <div class="card contact-main">
+        <Icon name="mail" badge class="contact-icon" />
         <p class="contact-label">Scrivimi a</p>
         <a class="contact-email" href={`mailto:${AUTHOR.email}`}>{AUTHOR.email}</a>
         <p class="contact-hint">
@@ -48,10 +50,12 @@ const mailHref = `mailto:${AUTHOR.email}?subject=${mailSubject}&body=${mailBody}
           <a href={AUTHOR.sameAs[0]} target="_blank" rel="noopener noreferrer">GitHub</a>
         </div>
         <p class="contact-area">
+          <Icon name="pin" />
           Area operativa: Pesaro, Fano, Urbino, Rimini — disponibile anche da remoto per progetti da
           tutta Italia.
         </p>
         <p class="contact-privacy">
+          <Icon name="shield" />
           Questo sito non raccoglie dati: scrivendomi, la tua email resta solo nella mia casella di
           posta. <a href="/privacy/">Informativa privacy</a>
         </p>
@@ -73,6 +77,10 @@ const mailHref = `mailto:${AUTHOR.email}?subject=${mailSubject}&body=${mailBody}
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
+  }
+
+  .contact-icon {
+    margin-bottom: 0.75rem;
   }
 
   .contact-label {

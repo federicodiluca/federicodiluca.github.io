@@ -1,6 +1,9 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import { AUTHOR } from "../../../consts";
+import Icon from "../../../components/Icon.astro";
+import PageHeader from "../../../components/PageHeader.astro";
+import CtaBand from "../../../components/CtaBand.astro";
 
 const description =
   "Formazione tecnica e corsi di informatica per aziende e scuole a Pesaro: programmazione, automazione e alfabetizzazione digitale.";
@@ -17,59 +20,97 @@ const jsonLd = {
 
 const percorsi = [
   {
+    icon: "building" as const,
     title: "Formazione aziendale",
     body: "Corsi tecnici su misura per team che vogliono acquisire competenze di programmazione, automazione o strumenti digitali, con un taglio pratico e orientato ai casi reali dell'azienda.",
   },
   {
+    icon: "flow" as const,
     title: "Programmazione e pensiero computazionale",
     body: "Percorsi introduttivi o avanzati di programmazione (Python, C#, JavaScript) e di pensiero computazionale, pensati per chi parte da zero così come per chi vuole consolidare le basi.",
   },
   {
+    icon: "cap" as const,
     title: "Docenza e progettazione didattica",
     body: "Esperienza diretta come docente di Informatica nella scuola superiore e come formatore STEM, con capacità di adattare linguaggio e ritmo a platee eterogenee.",
   },
 ];
+
+// Le due esperienze che si incontrano nei percorsi formativi
+const profili = [
+  { icon: "board" as const, label: "In aula", text: "Docente di ruolo di Informatica nella scuola superiore" },
+  { icon: "team" as const, label: "In azienda", text: "Technical Leader di team di sviluppo su progetti .NET" },
+];
 ---
 
 <BaseLayout title="Formazione e corsi di informatica" description={description} jsonLd={jsonLd}>
-  <section class="section page-header">
-    <div class="container">
-      <h1 class="section-title">Formazione e corsi di informatica</h1>
-      <p class="section-lead">
-        Insegno Informatica nella scuola superiore e porto la stessa attenzione didattica in
-        contesti aziendali e formativi.
-      </p>
-    </div>
-  </section>
+  <PageHeader
+    eyebrow="Per aziende e scuole"
+    title="Formazione e corsi di informatica"
+    highlight="informatica"
+    lead="Insegno Informatica nella scuola superiore e porto la stessa attenzione didattica in contesti aziendali e formativi."
+    icons={["board", "flow", "cap"]}
+  >
+    <a class="btn btn-primary" href="/contatti/">Scrivimi per un percorso formativo</a>
+  </PageHeader>
 
   <section class="section">
-    <div class="container services-grid">
-      {percorsi.map((p) => (
-        <article class="card">
-          <h2 class="service-title">{p.title}</h2>
-          <p class="service-body">{p.body}</p>
-        </article>
-      ))}
+    <div class="container">
+      <h2 class="section-title">Percorsi</h2>
+      <div class="services-grid">
+        {percorsi.map((p) => (
+          <article class="card">
+            <Icon name={p.icon} badge class="service-icon" />
+            <h3 class="service-title">{p.title}</h3>
+            <p class="service-body">{p.body}</p>
+          </article>
+        ))}
+      </div>
     </div>
   </section>
 
   <section class="section section-alt">
-    <div class="container narrow">
-      <h2 class="section-title">Perché la formazione con me</h2>
-      <p>
-        Sono docente di ruolo di Informatica e in precedenza ho guidato team tecnici in azienda:
-        conosco sia il lato della didattica che quello del lavoro reale su progetti software. Questo
-        mi permette di costruire percorsi formativi concreti, con esempi tratti da problemi veri e
-        non solo da esercizi teorici.
-      </p>
-      <p>
-        Le proposte di formazione aziendale sono compatibili con il mio ruolo di insegnante e
-        richiedono, come previsto dalla normativa per il personale docente, l'autorizzazione del
-        dirigente scolastico per gli incarichi esterni.
-      </p>
-      <a class="btn btn-primary" href="/contatti/">Scrivimi per un percorso formativo</a>
+    <div class="container why-grid">
+      <div>
+        <h2 class="section-title">Perché la formazione con me</h2>
+        <p>
+          Sono docente di ruolo di Informatica e in precedenza ho guidato team tecnici in azienda:
+          conosco sia il lato della didattica che quello del lavoro reale su progetti software. Questo
+          mi permette di costruire percorsi formativi concreti, con esempi tratti da problemi veri e
+          non solo da esercizi teorici.
+        </p>
+        <p class="note">
+          <Icon name="shield" />
+          <span>
+            Le proposte di formazione aziendale sono compatibili con il mio ruolo di insegnante e
+            richiedono, come previsto dalla normativa per il personale docente, l'autorizzazione del
+            dirigente scolastico per gli incarichi esterni.
+          </span>
+        </p>
+      </div>
+      <ul class="profiles">
+        {profili.map((p, i) => (
+          <>
+            {i > 0 && <li class="profile-join" aria-hidden="true">+</li>}
+            <li class="card profile">
+              <Icon name={p.icon} badge />
+              <div>
+                <p class="profile-label">{p.label}</p>
+                <p class="profile-text">{p.text}</p>
+              </div>
+            </li>
+          </>
+        ))}
+      </ul>
     </div>
   </section>
+
+  <CtaBand
+    title="Costruiamo il percorso insieme"
+    text="Raccontami chi sono i partecipanti, da che livello partono e cosa vorrebbero saper fare alla fine: da lì si disegna il programma."
+    primary={{ href: "/contatti/", label: "Scrivimi" }}
+    secondary={{ href: "/cv-federico-di-luca.pdf", label: "Scarica il CV", icon: "download" }}
+  />
 </BaseLayout>
 
 <style>
@@ -77,6 +118,10 @@ const percorsi = [
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
+  }
+
+  .service-icon {
+    margin-bottom: 1.25rem;
   }
 
   .service-title {
@@ -93,17 +138,82 @@ const percorsi = [
     background: var(--color-bg-alt);
   }
 
-  .narrow {
-    max-width: 42rem;
+  .why-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: 3rem;
+    align-items: center;
   }
 
-  .narrow p {
+  .why-grid p {
     color: var(--color-text-muted);
   }
 
+  .note {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-text-muted) 18%, transparent);
+    font-size: 0.92rem;
+  }
+
+  .profiles {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .profile {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.35rem 1.5rem;
+  }
+
+  .profile-label {
+    color: var(--color-accent-2);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 0.25rem;
+  }
+
+  :global(:root.light) .profile-label {
+    color: var(--color-accent);
+  }
+
+  .why-grid .profile-text {
+    color: var(--color-text);
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .profile-join {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    margin: -0.6rem auto;
+    position: relative;
+    z-index: 1;
+    border-radius: 50%;
+    background: var(--gradient-brand);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.2rem;
+  }
+
   @media (max-width: 900px) {
-    .services-grid {
+    .services-grid,
+    .why-grid {
       grid-template-columns: 1fr;
+    }
+
+    .why-grid {
+      gap: 2rem;
     }
   }
 </style>

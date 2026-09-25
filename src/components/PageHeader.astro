@@ -1,0 +1,238 @@
+---
+import Icon from "./Icon.astro";
+import type { IconName } from "./Icon.astro";
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  /** Parte del titolo da colorare con il gradiente del brand (deve comparire nel titolo). */
+  highlight?: string;
+  lead: string;
+  /** Icone della composizione decorativa a destra: la prima al centro, le altre in orbita. */
+  icons?: [IconName, IconName, IconName];
+}
+const { eyebrow, title, highlight, lead, icons } = Astro.props;
+
+const [before, after] = highlight && title.includes(highlight) ? title.split(highlight) : [title, undefined];
+const hasAside = Astro.slots.has("aside") || Boolean(icons);
+---
+
+<section class="page-hero">
+  <div class:list={["container", "page-hero-inner", { "has-aside": hasAside }]}>
+    <div>
+      {eyebrow && <p class="page-hero-eyebrow">{eyebrow}</p>}
+      <h1 class="page-hero-title">
+        {before}{after !== undefined && <span class="page-hero-highlight">{highlight}</span>}{after}
+      </h1>
+      <p class="page-hero-lead">{lead}</p>
+      {Astro.slots.has("default") && (
+        <div class="page-hero-actions">
+          <slot />
+        </div>
+      )}
+    </div>
+
+    {Astro.slots.has("aside") ? (
+      <div class="page-hero-aside">
+        <slot name="aside" />
+      </div>
+    ) : icons && (
+      <div class="orbit" aria-hidden="true">
+        <span class="orbit-dot orbit-dot-1"></span>
+        <span class="orbit-dot orbit-dot-2"></span>
+        <Icon name={icons[0]} badge class="orbit-main" />
+        <Icon name={icons[1]} badge class="orbit-sat orbit-sat-1" />
+        <Icon name={icons[2]} badge class="orbit-sat orbit-sat-2" />
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .page-hero {
+    position: relative;
+    overflow: hidden;
+    padding: 5rem 0 4.5rem;
+    background:
+      radial-gradient(40rem 24rem at 85% 0%, color-mix(in srgb, var(--color-accent-3) 22%, transparent), transparent 70%),
+      radial-gradient(36rem 22rem at 5% 100%, color-mix(in srgb, var(--color-accent-2) 13%, transparent), transparent 70%);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-text-muted) 14%, transparent);
+  }
+
+  /* Griglia di puntini che sfuma verso il basso */
+  .page-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(color-mix(in srgb, var(--color-text-muted) 35%, transparent) 1px, transparent 1px);
+    background-size: 22px 22px;
+    mask-image: linear-gradient(to bottom, #000, transparent 80%);
+    opacity: 0.45;
+    pointer-events: none;
+  }
+
+  .page-hero-inner {
+    position: relative;
+  }
+
+  .page-hero-inner.has-aside {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .page-hero-eyebrow {
+    color: var(--color-accent-2);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 1rem;
+  }
+
+  :global(:root.light) .page-hero-eyebrow {
+    color: var(--color-accent);
+  }
+
+  .page-hero-title {
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    margin: 0 0 1.25rem;
+  }
+
+  .page-hero-highlight {
+    background: var(--gradient-brand);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .page-hero-lead {
+    color: var(--color-text-muted);
+    font-size: 1.2rem;
+    max-width: 38rem;
+    margin: 0;
+  }
+
+  .page-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+    margin-top: 2rem;
+  }
+
+  /* Composizione di icone: un badge grande al centro e due satelliti su un'orbita tratteggiata */
+  .orbit {
+    position: relative;
+    width: min(100%, 17rem);
+    aspect-ratio: 1;
+    margin-left: auto;
+  }
+
+  .orbit::before,
+  .orbit::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+  }
+
+  .orbit::before {
+    inset: 0;
+    border: 1px dashed color-mix(in srgb, var(--color-text-muted) 35%, transparent);
+  }
+
+  .orbit::after {
+    inset: 20%;
+    border: 1px solid color-mix(in srgb, var(--color-accent-2) 18%, transparent);
+  }
+
+  .orbit .orbit-main {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    width: 6.5rem;
+    height: 6.5rem;
+    font-size: 3.5rem;
+    border-radius: 1.6rem;
+    background:
+      linear-gradient(135deg, color-mix(in srgb, var(--color-accent) 28%, transparent), color-mix(in srgb, var(--color-accent-3) 30%, transparent)),
+      var(--color-surface);
+    box-shadow: 0 1.5rem 3.5rem -1.25rem color-mix(in srgb, var(--color-accent-3) 65%, transparent);
+    z-index: 1;
+  }
+
+  .orbit .orbit-sat {
+    position: absolute;
+    width: 3.5rem;
+    height: 3.5rem;
+    font-size: 1.9rem;
+    background:
+      linear-gradient(135deg, color-mix(in srgb, var(--color-accent) 22%, transparent), color-mix(in srgb, var(--color-accent-3) 22%, transparent)),
+      var(--color-bg);
+    animation: orbitFloat 6s ease-in-out infinite;
+  }
+
+  .orbit .orbit-sat-1 {
+    top: 2%;
+    left: 6%;
+  }
+
+  .orbit .orbit-sat-2 {
+    right: 2%;
+    bottom: 8%;
+    animation-delay: -3s;
+  }
+
+  .orbit-dot {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--gradient-brand);
+  }
+
+  .orbit-dot-1 {
+    width: 0.6rem;
+    height: 0.6rem;
+    top: 12%;
+    right: 14%;
+  }
+
+  .orbit-dot-2 {
+    width: 0.4rem;
+    height: 0.4rem;
+    bottom: 10%;
+    left: 20%;
+  }
+
+  @keyframes orbitFloat {
+    50% {
+      transform: translateY(-0.5rem);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .orbit .orbit-sat {
+      animation: none;
+    }
+  }
+
+  @media (max-width: 860px) {
+    .page-hero {
+      padding: 3.5rem 0 3rem;
+    }
+
+    .page-hero-inner.has-aside {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .page-hero-aside {
+      order: -1;
+    }
+
+    /* Su mobile la composizione di icone è solo decorazione: si toglie per non spingere giù il testo */
+    .orbit {
+      display: none;
+    }
+  }
+</style>

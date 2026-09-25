@@ -3,6 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import Hero from "../../components/Hero.astro";
 import Timeline from "../../components/Timeline.astro";
 import SkillsGrid from "../../components/SkillsGrid.astro";
+import Icon from "../../components/Icon.astro";
 import { experiences, experiencesFooter, education, publications } from "../../data/site-data";
 import { SITE_URL, AUTHOR } from "../../consts";
 
@@ -106,18 +107,22 @@ const jsonLd = {
       <p class="section-lead">Custom software solutions, technical expertise, and technical training for companies and educational institutions.</p>
       <div class="services-grid">
         <div class="service-card">
+          <Icon name="code" badge class="service-icon" />
           <h3>Software Development</h3>
           <p>Backend architecture, web applications, system design, and technical consulting for startups and established companies.</p>
         </div>
         <div class="service-card">
+          <Icon name="board" badge class="service-icon" />
           <h3>Technical Training</h3>
           <p>Programming courses, computer science education, and team upskilling in modern technologies and best practices.</p>
         </div>
         <div class="service-card">
+          <Icon name="factory" badge class="service-icon" />
           <h3>Industrial Automation</h3>
           <p>SCADA systems, PLC programming, and automation solutions for manufacturing and warehouse management.</p>
         </div>
         <div class="service-card">
+          <Icon name="network" badge class="service-icon" />
           <h3>Machine Learning</h3>
           <p>ML model development for classification, regression, and predictive analytics. Research and development support.</p>
         </div>
@@ -154,7 +159,7 @@ const jsonLd = {
           const translatedTitle = pub.title.includes("ricerca e pubblicazione") ? pub.title.replace("ricerca e pubblicazione", "Research and Publication") : pub.title;
           return (
             <a class="card publication-card" href={pub.url} target="_blank" rel="noopener noreferrer">
-              <p class="publication-journal">{pub.journal} · {pub.date}</p>
+              <p class="publication-journal"><Icon name="paper" /> {pub.journal} · {pub.date}</p>
               <h3 class="publication-title">{translatedTitle}</h3>
               <p class="publication-abstract">{translatedAbstract}</p>
             </a>
@@ -166,6 +171,7 @@ const jsonLd = {
 
   <section class="section cta-section" id="contact">
     <div class="container cta-inner">
+      <Icon name="rocket" badge class="cta-icon" />
       <h2 class="section-title">Ready to work together?</h2>
       <p class="section-lead">
         Whether you need software development, technical consulting, or training, I'm available for project-based collaborations.
@@ -244,6 +250,10 @@ const jsonLd = {
     padding: 1.5rem;
   }
 
+  .service-icon {
+    margin-bottom: 1rem;
+  }
+
   .service-card h3 {
     color: var(--color-text);
     margin-top: 0;
@@ -257,6 +267,13 @@ const jsonLd = {
 
   .cta-section {
     text-align: center;
+  }
+
+  .cta-icon {
+    width: 4rem;
+    height: 4rem;
+    font-size: 2.2rem;
+    margin-bottom: 1.25rem;
   }
 
   .cta-inner .section-title {

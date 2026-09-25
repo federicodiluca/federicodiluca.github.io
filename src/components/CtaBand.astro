@@ -1,0 +1,131 @@
+---
+import Icon from "./Icon.astro";
+import type { IconName } from "./Icon.astro";
+
+interface Link {
+  href: string;
+  label: string;
+  icon: IconName;
+}
+
+interface Props {
+  title: string;
+  text: string;
+  primary: { href: string; label: string };
+  secondary?: Link;
+  /** Collegamenti rapidi mostrati come chip sotto il testo (es. le pagine servizi). */
+  links?: Link[];
+}
+const { title, text, primary, secondary, links } = Astro.props;
+---
+
+<section class="section">
+  <div class="container">
+    <div class="cta-band">
+      <Icon name="spark" badge class="cta-band-icon" />
+      <div class="cta-band-body">
+        <h2 class="cta-band-title">{title}</h2>
+        <p class="cta-band-text">{text}</p>
+        {links && (
+          <ul class="cta-band-links">
+            {links.map((link) => (
+              <li>
+                <a href={link.href}><Icon name={link.icon} /> {link.label}</a>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+      <div class="cta-band-actions">
+        <a class="btn btn-primary" href={primary.href}>{primary.label}</a>
+        {secondary && (
+          <a class="btn btn-outline" href={secondary.href}>
+            <Icon name={secondary.icon} />
+            {secondary.label}
+          </a>
+        )}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-band {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 1.5rem 2rem;
+    align-items: center;
+    padding: 2.5rem;
+    border-radius: 1.25rem;
+    /* Bordo sfumato: il fondo pieno copre il padding-box, il gradiente resta visibile solo sul bordo */
+    border: 1px solid transparent;
+    background:
+      radial-gradient(28rem 14rem at 100% 0%, color-mix(in srgb, var(--color-accent-3) 20%, transparent), transparent 70%) padding-box,
+      linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
+      var(--gradient-brand) border-box;
+  }
+
+  .cta-band-icon {
+    align-self: start;
+    width: 3.5rem;
+    height: 3.5rem;
+    font-size: 2rem;
+  }
+
+  .cta-band-title {
+    font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+    margin: 0 0 0.5rem;
+  }
+
+  .cta-band-text {
+    color: var(--color-text-muted);
+    margin: 0;
+    max-width: 36rem;
+  }
+
+  .cta-band-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    list-style: none;
+    padding: 0;
+    margin: 1.25rem 0 0;
+  }
+
+  .cta-band-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.4rem 0.85rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--color-text-muted) 30%, transparent);
+    color: var(--color-text);
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .cta-band-links a:hover {
+    text-decoration: none;
+    border-color: var(--color-accent-2);
+  }
+
+  .cta-band-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  @media (max-width: 860px) {
+    .cta-band {
+      grid-template-columns: 1fr;
+      padding: 2rem 1.5rem;
+    }
+
+    .cta-band-actions {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+  }
+</style>

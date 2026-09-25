@@ -196,7 +196,13 @@ const schemas = [personSchema, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [j
 
   .section-title {
     font-size: clamp(1.75rem, 3vw, 2.5rem);
-    margin: 0 0 0.5rem;
+    margin: 0 0 0.75rem;
+  }
+
+  /* Senza sottotitolo, quello che segue un titolo di sezione (griglie, liste, testo)
+     avrebbe solo il margine pensato per il lead: gli si dà respiro. */
+  .section-title + :not(.section-lead) {
+    margin-top: 1.5rem;
   }
 
   .section-lead {
@@ -213,13 +219,22 @@ const schemas = [personSchema, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [j
     padding: 1.75rem;
   }
 
+  /* inline-flex + gap: le icone dentro i pulsanti hanno sempre la stessa distanza dal testo */
   .btn {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
     padding: 0.75rem 1.5rem;
     border-radius: 999px;
     font-weight: 600;
     border: 1px solid transparent;
     transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+
+  /* Un pulsante subito dopo un paragrafo di testo ne restava troppo a ridosso */
+  p:not(.section-lead) + .btn {
+    margin-top: 0.75rem;
   }
 
   .btn:hover {

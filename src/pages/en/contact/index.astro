@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import { AUTHOR } from "../../../consts";
+import Icon from "../../../components/Icon.astro";
 
 const description =
   "Get in touch with Federico Di Luca for software development projects, technical consulting, or training programs.";
@@ -28,6 +29,7 @@ const mailHref = `mailto:${AUTHOR.email}?subject=${mailSubject}&body=${mailBody}
   <section class="section">
     <div class="container contact-grid">
       <div class="card contact-main">
+        <Icon name="mail" badge class="contact-icon" />
         <p class="contact-label">Write to</p>
         <a class="contact-email" href={`mailto:${AUTHOR.email}`}>{AUTHOR.email}</a>
         <p class="contact-hint">
@@ -49,9 +51,11 @@ const mailHref = `mailto:${AUTHOR.email}?subject=${mailSubject}&body=${mailBody}
           <a href={AUTHOR.sameAs[0]} target="_blank" rel="noopener noreferrer">GitHub</a>
         </div>
         <p class="contact-area">
+          <Icon name="pin" />
           Based in Pesaro, Italy — available for remote projects worldwide.
         </p>
         <p class="contact-privacy">
+          <Icon name="shield" />
           This site collects no data: when you write to me, your email stays in my inbox only.
           <a href="/en/privacy/">Privacy notice</a>
         </p>
@@ -73,6 +77,10 @@ const mailHref = `mailto:${AUTHOR.email}?subject=${mailSubject}&body=${mailBody}
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
+  }
+
+  .contact-icon {
+    margin-bottom: 0.75rem;
   }
 
   .contact-label {

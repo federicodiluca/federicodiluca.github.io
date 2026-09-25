@@ -30,6 +30,9 @@ const blogRedirects = {
 export default defineConfig({
   site: SITE_URL,
   trailingSlash: "always",
+  // Con "class" lo scope della pagina viaggia nella prop class dei componenti figli:
+  // così gli stili di pagina (es. il margine di un <Icon class="...">) li raggiungono.
+  scopedStyleStrategy: "class",
   redirects: {
     "/blog/": "/",
     ...Object.fromEntries(

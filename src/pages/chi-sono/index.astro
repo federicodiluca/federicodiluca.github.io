@@ -1,23 +1,57 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import CtaBand from "../../components/CtaBand.astro";
+import Icon from "../../components/Icon.astro";
 import Timeline from "../../components/Timeline.astro";
 import { education } from "../../data/site-data";
 
 const description =
   "La storia di Federico Di Luca: da ingegnere delle telecomunicazioni a Technical Leader .NET, oggi docente di Informatica e sviluppatore freelance a Pesaro.";
+
+// Il percorso in quattro tappe, prima del racconto per esteso
+const highlights = [
+  { icon: "cap" as const, title: "110 e lode", text: "Laurea magistrale in Ingegneria Elettronica e delle Telecomunicazioni a Bologna" },
+  { icon: "paper" as const, title: "Ricerca", text: "Rilevamento di persone con radar UWB, pubblicata su MDPI Sensors" },
+  { icon: "team" as const, title: "Technical Leader", text: "Team di sviluppo .NET in Websolute, dal 2021 al 2024" },
+  { icon: "board" as const, title: "Docente", text: "Informatica nella scuola superiore, dal 2024" },
+];
 ---
 
 <BaseLayout title="Chi sono" description={description}>
-  <section class="section page-header">
+  <PageHeader
+    eyebrow="Federico Di Luca · Pesaro"
+    title="Chi sono"
+    lead="Ingegnere, sviluppatore, docente. Un percorso che unisce tecnica e didattica."
+  >
+    <a class="btn btn-primary" href="/contatti/">Contattami</a>
+    <a class="btn btn-outline" href="/cv-federico-di-luca.pdf"><Icon name="download" /> Scarica il CV</a>
+
+    <div class="portrait" slot="aside">
+      <img src="/images/federico-di-luca.webp" alt="Federico Di Luca" width="320" height="320" />
+      <Icon name="code" badge class="portrait-badge portrait-badge-1" />
+      <Icon name="board" badge class="portrait-badge portrait-badge-2" />
+      <Icon name="cap" badge class="portrait-badge portrait-badge-3" />
+    </div>
+  </PageHeader>
+
+  <section class="section highlights-section">
     <div class="container">
-      <h1 class="section-title">Chi sono</h1>
-      <p class="section-lead">
-        Ingegnere, sviluppatore, docente. Un percorso che unisce tecnica e didattica.
-      </p>
+      <ul class="highlights">
+        {highlights.map((h) => (
+          <li class="card highlight">
+            <Icon name={h.icon} badge class="highlight-icon" />
+            <div>
+              <p class="highlight-title">{h.title}</p>
+              <p class="highlight-text">{h.text}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section story-section">
     <div class="container narrow">
       <p>
         Mi chiamo Federico Di Luca, sono di Pesaro e mi muovo tra due mondi che per me sono
@@ -43,7 +77,11 @@ const description =
         modo di pensare tipico di chi lavora con la tecnologia.
       </p>
 
-      <h2>Cosa porto dall'esperienza in azienda</h2>
+      <blockquote class="pull-quote">
+        <p>Capire come funzionano le cose e spiegarle a qualcun altro.</p>
+      </blockquote>
+
+      <h2 class="story-title"><Icon name="team" /> Cosa porto dall'esperienza in azienda</h2>
       <p>
         Non è stata una fuga dal settore tecnico, ma un modo per unire due cose che per me sono
         sempre state collegate: capire come funzionano le cose e spiegarle a qualcun altro.
@@ -57,7 +95,7 @@ const description =
         affrontato su progetti reali.
       </p>
 
-      <h2>Perché continuo anche a sviluppare</h2>
+      <h2 class="story-title"><Icon name="code" /> Perché continuo anche a sviluppare</h2>
       <p>
         Oggi affianco all'insegnamento la disponibilità per collaborazioni a progetto: sviluppo
         software, consulenza tecnica e formazione aziendale, principalmente nell'area tra Pesaro,
@@ -92,33 +130,168 @@ const description =
     </div>
   </section>
 
-  <section class="section cta-section">
-    <div class="container">
-      <a class="btn btn-primary" href="/contatti/">Parliamo del tuo progetto</a>
-    </div>
-  </section>
+  <CtaBand
+    title="Parliamo del tuo progetto"
+    text="Sviluppo software, formazione o lezioni private: scrivimi e troviamo insieme la forma di collaborazione giusta."
+    primary={{ href: "/contatti/", label: "Contattami" }}
+    links={[
+      { href: "/servizi/sviluppo-software/", label: "Sviluppo software", icon: "code" },
+      { href: "/servizi/formazione/", label: "Formazione", icon: "board" },
+      { href: "/lezioni-private/", label: "Lezioni private", icon: "book" },
+    ]}
+  />
 </BaseLayout>
 
 <style>
+  /* Foto con cornice sfumata e tre badge che fluttuano attorno */
+  .portrait {
+    position: relative;
+    width: min(100%, 18rem);
+    margin-left: auto;
+    padding: 5px;
+    border-radius: 50%;
+    background: var(--gradient-brand);
+    box-shadow: 0 2rem 4rem -1.5rem color-mix(in srgb, var(--color-accent-3) 55%, transparent);
+  }
+
+  .portrait img {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+  }
+
+  .portrait .portrait-badge {
+    position: absolute;
+    width: 3.25rem;
+    height: 3.25rem;
+    font-size: 1.8rem;
+    background:
+      linear-gradient(135deg, color-mix(in srgb, var(--color-accent) 22%, transparent), color-mix(in srgb, var(--color-accent-3) 22%, transparent)),
+      var(--color-bg);
+    animation: badgeFloat 6s ease-in-out infinite;
+  }
+
+  .portrait .portrait-badge-1 {
+    top: 6%;
+    left: -0.5rem;
+  }
+
+  .portrait .portrait-badge-2 {
+    top: 44%;
+    right: -1.6rem;
+    animation-delay: -2s;
+  }
+
+  .portrait .portrait-badge-3 {
+    bottom: 2%;
+    left: 8%;
+    animation-delay: -4s;
+  }
+
+  @keyframes badgeFloat {
+    50% {
+      transform: translateY(-0.45rem);
+    }
+  }
+
+  .highlights-section {
+    padding-bottom: 0;
+  }
+
+  .highlights {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .highlight {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+
+  .highlight-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 0 0 0.35rem;
+  }
+
+  .highlight-text {
+    color: var(--color-text-muted);
+    font-size: 0.92rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+
   .narrow {
     max-width: 42rem;
   }
 
-  .narrow h2 {
-    font-size: 1.35rem;
-    margin-top: 2.5rem;
-  }
-
-  .narrow p {
+  .story-section p {
     color: var(--color-text-muted);
     font-size: 1.05rem;
+  }
+
+  .story-title {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    font-size: 1.35rem;
+    margin: 2.75rem 0 1rem;
+  }
+
+  .pull-quote {
+    position: relative;
+    margin: 2.75rem 0;
+    padding: 1.5rem 1.75rem;
+    border-left: 3px solid transparent;
+    border-image: var(--gradient-brand) 1;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--color-accent-3) 12%, transparent), transparent);
+  }
+
+  .story-section .pull-quote p {
+    margin: 0;
+    color: var(--color-text);
+    font-size: clamp(1.3rem, 2.5vw, 1.6rem);
+    font-weight: 600;
+    line-height: 1.35;
   }
 
   .section-alt {
     background: var(--color-bg-alt);
   }
 
-  .cta-section {
-    text-align: center;
+  @media (prefers-reduced-motion: reduce) {
+    .portrait .portrait-badge {
+      animation: none;
+    }
+  }
+
+  @media (max-width: 960px) {
+    .highlights {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 860px) {
+    .portrait {
+      width: 12rem;
+      margin: 0 auto 0 1.6rem;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .highlights {
+      grid-template-columns: 1fr;
+    }
+
+    .highlight {
+      flex-direction: row;
+      align-items: flex-start;
+    }
   }
 </style>
