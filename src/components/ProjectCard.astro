@@ -27,13 +27,16 @@ const { name, icon, tagline, description, stack, url, repo, cta, compact = false
 
   <p class="project-description">{description}</p>
 
-  <ul class="project-stack">
-    {stack.map((tech) => <li>{tech}</li>)}
-  </ul>
+  {/* In home la card è un'anteprima: le tecnologie si leggono su /progetti/. */}
+  {!compact && (
+    <ul class="project-stack">
+      {stack.map((tech) => <li>{tech}</li>)}
+    </ul>
+  )}
 
   <div class="project-actions">
     <a class="btn btn-primary" href={url} target="_blank" rel="noopener noreferrer">{cta}</a>
-    <a class="project-repo" href={repo} target="_blank" rel="noopener noreferrer">Codice su GitHub</a>
+    <a class="project-repo" href={repo} target="_blank" rel="noopener noreferrer">{compact ? "GitHub" : "Codice su GitHub"}</a>
   </div>
 </article>
 
@@ -51,7 +54,7 @@ const { name, icon, tagline, description, stack, url, repo, cta, compact = false
     margin-bottom: 1rem;
   }
 
-  /* I due loghi hanno un fondo pieno proprio: l'angolo arrotondato li fa leggere
+  /* I loghi hanno un fondo pieno proprio: l'angolo arrotondato li fa leggere
      come icone dell'app, non come immagini incollate nella card. */
   .project-icon {
     width: 3rem;
@@ -79,10 +82,12 @@ const { name, icon, tagline, description, stack, url, repo, cta, compact = false
     flex-grow: 1;
   }
 
+  /* Niente flex-grow qui: allungherebbe il box oltre le tre righe e il taglio si vedrebbe a metà. */
   .compact .project-description {
+    flex-grow: 0;
     display: -webkit-box;
-    -webkit-line-clamp: 4;
-    line-clamp: 4;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }

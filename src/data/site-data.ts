@@ -85,6 +85,17 @@ export const projects = [
     repo: "https://github.com/federicodiluca/school-feed-monitor",
     cta: "Scopri com'è fatto",
   },
+  {
+    name: "La Scimmia Vince",
+    icon: "/projects/la-scimmia-vince.svg",
+    tagline: "Statistiche oneste sul SuperEnalotto",
+    description:
+      "Tutte le estrazioni del SuperEnalotto dal 1997 a oggi, analizzate con onestà: numeri caldi, freddi e ritardatari messi alla prova con test statistici veri. Il verdetto è sempre lo stesso, il caso non ha memoria, e una scimmia che gioca numeri a caso fa come chi segue le \"strategie\". L'archivio si aggiorna da solo dopo ogni concorso.",
+    stack: ["Python", "pandas", "SciPy", "Astro", "GitHub Actions"],
+    url: "https://federicodiluca.github.io/la-scimmia-vince/",
+    repo: "https://github.com/federicodiluca/la-scimmia-vince",
+    cta: "Guarda le statistiche",
+  },
 ] as const;
 
 export const publications = [

@@ -106,8 +106,9 @@ const services = [
         Cose che ho costruito partendo da un bisogno reale, e che chiunque può usare o ispezionare:
         il codice è pubblico.
       </p>
+      {/* Al massimo tre card, una riga su desktop: gli altri progetti stanno su /progetti/. */}
       <div class="projects-grid">
-        {projects.map((project) => <ProjectCard {...project} compact />)}
+        {projects.slice(0, 3).map((project) => <ProjectCard {...project} compact />)}
       </div>
       <a class="btn btn-outline projects-more" href="/progetti/">Tutti i progetti <Icon name="arrow" /></a>
     </div>
@@ -214,10 +215,17 @@ const services = [
     background: var(--color-bg-alt);
   }
 
+  /* Tre colonne o una: con auto-fit, alle larghezze intermedie restava una card da sola sotto le altre due. */
   .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    grid-template-columns: 1fr;
     gap: 1.5rem;
+  }
+
+  @media (min-width: 68rem) {
+    .projects-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
 
   .projects-more {
