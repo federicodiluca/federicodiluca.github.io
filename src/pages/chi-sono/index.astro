@@ -3,36 +3,35 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHeader from "../../components/PageHeader.astro";
 import CtaBand from "../../components/CtaBand.astro";
 import Icon from "../../components/Icon.astro";
+import Portrait from "../../components/Portrait.astro";
 import Timeline from "../../components/Timeline.astro";
-import { education } from "../../data/site-data";
+import { careerPath, highlights } from "../../data/site-data";
+import { SITE_URL } from "../../consts";
 
 const description =
   "La storia di Federico Di Luca: da ingegnere delle telecomunicazioni a Technical Leader .NET, oggi docente di Informatica e sviluppatore freelance a Pesaro.";
 
-// Il percorso in quattro tappe, prima del racconto per esteso
-const highlights = [
-  { icon: "cap" as const, title: "110 e lode", text: "Laurea magistrale in Ingegneria Elettronica e delle Telecomunicazioni a Bologna" },
-  { icon: "paper" as const, title: "Ricerca", text: "Rilevamento di persone con radar UWB, pubblicata su MDPI Sensors" },
-  { icon: "team" as const, title: "Technical Leader", text: "Team di sviluppo .NET in Websolute, dal 2021 al 2024" },
-  { icon: "board" as const, title: "Docente", text: "Informatica nella scuola superiore, dal 2024" },
-];
+
+// Pagina "about" della persona descritta in home: Google la lega alla stessa entità
+// (@id) invece di trattarla come una scheda a sé per chi cerca il nome.
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  url: new URL("/chi-sono/", SITE_URL).toString(),
+  mainEntity: { "@id": `${SITE_URL}/#person` },
+};
 ---
 
-<BaseLayout title="Chi sono" description={description}>
+<BaseLayout title="Chi sono" description={description} jsonLd={jsonLd}>
   <PageHeader
     eyebrow="Federico Di Luca · Pesaro"
     title="Chi sono"
-    lead="Ingegnere, sviluppatore, docente. Un percorso che unisce tecnica e didattica."
+    lead="Ingegnere, sviluppatore, docente. Mi piace capire come funzionano le cose, e da quando insegno ancora di più spiegarle."
   >
     <a class="btn btn-primary" href="/contatti/">Contattami</a>
     <a class="btn btn-outline" href="/cv-federico-di-luca.pdf"><Icon name="download" /> Scarica il CV</a>
 
-    <div class="portrait" slot="aside">
-      <img src="/images/federico-di-luca.webp" alt="Federico Di Luca" width="320" height="320" />
-      <Icon name="code" badge class="portrait-badge portrait-badge-1" />
-      <Icon name="board" badge class="portrait-badge portrait-badge-2" />
-      <Icon name="cap" badge class="portrait-badge portrait-badge-3" />
-    </div>
+    <Portrait slot="aside" />
   </PageHeader>
 
   <section class="section highlights-section">
@@ -114,19 +113,11 @@ const highlights = [
     </div>
   </section>
 
-  <section class="section section-alt">
+  <section class="section section-alt" id="percorso">
     <div class="container">
-      <h2 class="section-title">Formazione</h2>
-      <Timeline
-        items={education.map((e) => ({
-          kind: "education" as const,
-          title: `${e.title} in ${e.subTitle}`,
-          subtitle: e.institute,
-          meta: `Voto: ${e.mark}`,
-          date: e.date,
-          steps: e.steps.map((s) => ({ title: s.title, subtitle: s.institute, meta: s.note, date: s.date })),
-        }))}
-      />
+      <h2 class="section-title">Percorso</h2>
+      <p class="section-lead">Dall'ingegneria allo sviluppo software, fino all'insegnamento.</p>
+      <Timeline items={careerPath} legend={{ work: "Lavoro", education: "Studi" }} />
     </div>
   </section>
 
@@ -143,57 +134,6 @@ const highlights = [
 </BaseLayout>
 
 <style>
-  /* Foto con cornice sfumata e tre badge che fluttuano attorno */
-  .portrait {
-    position: relative;
-    width: min(100%, 18rem);
-    margin-left: auto;
-    padding: 5px;
-    border-radius: 50%;
-    background: var(--gradient-brand);
-    box-shadow: 0 2rem 4rem -1.5rem color-mix(in srgb, var(--color-accent-3) 55%, transparent);
-  }
-
-  .portrait img {
-    width: 100%;
-    height: auto;
-    border-radius: 50%;
-  }
-
-  .portrait .portrait-badge {
-    position: absolute;
-    width: 3.25rem;
-    height: 3.25rem;
-    font-size: 1.8rem;
-    background:
-      linear-gradient(135deg, color-mix(in srgb, var(--color-accent) 22%, transparent), color-mix(in srgb, var(--color-accent-3) 22%, transparent)),
-      var(--color-bg);
-    animation: badgeFloat 6s ease-in-out infinite;
-  }
-
-  .portrait .portrait-badge-1 {
-    top: 6%;
-    left: -0.5rem;
-  }
-
-  .portrait .portrait-badge-2 {
-    top: 44%;
-    right: -1.6rem;
-    animation-delay: -2s;
-  }
-
-  .portrait .portrait-badge-3 {
-    bottom: 2%;
-    left: 8%;
-    animation-delay: -4s;
-  }
-
-  @keyframes badgeFloat {
-    50% {
-      transform: translateY(-0.45rem);
-    }
-  }
-
   .highlights-section {
     padding-bottom: 0;
   }
@@ -265,11 +205,6 @@ const highlights = [
     background: var(--color-bg-alt);
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .portrait .portrait-badge {
-      animation: none;
-    }
-  }
 
   @media (max-width: 960px) {
     .highlights {
@@ -277,12 +212,6 @@ const highlights = [
     }
   }
 
-  @media (max-width: 860px) {
-    .portrait {
-      width: 12rem;
-      margin: 0 auto 0 1.6rem;
-    }
-  }
 
   @media (max-width: 520px) {
     .highlights {

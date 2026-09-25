@@ -54,7 +54,7 @@ const svg = `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable=
     display: inline-grid;
     place-items: center;
     flex-shrink: 0;
-    color: var(--icon-color, var(--color-accent-2));
+    color: var(--icon-color, var(--color-icon));
   }
 
   .icon-inline {
@@ -73,15 +73,10 @@ const svg = `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable=
       color-mix(in srgb, var(--color-accent) 22%, transparent),
       color-mix(in srgb, var(--color-accent-3) 22%, transparent)
     );
-    border: 1px solid color-mix(in srgb, var(--color-accent-2) 25%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-accent) 30%, transparent);
     transition: transform 0.25s ease;
   }
 
-  /* Su sfondo chiaro il teal si legge poco: si passa al blu */
-  :global(:root.light) .icon-inline,
-  :global(:root.light) .icon-badge {
-    color: var(--icon-color, var(--color-accent));
-  }
 
   :global(.card:hover) .icon-badge {
     transform: translateY(-2px) rotate(-6deg);
@@ -116,7 +111,7 @@ const svg = `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable=
   }
 
   :global(.icon .a) {
-    stroke: var(--color-accent-3);
+    stroke: var(--color-icon-accent);
   }
 
   @media (prefers-reduced-motion: reduce) {

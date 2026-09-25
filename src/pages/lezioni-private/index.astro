@@ -1,5 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import CtaBand from "../../components/CtaBand.astro";
 import { AUTHOR } from "../../consts";
 import Icon from "../../components/Icon.astro";
 
@@ -73,21 +75,15 @@ const faq = [
   description={description}
   jsonLd={jsonLd}
 >
-  <section class="section page-header">
-    <div class="container narrow">
-      <h1 class="section-title">Lezioni private di informatica, matematica e fisica</h1>
-      <p class="section-lead">
-        In presenza a Pesaro e online in tutta Italia, dalle scuole medie alla maturità.
-      </p>
-      <p>
-        Sono docente di Informatica nella scuola superiore e ingegnere, con anni di lavoro come
-        sviluppatore software. Che si tratti di una ripetizione prima di un compito o di un percorso
-        durante l'anno, le lezioni servono a recuperare le basi, prepararsi a verifiche ed
-        esami o andare oltre il programma, con un approccio pratico e su misura.
-      </p>
-      <a class="btn btn-primary" href="/contatti/">Scrivimi per una lezione</a>
-    </div>
-  </section>
+  <PageHeader
+    eyebrow="Pesaro e online · dalle medie alla maturità"
+    title="Lezioni private di informatica, matematica e fisica"
+    highlight="informatica, matematica e fisica"
+    lead="Sono docente di Informatica nella scuola superiore e ingegnere, con anni di lavoro come sviluppatore software. Che si tratti di una ripetizione prima di un compito o di un percorso durante l'anno, le lezioni servono a recuperare le basi, prepararsi a verifiche ed esami o andare oltre il programma, con un approccio pratico e su misura."
+    icons={["book", "chart", "atom"]}
+  >
+    <a class="btn btn-primary" href="/contatti/">Scrivimi per una lezione</a>
+  </PageHeader>
 
   <section class="section section-alt">
     <div class="container">
@@ -163,15 +159,11 @@ const faq = [
     </div>
   </section>
 
-  <section class="section">
-    <div class="container narrow">
-      <h2 class="section-title">Disponibilità</h2>
-      <p>
-        Scrivimi indicando materia e classe (o esame) e se preferisci lezioni in presenza o online.
-      </p>
-      <a class="btn btn-primary" href="/contatti/">Contattami</a>
-    </div>
-  </section>
+  <CtaBand
+    title="Disponibilità"
+    text="Scrivimi indicando materia e classe (o esame) e se preferisci lezioni in presenza o online."
+    primary={{ href: "/contatti/", label: "Contattami" }}
+  />
 </BaseLayout>
 
 <style>

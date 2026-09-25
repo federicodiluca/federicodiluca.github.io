@@ -21,7 +21,7 @@ const { title, text, primary, secondary, links } = Astro.props;
 
 <section class="section">
   <div class="container">
-    <div class="cta-band">
+    <div class="cta-band theme-dark">
       <Icon name="spark" badge class="cta-band-icon" />
       <div class="cta-band-body">
         <h2 class="cta-band-title">{title}</h2>
@@ -108,7 +108,7 @@ const { title, text, primary, secondary, links } = Astro.props;
 
   .cta-band-links a:hover {
     text-decoration: none;
-    border-color: var(--color-accent-2);
+    border-color: var(--color-link);
   }
 
   .cta-band-actions {

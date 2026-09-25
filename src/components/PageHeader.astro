@@ -17,7 +17,7 @@ const [before, after] = highlight && title.includes(highlight) ? title.split(hig
 const hasAside = Astro.slots.has("aside") || Boolean(icons);
 ---
 
-<section class="page-hero">
+<section class="page-hero theme-dark">
   <div class:list={["container", "page-hero-inner", { "has-aside": hasAside }]}>
     <div>
       {eyebrow && <p class="page-hero-eyebrow">{eyebrow}</p>}
@@ -55,7 +55,8 @@ const hasAside = Astro.slots.has("aside") || Boolean(icons);
     padding: 5rem 0 4.5rem;
     background:
       radial-gradient(40rem 24rem at 85% 0%, color-mix(in srgb, var(--color-accent-3) 22%, transparent), transparent 70%),
-      radial-gradient(36rem 22rem at 5% 100%, color-mix(in srgb, var(--color-accent-2) 13%, transparent), transparent 70%);
+      radial-gradient(36rem 22rem at 5% 100%, color-mix(in srgb, var(--color-accent) 18%, transparent), transparent 70%),
+      var(--color-bg);
     border-bottom: 1px solid color-mix(in srgb, var(--color-text-muted) 14%, transparent);
   }
 
@@ -83,16 +84,12 @@ const hasAside = Astro.slots.has("aside") || Boolean(icons);
   }
 
   .page-hero-eyebrow {
-    color: var(--color-accent-2);
+    color: var(--color-link);
     font-size: 0.85rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     margin: 0 0 1rem;
-  }
-
-  :global(:root.light) .page-hero-eyebrow {
-    color: var(--color-accent);
   }
 
   .page-hero-title {
@@ -143,7 +140,7 @@ const hasAside = Astro.slots.has("aside") || Boolean(icons);
 
   .orbit::after {
     inset: 20%;
-    border: 1px solid color-mix(in srgb, var(--color-accent-2) 18%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-accent) 25%, transparent);
   }
 
   .orbit .orbit-main {

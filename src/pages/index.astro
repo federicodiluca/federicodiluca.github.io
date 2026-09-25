@@ -4,58 +4,100 @@ import Hero from "../components/Hero.astro";
 import Timeline from "../components/Timeline.astro";
 import SkillsGrid from "../components/SkillsGrid.astro";
 import ProjectCard from "../components/ProjectCard.astro";
+import Portrait from "../components/Portrait.astro";
+import CtaBand from "../components/CtaBand.astro";
 import Icon from "../components/Icon.astro";
-import { experiences, experiencesFooter, education, publications, aboutMessages, projects } from "../data/site-data";
-import { SITE_URL, AUTHOR } from "../consts";
+import { careerPath, highlights, publications, aboutMessages, projects } from "../data/site-data";
+import { SITE_URL, SITE_NAME, AUTHOR } from "../consts";
 
 const description =
   "Sviluppatore software freelance (.NET, C#, Python) e docente di Informatica. Lezioni private, ripetizioni e formazione tecnica a Pesaro, Fano, Urbino, Rimini.";
 
-// Lavoro e studi in un'unica timeline, dalla voce più recente.
-const path = [
-  ...experiences.map((e) => ({
-    kind: "work" as const,
-    start: e.start,
-    title: e.role,
-    subtitle: e.company,
-    date: e.date,
-  })),
-  ...education.map((e) => ({
-    kind: "education" as const,
-    start: e.start,
-    title: `${e.title} in ${e.subTitle}`,
-    subtitle: e.institute,
-    meta: `Voto: ${e.mark}`,
-    date: e.date,
-    steps: e.steps.map((s) => ({ title: s.title, subtitle: s.institute, meta: s.note, date: s.date })),
-  })),
-].sort((a, b) => b.start.localeCompare(a.start));
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  name: `${AUTHOR.name} — Sviluppo Software & Lezioni Private`,
-  url: SITE_URL,
-  image: new URL("/images/social-share.jpg", SITE_URL).toString(),
-  areaServed: AUTHOR.serviceArea,
-  founder: { "@type": "Person", name: AUTHOR.name },
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: AUTHOR.city,
-    addressRegion: AUTHOR.region,
-    addressCountry: AUTHOR.country,
+// La home è la pagina di riferimento per chi cerca il nome: il sito e il servizio
+// puntano alla stessa persona (@id) descritta nel layout.
+const personRef = { "@id": `${SITE_URL}/#person` };
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: SITE_NAME,
+    url: SITE_URL,
+    inLanguage: "it",
+    about: personRef,
   },
-};
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    name: `${AUTHOR.name} — Sviluppo Software & Lezioni Private`,
+    url: SITE_URL,
+    image: new URL("/images/social-share.jpg", SITE_URL).toString(),
+    areaServed: AUTHOR.serviceArea,
+    founder: personRef,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: AUTHOR.city,
+      addressRegion: AUTHOR.region,
+      addressCountry: AUTHOR.country,
+    },
+  },
+];
+
+const services = [
+  {
+    href: "/servizi/sviluppo-software/",
+    icon: "code" as const,
+    title: "Sviluppo software",
+    text: "Applicazioni .NET e Python, integrazioni tra sistemi, automazione e supporto tecnico ai team di sviluppo.",
+    link: "Vedi i servizi",
+  },
+  {
+    href: "/servizi/formazione/",
+    icon: "board" as const,
+    title: "Formazione",
+    text: "Corsi di programmazione e informatica per aziende e scuole, dall'alfabetizzazione digitale alle tecnologie di sviluppo.",
+    link: "Vedi i percorsi",
+  },
+  {
+    href: "/lezioni-private/",
+    icon: "book" as const,
+    title: "Lezioni private",
+    text: "Ripetizioni di informatica, matematica e fisica per studenti di scuole medie, superiori e università, in presenza o online.",
+    link: "Come funzionano",
+  },
+];
 ---
 
-<BaseLayout title="Sviluppatore Software & Docente di Informatica" description={description} jsonLd={jsonLd}>
+<BaseLayout title={`${SITE_NAME} · Sviluppatore software e docente a Pesaro`} description={description} jsonLd={jsonLd}>
   <Hero
-    eyebrow="Pesaro · Fano · Urbino · Rimini"
+    eyebrow="Ciao, sono Federico Di Luca"
     title="Sviluppatore Software & Docente di Informatica"
+    highlight="Docente di Informatica"
     tagline="Sviluppo software freelance, lezioni private, ripetizioni STEM e formazione tecnica per aziende, scuole e privati."
     primaryCta={{ href: "/contatti/", label: "Contattami", icon: "mail" }}
     secondaryCta={{ href: "/cv-federico-di-luca.pdf", label: "Scarica il CV", icon: "download" }}
-  />
+  >
+    <Portrait slot="aside" />
+  </Hero>
+
+  <section class="section" id="servizi" data-animate>
+    <div class="container">
+      <h2 class="section-title">Cosa faccio</h2>
+      <p class="section-lead">
+        Tre modi di lavorare insieme, tra le province di Pesaro-Urbino, Rimini o da remoto.
+      </p>
+      <div class="services-grid">
+        {services.map((s) => (
+          <a class="card service-card" href={s.href}>
+            <Icon name={s.icon} badge class="service-icon" />
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+            <span class="service-link">{s.link} <Icon name="arrow" /></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
 
   <section class="section section-alt" id="progetti" data-animate>
     <div class="container">
@@ -67,7 +109,7 @@ const jsonLd = {
       <div class="projects-grid">
         {projects.map((project) => <ProjectCard {...project} compact />)}
       </div>
-      <a class="btn btn-outline projects-more" href="/progetti/">Tutti i progetti</a>
+      <a class="btn btn-outline projects-more" href="/progetti/">Tutti i progetti <Icon name="arrow" /></a>
     </div>
   </section>
 
@@ -81,73 +123,36 @@ const jsonLd = {
         <p class="about-text">
           Offro lezioni private di informatica, matematica e fisica a studenti di scuole medie, superiori e università. Dispongo anche di competenze in analisi di dati, machine learning e sviluppo di sistemi SCADA per automazione industriale.
         </p>
-        <a class="btn btn-outline" href="/chi-sono/">Scopri di più su di me</a>
+        <a class="btn btn-outline" href="/chi-sono/">Scopri di più su di me <Icon name="arrow" /></a>
       </div>
-      <img
-        src="/images/federico-di-luca.webp"
-        alt="Federico Di Luca"
-        width="320"
-        height="320"
-        class="about-photo"
-      />
+      <ul class="highlights">
+        {highlights.map((h) => (
+          <li class="card highlight">
+            <Icon name={h.icon} badge />
+            <p class="highlight-title">{h.title}</p>
+            <p class="highlight-text">{h.text}</p>
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 
-  <section class="section section-alt" id="servizi" data-animate>
-    <div class="container">
-      <h2 class="section-title">Cosa faccio</h2>
-      <p class="section-lead">
-        Tre modi di lavorare insieme, tra le province di Pesaro-Urbino, Rimini o da remoto.
-      </p>
-      <div class="services-grid">
-        <a class="card service-card" href="/servizi/sviluppo-software/">
-          <Icon name="code" badge class="service-icon" />
-          <h3>Sviluppo software</h3>
-          <p>
-            Applicazioni .NET e Python, integrazioni tra sistemi, automazione e supporto tecnico
-            ai team di sviluppo.
-          </p>
-          <span class="service-link">Vedi i servizi →</span>
-        </a>
-        <a class="card service-card" href="/servizi/formazione/">
-          <Icon name="board" badge class="service-icon" />
-          <h3>Formazione</h3>
-          <p>
-            Corsi di programmazione e informatica per aziende e scuole, dall'alfabetizzazione
-            digitale alle tecnologie di sviluppo.
-          </p>
-          <span class="service-link">Vedi i percorsi →</span>
-        </a>
-        <a class="card service-card" href="/lezioni-private/">
-          <Icon name="book" badge class="service-icon" />
-          <h3>Lezioni private</h3>
-          <p>
-            Ripetizioni di informatica, matematica e fisica per studenti di scuole medie, superiori e
-            università, in presenza o online.
-          </p>
-          <span class="service-link">Come funzionano →</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="percorso" data-animate>
+  <section class="section section-alt" id="percorso" data-animate>
     <div class="container">
       <h2 class="section-title">Percorso</h2>
       <p class="section-lead">Dall'ingegneria allo sviluppo software, fino all'insegnamento.</p>
-      <Timeline items={path} legend={{ work: "Lavoro", education: "Studi" }} />
-      <p class="experiences-footer">{experiencesFooter}</p>
+      <Timeline items={careerPath} legend={{ work: "Lavoro", education: "Studi" }} />
     </div>
   </section>
 
-  <section class="section section-alt" data-animate>
+  <section class="section" data-animate>
     <div class="container">
       <h2 class="section-title">Strumenti principali</h2>
       <SkillsGrid />
     </div>
   </section>
 
-  <section class="section" data-animate>
+  <section class="section section-alt" data-animate>
     <div class="container">
       <h2 class="section-title">Pubblicazioni scientifiche</h2>
       {publications.map((pub) => (
@@ -160,22 +165,18 @@ const jsonLd = {
     </div>
   </section>
 
-  <section class="section cta-section" data-animate>
-    <div class="container cta-inner">
-      <Icon name="rocket" badge class="cta-icon" />
-      <h2 class="section-title">Hai un progetto in mente?</h2>
-      <p class="section-lead">
-        Sviluppo software, consulenza tecnica o formazione: scrivimi per parlarne.
-      </p>
-      <a class="btn btn-primary" href="/contatti/">Contattami</a>
-    </div>
-  </section>
+  <CtaBand
+    title="Hai un progetto in mente?"
+    text="Sviluppo software, consulenza tecnica o formazione: scrivimi per parlarne."
+    primary={{ href: "/contatti/", label: "Contattami" }}
+    secondary={{ href: "/cv-federico-di-luca.pdf", label: "Scarica il CV", icon: "download" }}
+  />
 </BaseLayout>
 
 <style>
   .about-grid {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
     gap: 3rem;
     align-items: center;
   }
@@ -184,11 +185,29 @@ const jsonLd = {
     color: var(--color-text-muted);
   }
 
-  .about-photo {
-    border-radius: var(--radius);
-    width: 100%;
-    max-width: 320px;
-    margin: 0 auto;
+  .highlights {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .highlight {
+    padding: 1.35rem;
+  }
+
+  .highlight-title {
+    font-weight: 700;
+    margin: 0.9rem 0 0.3rem;
+  }
+
+  .highlight-text {
+    color: var(--color-text-muted);
+    font-size: 0.88rem;
+    line-height: 1.5;
+    margin: 0;
   }
 
   .section-alt {
@@ -199,7 +218,6 @@ const jsonLd = {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
     gap: 1.5rem;
-    margin-top: 2rem;
   }
 
   .projects-more {
@@ -210,7 +228,6 @@ const jsonLd = {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
     gap: 1.5rem;
-    margin-top: 2rem;
   }
 
   .service-card {
@@ -221,11 +238,11 @@ const jsonLd = {
 
   .service-card:hover {
     text-decoration: none;
-    border-color: var(--color-accent-2);
+    border-color: var(--color-link);
   }
 
   .service-icon {
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
   }
 
   .service-card h3 {
@@ -240,17 +257,13 @@ const jsonLd = {
   }
 
   .service-link {
-    color: var(--color-accent-2);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--color-link);
     font-weight: 600;
     font-size: 0.9rem;
     margin-top: auto;
-  }
-
-  .experiences-footer {
-    margin-top: 2rem;
-    color: var(--color-text-muted);
-    font-size: 0.85rem;
-    line-height: 1.8;
   }
 
   .publication-card {
@@ -260,11 +273,11 @@ const jsonLd = {
 
   .publication-card:hover {
     text-decoration: none;
-    border-color: var(--color-accent-2);
+    border-color: var(--color-link);
   }
 
   .publication-journal {
-    color: var(--color-accent-2);
+    color: var(--color-link);
     font-size: 0.85rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -282,32 +295,15 @@ const jsonLd = {
     margin: 0;
   }
 
-  .cta-section {
-    text-align: center;
-  }
-
-  .cta-icon {
-    width: 4rem;
-    height: 4rem;
-    font-size: 2.2rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .cta-inner .section-title {
-    margin-bottom: 0.5rem;
-  }
-
-  .cta-inner .section-lead {
-    margin: 0 auto 2rem;
-  }
-
-  @media (max-width: 720px) {
+  @media (max-width: 900px) {
     .about-grid {
       grid-template-columns: 1fr;
     }
+  }
 
-    .about-photo {
-      order: -1;
+  @media (max-width: 480px) {
+    .highlights {
+      grid-template-columns: 1fr;
     }
   }
 </style>

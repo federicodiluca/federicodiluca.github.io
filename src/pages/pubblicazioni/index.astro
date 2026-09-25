@@ -1,5 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import CtaBand from "../../components/CtaBand.astro";
 import { publications } from "../../data/site-data";
 import { AUTHOR } from "../../consts";
 
@@ -19,15 +21,12 @@ const jsonLd = publications.map((pub) => ({
 ---
 
 <BaseLayout title="Pubblicazioni" description={description} jsonLd={jsonLd}>
-  <section class="section page-header">
-    <div class="container">
-      <h1 class="section-title">Pubblicazioni scientifiche</h1>
-      <p class="section-lead">
-        Il lavoro di ricerca svolto durante il percorso universitario in Ingegneria delle
-        Telecomunicazioni.
-      </p>
-    </div>
-  </section>
+  <PageHeader
+    eyebrow="Ricerca universitaria"
+    title="Pubblicazioni scientifiche"
+    lead="Il lavoro di ricerca svolto durante il percorso universitario in Ingegneria delle Telecomunicazioni."
+    icons={["paper", "network", "chart"]}
+  />
 
   <section class="section">
     <div class="container narrow">
@@ -43,6 +42,13 @@ const jsonLd = publications.map((pub) => ({
       ))}
     </div>
   </section>
+
+  <CtaBand
+    title="Vuoi sapere di più sul mio percorso?"
+    text="Dalla ricerca in università allo sviluppo software e all'insegnamento: la storia completa è nella pagina Chi sono."
+    primary={{ href: "/chi-sono/", label: "Chi sono" }}
+    secondary={{ href: "/cv-federico-di-luca.pdf", label: "Scarica il CV", icon: "download" }}
+  />
 </BaseLayout>
 
 <style>
@@ -51,7 +57,7 @@ const jsonLd = publications.map((pub) => ({
   }
 
   .publication-journal {
-    color: var(--color-accent-2);
+    color: var(--color-link);
     font-size: 0.85rem;
     font-weight: 600;
     text-transform: uppercase;

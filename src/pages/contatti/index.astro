@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHeader from "../../components/PageHeader.astro";
 import { AUTHOR } from "../../consts";
 import Icon from "../../components/Icon.astro";
 
@@ -16,14 +17,12 @@ const mailHref = `mailto:${AUTHOR.email}?subject=${mailSubject}&body=${mailBody}
 ---
 
 <BaseLayout title="Contatti" description={description}>
-  <section class="section page-header">
-    <div class="container">
-      <h1 class="section-title">Contatti</h1>
-      <p class="section-lead">
-        Raccontami il tuo progetto o la tua esigenza formativa: ti risponderò via email.
-      </p>
-    </div>
-  </section>
+  <PageHeader
+    eyebrow="Pesaro · Fano · Urbino · Rimini · da remoto"
+    title="Contatti"
+    lead="Raccontami il tuo progetto o la tua esigenza formativa: ti risponderò via email."
+    icons={["mail", "pin", "spark"]}
+  />
 
   <section class="section">
     <div class="container contact-grid">
@@ -110,14 +109,15 @@ const mailHref = `mailto:${AUTHOR.email}?subject=${mailSubject}&body=${mailBody}
   }
 
   .contact-actions .btn {
-    font: inherit;
+    font-family: inherit;
+    font-size: inherit;
     cursor: pointer;
   }
 
   /* Stato "copiato": il pulsante diventa la conferma stessa, senza toast o layout shift */
   .contact-actions .btn[data-copied="true"] {
-    background: var(--color-accent-2);
-    color: #0b1021;
+    background: var(--color-accent-hover);
+    color: #fff;
   }
 
   .card-title {
@@ -139,7 +139,7 @@ const mailHref = `mailto:${AUTHOR.email}?subject=${mailSubject}&body=${mailBody}
   .contact-privacy {
     margin-bottom: 0;
     padding-top: 1rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid var(--color-border);
   }
 
   @media (max-width: 780px) {

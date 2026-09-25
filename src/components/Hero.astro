@@ -8,11 +8,14 @@ interface CTA {
 interface Props {
   eyebrow?: string;
   title: string;
+  /** Parte del titolo da colorare con la sfumatura del brand (deve comparire nel titolo). */
+  highlight?: string;
   tagline: string;
   primaryCta?: CTA;
   secondaryCta?: CTA;
 }
-const { eyebrow, title, tagline, primaryCta, secondaryCta } = Astro.props;
+const { eyebrow, title, highlight, tagline, primaryCta, secondaryCta } = Astro.props;
+const [before, after] = highlight && title.includes(highlight) ? title.split(highlight) : [title, undefined];
 
 const getIcon = (type?: string) => {
   if (type === "mail") {
@@ -34,20 +37,25 @@ function starLayer(count: number, maxW: number, maxH: number) {
   return shadows.join(", ");
 }
 
+const hasAside = Astro.slots.has("aside");
+
 const smallStars = starLayer(90, 1600, 900);
 const bigStars = starLayer(35, 1600, 900);
 ---
 
-<section class="hero">
+<section class="hero theme-dark">
   <div class="stars stars-sm" style={{ boxShadow: smallStars }}></div>
   <div class="stars stars-lg" style={{ boxShadow: bigStars }}></div>
-  <div class="container hero-inner">
+  <div class:list={["container", "hero-inner", { "has-aside": hasAside }]}>
+    <div class="hero-text">
     {eyebrow && <p class="hero-eyebrow">{eyebrow}</p>}
-    <h1 class="hero-title">{title}</h1>
+    <h1 class="hero-title">
+      {before}{after !== undefined && <span class="hero-highlight">{highlight}</span>}{after}
+    </h1>
     <p class="hero-tagline">{tagline}</p>
     <div class="hero-actions">
       {primaryCta && (
-        <a class="btn btn-outline" href={primaryCta.href}>
+        <a class="btn btn-primary" href={primaryCta.href}>
           {primaryCta.icon && <span class="btn-icon" set:html={getIcon(primaryCta.icon)} />}
           {primaryCta.label}
         </a>
@@ -59,23 +67,26 @@ const bigStars = starLayer(35, 1600, 900);
         </a>
       )}
     </div>
+    </div>
+    {hasAside && (
+      <div class="hero-aside">
+        <slot name="aside" />
+      </div>
+    )}
   </div>
 </section>
 
 <style>
+  /* Fondo scuro (anche nel tema chiaro, via .theme-dark) con due bagliori del brand e le stelle */
   .hero {
     position: relative;
     overflow: hidden;
-    background: var(--gradient-brand);
-    background-size: 200% 200%;
-    animation: heroShift 18s ease infinite;
-    padding: 10rem 0 8rem;
-  }
-
-  @keyframes heroShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    padding: 8rem 0 7rem;
+    background:
+      radial-gradient(48rem 30rem at 85% 15%, color-mix(in srgb, var(--color-accent) 34%, transparent), transparent 70%),
+      radial-gradient(40rem 26rem at 5% 100%, color-mix(in srgb, var(--color-accent-3) 20%, transparent), transparent 70%),
+      var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
   }
 
   .stars {
@@ -117,13 +128,41 @@ const bigStars = starLayer(35, 1600, 900);
     z-index: 1;
   }
 
+  /* Con la foto accanto il testo si allinea a sinistra, come nelle intestazioni delle pagine interne */
+  .hero-inner.has-aside {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: 3rem;
+    align-items: center;
+    text-align: left;
+  }
+
+  .has-aside .hero-title {
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+  }
+
+  .has-aside .hero-tagline {
+    margin-left: 0;
+  }
+
+  .has-aside .hero-actions {
+    justify-content: flex-start;
+  }
+
   .hero-eyebrow {
-    color: rgba(255, 255, 255, 0.85);
+    color: var(--color-link);
     letter-spacing: 0.08em;
     text-transform: uppercase;
     font-size: 0.85rem;
     font-weight: 600;
     margin-bottom: 1rem;
+  }
+
+  .hero-highlight {
+    background: linear-gradient(135deg, #b794f6, var(--color-accent-3));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 
   .hero-title {
@@ -133,7 +172,7 @@ const bigStars = starLayer(35, 1600, 900);
   }
 
   .hero-tagline {
-    color: rgba(255, 255, 255, 0.92);
+    color: var(--color-text-muted);
     font-size: 1.25rem;
     max-width: 40rem;
     margin: 0 auto 2.5rem;
@@ -144,6 +183,21 @@ const bigStars = starLayer(35, 1600, 900);
     gap: 1rem;
     justify-content: center;
     flex-wrap: wrap;
+  }
+
+  @media (max-width: 860px) {
+    .hero {
+      padding: 7rem 0 5rem;
+    }
+
+    .hero-inner.has-aside {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .hero-aside {
+      order: -1;
+    }
   }
 
   .hero .btn-outline {

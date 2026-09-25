@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PageHeader from "../../../components/PageHeader.astro";
 import { AUTHOR } from "../../../consts";
 
 const description =
@@ -9,15 +10,10 @@ const updated = "11 September 2026";
 ---
 
 <BaseLayout title="Privacy" description={description} locale="en">
-  <section class="section page-header">
-    <div class="container">
-      <h1 class="section-title">Privacy notice</h1>
-      <p class="section-lead">
-        The short version: this site collects no personal data, sets no cookies and does not track
-        its visitors. Details below.
-      </p>
-    </div>
-  </section>
+  <PageHeader
+    title="Privacy notice"
+    lead="The short version: this site collects no personal data, sets no cookies and does not track its visitors. Details below."
+  />
 
   <section class="section">
     <div class="container narrow privacy-body">

@@ -1,0 +1,91 @@
+---
+import Icon from "./Icon.astro";
+import type { IconName } from "./Icon.astro";
+
+interface Props {
+  /** Tre icone che fluttuano attorno alla foto. */
+  badges?: [IconName, IconName, IconName];
+  /** "light": cornice chiara, per quando la foto sta su uno sfondo già sfumato (hero della home). */
+  ring?: "brand" | "light";
+  class?: string;
+}
+const { badges = ["code", "board", "cap"], ring = "brand", class: className } = Astro.props;
+---
+
+<div class:list={["portrait", `ring-${ring}`, className]}>
+  <img src="/images/federico-di-luca.webp" alt="Federico Di Luca" width="320" height="320" />
+  {badges.map((name, i) => (
+    <Icon name={name} badge class={`portrait-badge portrait-badge-${i + 1}`} />
+  ))}
+</div>
+
+<style>
+  /* Foto circolare con cornice e tre badge che fluttuano attorno */
+  .portrait {
+    position: relative;
+    width: min(100%, 18rem);
+    margin-left: auto;
+    padding: 5px;
+    border-radius: 50%;
+    background: var(--gradient-brand);
+    box-shadow: 0 2rem 4rem -1.5rem color-mix(in srgb, var(--color-accent-3) 55%, transparent);
+  }
+
+  .ring-light {
+    background: rgba(255, 255, 255, 0.55);
+    box-shadow: 0 2rem 4rem -1.5rem rgba(11, 16, 33, 0.55);
+  }
+
+  .portrait img {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+  }
+
+  .portrait .portrait-badge {
+    position: absolute;
+    width: 3.25rem;
+    height: 3.25rem;
+    font-size: 1.8rem;
+    background:
+      linear-gradient(135deg, color-mix(in srgb, var(--color-accent) 22%, transparent), color-mix(in srgb, var(--color-accent-3) 22%, transparent)),
+      var(--color-bg);
+    animation: badgeFloat 6s ease-in-out infinite;
+  }
+
+  .portrait .portrait-badge-1 {
+    top: 6%;
+    left: -0.5rem;
+  }
+
+  .portrait .portrait-badge-2 {
+    top: 44%;
+    right: -1.6rem;
+    animation-delay: -2s;
+  }
+
+  .portrait .portrait-badge-3 {
+    bottom: 2%;
+    left: 8%;
+    animation-delay: -4s;
+  }
+
+  @keyframes badgeFloat {
+    50% {
+      transform: translateY(-0.45rem);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .portrait .portrait-badge {
+      animation: none;
+    }
+  }
+
+  @media (max-width: 860px) {
+    .portrait {
+      width: 12rem;
+      margin: 0 auto 0 1.6rem;
+    }
+  }
+</style>

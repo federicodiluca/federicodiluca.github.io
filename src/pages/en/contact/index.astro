@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PageHeader from "../../../components/PageHeader.astro";
 import { AUTHOR } from "../../../consts";
 import Icon from "../../../components/Icon.astro";
 
@@ -16,15 +17,12 @@ const mailHref = `mailto:${AUTHOR.email}?subject=${mailSubject}&body=${mailBody}
 ---
 
 <BaseLayout title="Contact" description={description} locale="en">
-  <section class="section page-header">
-    <div class="container">
-      <h1 class="section-title">Get in Touch</h1>
-      <p class="section-lead">
-        Tell me about your project or training needs. I reply by email, usually within a couple of
-        business days.
-      </p>
-    </div>
-  </section>
+  <PageHeader
+    eyebrow="Pesaro, Italy · remote"
+    title="Get in Touch"
+    lead="Tell me about your project or training needs. I reply by email, usually within a couple of business days."
+    icons={["mail", "pin", "spark"]}
+  />
 
   <section class="section">
     <div class="container contact-grid">
@@ -110,14 +108,15 @@ const mailHref = `mailto:${AUTHOR.email}?subject=${mailSubject}&body=${mailBody}
   }
 
   .contact-actions .btn {
-    font: inherit;
+    font-family: inherit;
+    font-size: inherit;
     cursor: pointer;
   }
 
   /* "Copied" state: the button itself becomes the confirmation, no toast or layout shift */
   .contact-actions .btn[data-copied="true"] {
-    background: var(--color-accent-2);
-    color: #0b1021;
+    background: var(--color-accent-hover);
+    color: #fff;
   }
 
   .card-title {
@@ -139,7 +138,7 @@ const mailHref = `mailto:${AUTHOR.email}?subject=${mailSubject}&body=${mailBody}
   .contact-privacy {
     margin-bottom: 0;
     padding-top: 1rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid var(--color-border);
   }
 
   @media (max-width: 780px) {

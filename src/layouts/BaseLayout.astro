@@ -25,7 +25,8 @@ const {
 
 const canonicalURL = new URL(Astro.url.pathname, SITE_URL).toString();
 const imageURL = new URL(image, SITE_URL).toString();
-const fullTitle = title === SITE_NAME ? title : `${title} · ${SITE_NAME}`;
+// Un titolo che comincia già col nome (la home) non riceve il suffisso " · Nome".
+const fullTitle = title.startsWith(SITE_NAME) ? title : `${title} · ${SITE_NAME}`;
 
 // Solo le pagine elencate qui hanno una vera controparte tradotta: un hreflang che punta
 // a una pagina inesistente (es. /en/chi-sono/, mai creata) è peggio che non averlo.
@@ -46,6 +47,7 @@ const hasTranslation = Boolean(itPath && enPath);
 const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
+  "@id": `${SITE_URL}/#person`,
   name: AUTHOR.name,
   email: `mailto:${AUTHOR.email}`,
   jobTitle: AUTHOR.jobTitle,
@@ -105,7 +107,7 @@ const schemas = [personSchema, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [j
     ))}
 
     <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#0b1021" />
+    <meta name="theme-color" content="#0d0b1f" />
   </head>
   <body>
     <Header locale={locale} />
@@ -117,16 +119,31 @@ const schemas = [personSchema, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [j
 </html>
 
 <style is:global>
+  /* Palette: il viola è il colore del brand (pulsanti, link, icone), l'orchidea lo accompagna
+     nelle sfumature, il teal resta solo come scintilla nei dettagli delle icone.
+     .theme-dark ridichiara i token scuri: le fasce che lo usano (hero, intestazioni,
+     riquadro finale) restano scure anche nel tema chiaro. */
+  :root,
+  .theme-dark {
+    --color-bg: #0d0b1f;
+    --color-bg-alt: #141130;
+    --color-surface: #1b1740;
+    --color-text: #ece9f7;
+    --color-text-muted: #aba6c8;
+    --color-link: #c4b5fd;
+    --color-icon: #c4b5fd;
+    --color-icon-accent: #2dd4bf;
+    --color-border: rgba(255, 255, 255, 0.08);
+    --color-border-strong: rgba(255, 255, 255, 0.35);
+    --shadow-card: none;
+  }
+
   :root {
-    --color-bg: #0b1021;
-    --color-bg-alt: #121935;
-    --color-surface: #161f42;
-    --color-text: #e8ecf7;
-    --color-text-muted: #a8b0cc;
-    --color-accent: #4484ce;
-    --color-accent-2: #1ad7c0;
-    --color-accent-3: #9b59b6;
-    --gradient-brand: linear-gradient(136deg, var(--color-accent), var(--color-accent-2), var(--color-accent-3));
+    --color-accent: #8b5cf6;
+    --color-accent-hover: #7c4dea;
+    --color-accent-2: #2dd4bf;
+    --color-accent-3: #d46bd9;
+    --gradient-brand: linear-gradient(135deg, var(--color-accent), var(--color-accent-3));
     --max-width: 72rem;
     --radius: 0.75rem;
     font-size: 16px;
@@ -134,13 +151,21 @@ const schemas = [personSchema, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [j
 
   :root.light {
     --color-bg: #ffffff;
-    --color-bg-alt: #f8f9fb;
-    --color-surface: #f1f3f8;
-    --color-text: #1a2039;
-    --color-text-muted: #5f6b8f;
-    --color-accent: #4484ce;
-    --color-accent-2: #1ad7c0;
-    --color-accent-3: #9b59b6;
+    --color-bg-alt: #f7f5fc;
+    --color-surface: #ffffff;
+    --color-text: #1c1733;
+    --color-text-muted: #5f5a7a;
+    --color-link: #6d28d9;
+    --color-icon: #7c3aed;
+    --color-icon-accent: #0d9488;
+    --color-border: rgba(28, 23, 51, 0.1);
+    --color-border-strong: rgba(28, 23, 51, 0.28);
+    --shadow-card: 0 1px 2px rgba(28, 23, 51, 0.04), 0 12px 32px -20px rgba(76, 29, 149, 0.28);
+  }
+
+  .theme-dark {
+    color: var(--color-text);
+    background-color: var(--color-bg);
   }
 
   * {
@@ -170,7 +195,7 @@ const schemas = [personSchema, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [j
   }
 
   a {
-    color: var(--color-accent-2);
+    color: var(--color-link);
     text-decoration: none;
   }
 
@@ -214,8 +239,9 @@ const schemas = [personSchema, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [j
 
   .card {
     background: var(--color-surface);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius);
+    box-shadow: var(--shadow-card);
     padding: 1.75rem;
   }
 
@@ -229,7 +255,7 @@ const schemas = [personSchema, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [j
     border-radius: 999px;
     font-weight: 600;
     border: 1px solid transparent;
-    transition: transform 0.15s ease, opacity 0.15s ease;
+    transition: transform 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
   }
 
   /* Un pulsante subito dopo un paragrafo di testo ne restava troppo a ridosso */
@@ -243,12 +269,17 @@ const schemas = [personSchema, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [j
   }
 
   .btn-primary {
-    background: var(--gradient-brand);
+    background: var(--color-accent);
     color: #fff;
+    box-shadow: 0 0.6rem 1.5rem -0.75rem color-mix(in srgb, var(--color-accent) 80%, transparent);
+  }
+
+  .btn-primary:hover {
+    background: var(--color-accent-hover);
   }
 
   .btn-outline {
-    border-color: rgba(255, 255, 255, 0.35);
+    border-color: var(--color-border-strong);
     color: var(--color-text);
   }
 

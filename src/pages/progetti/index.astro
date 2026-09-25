@@ -1,5 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import CtaBand from "../../components/CtaBand.astro";
 import ProjectCard from "../../components/ProjectCard.astro";
 import { projects } from "../../data/site-data";
 import { SITE_URL } from "../../consts";
@@ -22,16 +24,12 @@ const jsonLd = projects.map((p) => ({
 ---
 
 <BaseLayout title="Progetti" description={description} jsonLd={jsonLd}>
-  <section class="section page-header">
-    <div class="container">
-      <h1 class="section-title">Progetti</h1>
-      <p class="section-lead">
-        Strumenti nati da un bisogno concreto — il mio o di chi lavora intorno a me — e portati
-        fino al punto in cui potessero servire anche ad altri. Sono tutti gratuiti e con il
-        codice pubblico: si possono usare, leggere e, volendo, migliorare.
-      </p>
-    </div>
-  </section>
+  <PageHeader
+    eyebrow="Gratuiti e con codice aperto"
+    title="Progetti"
+    lead="Strumenti nati da un bisogno concreto — il mio o di chi lavora intorno a me — e portati fino al punto in cui potessero servire anche ad altri. Sono tutti gratuiti e con il codice pubblico: si possono usare, leggere e, volendo, migliorare."
+    icons={["spark", "code", "terminal"]}
+  />
 
   <section class="section">
     <div class="container">
@@ -41,16 +39,11 @@ const jsonLd = projects.map((p) => ({
     </div>
   </section>
 
-  <section class="section section-alt cta-section">
-    <div class="container cta-inner">
-      <h2 class="section-title">Hai un'idea da costruire?</h2>
-      <p class="section-lead">
-        Se stai pensando a uno strumento simile, o hai un progetto che ha bisogno di qualcuno che
-        lo porti dall'idea al funzionante, scrivimi.
-      </p>
-      <a class="btn btn-primary" href="/contatti/">Parliamone</a>
-    </div>
-  </section>
+  <CtaBand
+    title="Hai un'idea da costruire?"
+    text="Se stai pensando a uno strumento simile, o hai un progetto che ha bisogno di qualcuno che lo porti dall'idea al funzionante, scrivimi."
+    primary={{ href: "/contatti/", label: "Parliamone" }}
+  />
 </BaseLayout>
 
 <style>
@@ -64,16 +57,4 @@ const jsonLd = projects.map((p) => ({
     background: var(--color-bg-alt);
   }
 
-  .cta-section {
-    text-align: center;
-  }
-
-  .cta-inner .section-title {
-    margin-bottom: 0.5rem;
-  }
-
-  .cta-inner .section-lead {
-    margin: 0 auto 2rem;
-    max-width: 40rem;
-  }
 </style>

@@ -119,3 +119,31 @@ export const aboutMessages = [
   "Oggi affianco la mia esperienza tecnica a una forte passione per la formazione, supportando aziende e organizzazioni come sviluppatore software, consulente IT e formatore tecnico.",
   "Disponibile per collaborazioni a progetto in sviluppo software, consulenza, project management e formazione.",
 ];
+
+/** Il percorso in quattro tappe: riquadri in cima a /chi-sono/ e accanto al testo "Chi sono" in home. */
+export const highlights = [
+  { icon: "cap", title: "110 e lode", text: "Laurea magistrale in Ingegneria Elettronica e delle Telecomunicazioni a Bologna" },
+  { icon: "paper", title: "Ricerca", text: "Rilevamento di persone con radar UWB, pubblicata su MDPI Sensors" },
+  { icon: "team", title: "Technical Leader", text: "Team di sviluppo .NET in Websolute, dal 2021 al 2024" },
+  { icon: "board", title: "Docente", text: "Informatica nella scuola superiore, dal 2024" },
+] as const;
+
+/** Lavoro e studi in un'unica timeline, dalla voce più recente (home e /chi-sono/). */
+export const careerPath = [
+  ...experiences.map((e) => ({
+    kind: "work" as const,
+    start: e.start,
+    title: e.role,
+    subtitle: e.company,
+    date: e.date,
+  })),
+  ...education.map((e) => ({
+    kind: "education" as const,
+    start: e.start,
+    title: `${e.title} in ${e.subTitle}`,
+    subtitle: e.institute,
+    meta: `Voto: ${e.mark}`,
+    date: e.date,
+    steps: e.steps.map((s) => ({ title: s.title, subtitle: s.institute, meta: s.note, date: s.date })),
+  })),
+].sort((a, b) => b.start.localeCompare(a.start));
