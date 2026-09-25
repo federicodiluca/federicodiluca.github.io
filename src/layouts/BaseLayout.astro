@@ -70,8 +70,9 @@ const schemas = [personSchema, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [j
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
-    <link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192" />
+    <!-- .ico per i browser vecchi; i moderni scelgono l'SVG (dichiarare l'ico 32x32 evita che Chrome lo preferisca) -->
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
     <link rel="canonical" href={canonicalURL} />
 
@@ -133,6 +134,7 @@ const schemas = [personSchema, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [j
     --color-link: #c4b5fd;
     --color-icon: #c4b5fd;
     --color-icon-accent: #2dd4bf;
+    --color-rose: #f472b6;
     --color-border: rgba(255, 255, 255, 0.08);
     --color-border-strong: rgba(255, 255, 255, 0.35);
     --shadow-card: none;
@@ -158,6 +160,7 @@ const schemas = [personSchema, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [j
     --color-link: #6d28d9;
     --color-icon: #7c3aed;
     --color-icon-accent: #0d9488;
+    --color-rose: #db2777;
     --color-border: rgba(28, 23, 51, 0.1);
     --color-border-strong: rgba(28, 23, 51, 0.28);
     --shadow-card: 0 1px 2px rgba(28, 23, 51, 0.04), 0 12px 32px -20px rgba(76, 29, 149, 0.28);

@@ -1,0 +1,75 @@
+---
+// Il marchio del sito: le iniziali FDL con il cursore del terminale, che "scrive"
+// saltando dopo la F, poi dopo la D, poi dopo la L. La favicon (public/favicon.svg,
+// da cui sono generate favicon.ico e le icone PNG) è il primo fotogramma: la sola F
+// con il cursore, in un cerchio. Se cambia il disegno delle lettere, va aggiornata
+// anche lei.
+interface Props {
+  height?: string;
+}
+const { height = "2.1rem" } = Astro.props;
+---
+
+<svg class="logo" viewBox="0 0 113 64" style={{ height }} aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="logo-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8b5cf6" />
+      <stop offset="1" stop-color="#d46bd9" />
+    </linearGradient>
+  </defs>
+  <rect width="113" height="64" rx="16" fill="url(#logo-gradient)" />
+  <g fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M15.5 47V17h13M15.5 32h10" />
+    <path d="M40.5 17v30h2a15 15 0 0 0 0-30z" />
+    <path d="M76.5 17v30h11" />
+  </g>
+  <rect class="logo-cursor logo-cursor-f" x="27" y="40" width="7" height="7" rx="1.5" />
+  <rect class="logo-cursor logo-cursor-d" x="63" y="40" width="7" height="7" rx="1.5" />
+  <rect class="logo-cursor logo-cursor-l" x="93" y="40" width="7" height="7" rx="1.5" />
+</svg>
+
+<style>
+  .logo {
+    display: block;
+    width: auto;
+    flex-shrink: 0;
+  }
+
+  /* Un solo ciclo per tutti e tre i cursori: ognuno resta acceso per il primo quarto
+     del proprio giro, e i ritardi negativi li sfasano di un terzo (F → D → L), con una
+     breve pausa spenta tra un salto e l'altro. */
+  .logo-cursor {
+    fill: #2dd4bf;
+    opacity: 0;
+    animation: cursorHop 3.6s step-end infinite;
+  }
+
+  .logo-cursor-d {
+    animation-delay: -2.4s;
+  }
+
+  .logo-cursor-l {
+    animation-delay: -1.2s;
+  }
+
+  @keyframes cursorHop {
+    0% {
+      opacity: 1;
+    }
+    25%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  /* Senza animazioni resta l'ultimo fotogramma, con il cursore dopo la L */
+  @media (prefers-reduced-motion: reduce) {
+    .logo-cursor {
+      animation: none;
+    }
+
+    .logo-cursor-l {
+      opacity: 1;
+    }
+  }
+</style>
