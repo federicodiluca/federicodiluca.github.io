@@ -1,3 +1,5 @@
+import { projectUrl } from "../consts";
+
 export const experiences = [
   {
     company: "ISISS \"P. Gobetti - A. De Gasperi\"",
@@ -70,7 +72,7 @@ export const projects = [
     description:
       "App per ampliare il lessico italiano: ogni giorno una parola con significato, esempi, etimologia e curiosità, e un ripasso guidato da un algoritmo di ripetizione spaziata. Funziona offline, non chiede account e non salva nulla su un server: i progressi restano sul dispositivo.",
     stack: ["React", "TypeScript", "Vite", "PWA", "Capacitor"],
-    url: "https://federicodiluca.github.io/vocabe/",
+    url: projectUrl("vocabe"),
     repo: "https://github.com/federicodiluca/Vocabe",
     cta: "Prova l'app",
   },
@@ -81,7 +83,7 @@ export const projects = [
     description:
       "Monitora i siti e i feed di USR, USP e MIM e recapita su Telegram avvisi per parole chiave e digest giornalieri. Nato da un'esigenza concreta di chi lavora nella scuola: non perdere bandi, graduatorie e circolari sparsi su decine di portali diversi. Self-hosted, ogni utente configura le proprie fonti.",
     stack: ["Python", "SQLite", "Telegram Bot API", "RSS", "Web scraping"],
-    url: "https://federicodiluca.github.io/school-feed-monitor/",
+    url: projectUrl("schoolfeedmonitor"),
     repo: "https://github.com/federicodiluca/school-feed-monitor",
     cta: "Scopri com'è fatto",
   },
@@ -92,7 +94,7 @@ export const projects = [
     description:
       "Tutte le estrazioni del SuperEnalotto dal 1997 a oggi, analizzate con onestà: numeri caldi, freddi e ritardatari messi alla prova con test statistici veri. Il verdetto è sempre lo stesso, il caso non ha memoria, e una scimmia che gioca numeri a caso fa come chi segue le \"strategie\". L'archivio si aggiorna da solo dopo ogni concorso.",
     stack: ["Python", "pandas", "SciPy", "Astro", "GitHub Actions"],
-    url: "https://federicodiluca.github.io/la-scimmia-vince/",
+    url: projectUrl("lascimmiavince"),
     repo: "https://github.com/federicodiluca/la-scimmia-vince",
     cta: "Guarda le statistiche",
   },

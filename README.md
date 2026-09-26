@@ -83,33 +83,36 @@ GitHub Pages. Puoi anche avviarlo manualmente da GitHub → tab **Actions** → 
 
 1. Fai il fork, poi clona in locale
 2. Applica le modifiche di [Personalizzazione](#personalizzazione)
-3. Se pubblichi su `<tuo-utente>.github.io`, aggiorna `SITE_URL` in `src/consts.ts` di conseguenza
+3. Elimina `public/CNAME` (o mettici il tuo dominio) e aggiorna `SITE_URL` in `src/consts.ts`. Se pubblichi su `<tuo-utente>.github.io`
    (il repo deve chiamarsi esattamente `<tuo-utente>.github.io` perché GitHub Pages lo riconosca
    come sito root; altrimenti il sito vive sotto un sottopercorso, es. `<tuo-utente>.github.io/<repo>/`
    — in quel caso serve anche configurare `base` in `astro.config.mjs`)
 4. Push su `main`: il workflow builda e pubblica in automatico
 
-## Passare a un dominio personalizzato
+## Dominio
 
-Per passare da `*.github.io` a un dominio proprio (es. `federicodiluca.it`):
+Il sito è pubblicato su **[federicodiluca.com](https://federicodiluca.com)** (GitHub Pages con
+dominio personalizzato):
 
-1. Acquista il dominio e punta i suoi DNS a GitHub Pages (record `A`/`ALIAS` verso gli IP di
-   GitHub Pages, o `CNAME` se è un sottodominio)
-2. Crea un file `public/CNAME` con dentro il solo nome del dominio, es. `federicodiluca.it`
-3. Aggiorna `SITE_URL` in [src/consts.ts](src/consts.ts) con il nuovo dominio
-4. Su GitHub → **Settings → Pages**, imposta il custom domain e attendi la verifica del
-   certificato HTTPS
-
-Nessun altro file va toccato: canonical URL, sitemap, hreflang e i meta tag social si aggiornano
-automaticamente perché derivano tutti da `SITE_URL`.
+- [public/CNAME](public/CNAME) contiene il nome del dominio
+- `SITE_URL` in [src/consts.ts](src/consts.ts) è l'unica costante da cui derivano canonical URL,
+  sitemap, hreflang, robots.txt e meta tag social
+- DNS: record `A`/`AAAA` dell'apex verso gli IP di GitHub Pages e `CNAME` di `www` verso
+  `federicodiluca.github.io`; su GitHub → **Settings → Pages** il custom domain è impostato con
+  *Enforce HTTPS* attivo
 
 ## Progetti collegati
 
-- [Vocabe](https://federicodiluca.github.io/vocabe/) — app PWA per il vocabolario italiano,
-  pubblicata come sottopercorso dello stesso dominio GitHub Pages (repo separato). La sua sitemap
-  è dichiarata nel [robots.txt](src/pages/robots.txt.ts) di questo sito, perché GitHub Pages
-  serve un solo `robots.txt` per l'intero dominio (quello del repo root/user page) — un
-  `robots.txt` pubblicato da un altro repo sotto un sottopercorso viene ignorato dai crawler.
+Ogni progetto personale ha un repo separato e vive su un **sottodominio** proprio (senza trattini, anche se il nome del repo li ha), costruito da
+`projectUrl()` in [src/consts.ts](src/consts.ts):
+
+- [Vocabe](https://vocabe.federicodiluca.com/) — app PWA per il vocabolario italiano
+- [School Feed Monitor](https://schoolfeedmonitor.federicodiluca.com/) — avvisi scolastici su Telegram
+- [La Scimmia Vince](https://lascimmiavince.federicodiluca.com/) — statistiche sul SuperEnalotto
+
+Per ogni sottodominio servono un record DNS `CNAME` verso `federicodiluca.github.io`, un file
+`CNAME` nel repo del progetto e il custom domain impostato nelle sue *Settings → Pages*. Essendo
+host distinti, ciascun progetto pubblica il proprio `robots.txt` con la propria sitemap.
 
 ## Licenza
 

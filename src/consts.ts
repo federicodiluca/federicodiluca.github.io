@@ -1,6 +1,10 @@
-// Unico punto da modificare se in futuro si passa a un dominio personalizzato
-// (es. "https://federicodiluca.it"). Aggiornare anche public/CNAME di conseguenza.
-export const SITE_URL = "https://federicodiluca.github.io";
+// Dominio del sito personale. Se cambia, aggiornare anche public/CNAME di conseguenza.
+export const SITE_URL = "https://federicodiluca.com";
+
+/** I progetti personali vivono ciascuno su un sottodominio, es. https://vocabe.federicodiluca.com/.
+ *  Il sottodominio non coincide per forza col nome del repo: è senza trattini
+ *  (repo school-feed-monitor → schoolfeedmonitor.federicodiluca.com). */
+export const projectUrl = (subdomain: string) => `https://${subdomain}.${new URL(SITE_URL).host}/`;
 
 export const SITE_NAME = "Federico Di Luca";
 
@@ -16,7 +20,7 @@ export const AUTHOR = {
   sameAs: [
     "https://github.com/federicodiluca",
     "https://www.linkedin.com/in/federico-di-luca-ing/",
-    "https://federicodiluca.github.io/vocabe",
+    projectUrl("vocabe"),
   ],
 };
 
