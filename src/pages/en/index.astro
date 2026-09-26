@@ -7,7 +7,7 @@ import Icon from "../../components/Icon.astro";
 import Portrait from "../../components/Portrait.astro";
 import CtaBand from "../../components/CtaBand.astro";
 import { experiences, education, publications } from "../../data/site-data";
-import { SITE_URL, SITE_NAME, AUTHOR } from "../../consts";
+import { SITE_URL, SITE_NAME, AUTHOR, SHOW_PRIVATE_LESSONS } from "../../consts";
 
 const description =
   "Federico Di Luca: freelance software developer (.NET, C#, Python) and Computer Science teacher based in Pesaro, Italy.";
@@ -62,7 +62,7 @@ const highlights = [
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
-  name: `${AUTHOR.name} — Software Development & Private Lessons`,
+  name: `${AUTHOR.name} — Software Development & ${SHOW_PRIVATE_LESSONS ? "Private Lessons" : "Training"}`,
   url: new URL("/en/", SITE_URL).toString(),
   image: new URL("/images/social-share.jpg", SITE_URL).toString(),
   areaServed: AUTHOR.serviceArea,

@@ -1,6 +1,6 @@
 import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
-import { SITE_URL, LOCALES, DEFAULT_LOCALE } from "./src/consts.ts";
+import { SITE_URL, LOCALES, DEFAULT_LOCALE, SHOW_PRIVATE_LESSONS } from "./src/consts.ts";
 
 // La sezione articoli è stata rimossa: i vecchi URL già indicizzati puntano alla
 // pagina più vicina per argomento. GitHub Pages non fa 301 veri, Astro genera una
@@ -48,6 +48,7 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
+      filter: (page) => SHOW_PRIVATE_LESSONS || !page.includes("/lezioni-private/"),
       i18n: {
         defaultLocale: DEFAULT_LOCALE,
         locales: { it: "it", en: "en" },

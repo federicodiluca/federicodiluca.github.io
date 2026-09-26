@@ -2,7 +2,10 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHeader from "../../components/PageHeader.astro";
 import CtaBand from "../../components/CtaBand.astro";
-import { AUTHOR } from "../../consts";
+import { AUTHOR, SHOW_PRIVATE_LESSONS } from "../../consts";
+
+// Con le lezioni spente la pagina diventa un redirect (meta refresh + canonical) verso la formazione.
+if (!SHOW_PRIVATE_LESSONS) return Astro.redirect("/servizi/formazione/");
 import Icon from "../../components/Icon.astro";
 
 const description =

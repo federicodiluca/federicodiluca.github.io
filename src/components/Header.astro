@@ -1,6 +1,7 @@
 ---
 import ThemeToggle from "./ThemeToggle.astro";
 import Logo from "./Logo.astro";
+import { SHOW_PRIVATE_LESSONS } from "../consts";
 
 interface Props {
   locale: "it" | "en";
@@ -12,7 +13,7 @@ const navIt = [
   { href: "/chi-sono/", label: "Chi sono" },
   { href: "/servizi/sviluppo-software/", label: "Sviluppo software" },
   { href: "/servizi/formazione/", label: "Formazione" },
-  { href: "/lezioni-private/", label: "Lezioni private" },
+  ...(SHOW_PRIVATE_LESSONS ? [{ href: "/lezioni-private/", label: "Lezioni private" }] : []),
   { href: "/progetti/", label: "Progetti" },
   { href: "/contatti/", label: "Contatti" },
 ];

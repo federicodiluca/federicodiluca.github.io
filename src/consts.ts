@@ -6,6 +6,11 @@ export const SITE_URL = "https://federicodiluca.com";
  *  (repo school-feed-monitor → schoolfeedmonitor.federicodiluca.com). */
 export const projectUrl = (subdomain: string) => `https://${subdomain}.${new URL(SITE_URL).host}/`;
 
+/** Interruttore unico per lezioni private e ripetizioni. Con false spariscono da menu, home,
+ *  chi sono, contatti, dati strutturati e sitemap, e /lezioni-private/ rimanda a /servizi/formazione/.
+ *  Per riattivarle basta rimettere true. */
+export const SHOW_PRIVATE_LESSONS = false;
+
 export const SITE_NAME = "Federico Di Luca";
 
 export const AUTHOR = {

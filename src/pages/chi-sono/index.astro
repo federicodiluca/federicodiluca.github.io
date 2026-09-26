@@ -6,7 +6,7 @@ import Icon from "../../components/Icon.astro";
 import Portrait from "../../components/Portrait.astro";
 import Timeline from "../../components/Timeline.astro";
 import { careerPath, highlights } from "../../data/site-data";
-import { SITE_URL, projectUrl } from "../../consts";
+import { SITE_URL, projectUrl, SHOW_PRIVATE_LESSONS } from "../../consts";
 
 const description =
   "La storia di Federico Di Luca: da ingegnere delle telecomunicazioni a Technical Leader .NET, oggi docente di Informatica e sviluppatore freelance a Pesaro.";
@@ -123,12 +123,14 @@ const jsonLd = {
 
   <CtaBand
     title="Parliamo del tuo progetto"
-    text="Sviluppo software, formazione o lezioni private: scrivimi e troviamo insieme la forma di collaborazione giusta."
+    text={SHOW_PRIVATE_LESSONS
+      ? "Sviluppo software, formazione o lezioni private: scrivimi e troviamo insieme la forma di collaborazione giusta."
+      : "Sviluppo software, formazione o un corso su misura: scrivimi e troviamo insieme la forma di collaborazione giusta."}
     primary={{ href: "/contatti/", label: "Contattami" }}
     links={[
       { href: "/servizi/sviluppo-software/", label: "Sviluppo software", icon: "code" },
       { href: "/servizi/formazione/", label: "Formazione", icon: "board" },
-      { href: "/lezioni-private/", label: "Lezioni private", icon: "book" },
+      ...(SHOW_PRIVATE_LESSONS ? [{ href: "/lezioni-private/", label: "Lezioni private", icon: "book" as const }] : []),
     ]}
   />
 </BaseLayout>

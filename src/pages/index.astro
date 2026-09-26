@@ -8,10 +8,11 @@ import Portrait from "../components/Portrait.astro";
 import CtaBand from "../components/CtaBand.astro";
 import Icon from "../components/Icon.astro";
 import { careerPath, highlights, publications, aboutMessages, projects } from "../data/site-data";
-import { SITE_URL, SITE_NAME, AUTHOR } from "../consts";
+import { SITE_URL, SITE_NAME, AUTHOR, SHOW_PRIVATE_LESSONS } from "../consts";
 
-const description =
-  "Sviluppatore software freelance (.NET, C#, Python) e docente di Informatica. Lezioni private, ripetizioni e formazione tecnica a Pesaro, Fano, Urbino, Rimini.";
+const description = SHOW_PRIVATE_LESSONS
+  ? "Sviluppatore software freelance (.NET, C#, Python) e docente di Informatica. Lezioni private, ripetizioni e formazione tecnica a Pesaro, Fano, Urbino, Rimini."
+  : "Sviluppatore software freelance (.NET, C#, Python) e docente di Informatica. Formazione tecnica e corsi su misura a Pesaro, Fano, Urbino, Rimini.";
 
 
 // La home è la pagina di riferimento per chi cerca il nome: il sito e il servizio
@@ -29,7 +30,7 @@ const jsonLd = [
   {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
-    name: `${AUTHOR.name} — Sviluppo Software & Lezioni Private`,
+    name: `${AUTHOR.name} — Sviluppo Software & ${SHOW_PRIVATE_LESSONS ? "Lezioni Private" : "Formazione"}`,
     url: SITE_URL,
     image: new URL("/images/social-share.jpg", SITE_URL).toString(),
     areaServed: AUTHOR.serviceArea,
@@ -55,16 +56,18 @@ const services = [
     href: "/servizi/formazione/",
     icon: "board" as const,
     title: "Formazione",
-    text: "Corsi di programmazione e informatica per aziende e scuole, dall'alfabetizzazione digitale alle tecnologie di sviluppo.",
+    text: SHOW_PRIVATE_LESSONS
+      ? "Corsi di programmazione e informatica per aziende e scuole, dall'alfabetizzazione digitale alle tecnologie di sviluppo."
+      : "Corsi di programmazione e informatica per aziende e scuole. Ti serve un corso su misura? Parliamone.",
     link: "Vedi i percorsi",
   },
-  {
+  ...(SHOW_PRIVATE_LESSONS ? [{
     href: "/lezioni-private/",
     icon: "book" as const,
     title: "Lezioni private",
     text: "Ripetizioni di informatica, matematica e fisica per studenti di scuole medie, superiori e università, in presenza o online.",
     link: "Come funzionano",
-  },
+  }] : []),
 ];
 ---
 
@@ -73,7 +76,9 @@ const services = [
     eyebrow="Ciao, sono Federico Di Luca"
     title="Sviluppatore Software & Docente di Informatica"
     highlight="Docente di Informatica"
-    tagline="Sviluppo software freelance, lezioni private, ripetizioni STEM e formazione tecnica per aziende, scuole e privati."
+    tagline={SHOW_PRIVATE_LESSONS
+      ? "Sviluppo software freelance, lezioni private, ripetizioni STEM e formazione tecnica per aziende, scuole e privati."
+      : "Sviluppo software freelance, consulenza e formazione tecnica per aziende, scuole e privati."}
     primaryCta={{ href: "/contatti/", label: "Contattami", icon: "mail" }}
     secondaryCta={{ href: "/cv-federico-di-luca.pdf", label: "Scarica il CV", icon: "download" }}
   >
@@ -84,7 +89,7 @@ const services = [
     <div class="container">
       <h2 class="section-title">Cosa faccio</h2>
       <p class="section-lead">
-        Tre modi di lavorare insieme, tra le province di Pesaro-Urbino, Rimini o da remoto.
+        {SHOW_PRIVATE_LESSONS ? "Tre" : "Due"} modi di lavorare insieme, tra le province di Pesaro-Urbino, Rimini o da remoto.
       </p>
       <div class="services-grid">
         {services.map((s) => (
@@ -122,7 +127,8 @@ const services = [
           <p class="about-text">{message}</p>
         ))}
         <p class="about-text">
-          Offro lezioni private di informatica, matematica e fisica a studenti di scuole medie, superiori e università. Dispongo anche di competenze in analisi di dati, machine learning e sviluppo di sistemi SCADA per automazione industriale.
+          {SHOW_PRIVATE_LESSONS && "Offro lezioni private di informatica, matematica e fisica a studenti di scuole medie, superiori e università. "}
+          {SHOW_PRIVATE_LESSONS ? "Dispongo anche" : "Dispongo"} di competenze in analisi di dati, machine learning e sviluppo di sistemi SCADA per automazione industriale.
         </p>
         <a class="btn btn-outline" href="/chi-sono/">Scopri di più su di me <Icon name="arrow" /></a>
       </div>
