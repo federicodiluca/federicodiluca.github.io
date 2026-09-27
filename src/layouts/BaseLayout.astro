@@ -1,5 +1,5 @@
 ---
-import { SITE_URL, SITE_NAME, AUTHOR, GOOGLE_SITE_VERIFICATION } from "../consts";
+import { SITE_URL, SITE_NAME, AUTHOR, GOOGLE_SITE_VERIFICATION, translationPair } from "../consts";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 
@@ -28,21 +28,7 @@ const imageURL = new URL(image, SITE_URL).toString();
 // Un titolo che comincia già col nome (la home) non riceve il suffisso " · Nome".
 const fullTitle = title.startsWith(SITE_NAME) ? title : `${title} · ${SITE_NAME}`;
 
-// Solo le pagine elencate qui hanno una vera controparte tradotta: un hreflang che punta
-// a una pagina inesistente (es. /en/chi-sono/, mai creata) è peggio che non averlo.
-const IT_TO_EN_PATHS: Record<string, string> = {
-  "/": "/en/",
-  "/contatti/": "/en/contact/",
-  "/privacy/": "/en/privacy/",
-};
-const EN_TO_IT_PATHS: Record<string, string> = Object.fromEntries(
-  Object.entries(IT_TO_EN_PATHS).map(([it, en]) => [en, it]),
-);
-
-const currentPath = Astro.url.pathname;
-const itPath = locale === "en" ? EN_TO_IT_PATHS[currentPath] : currentPath;
-const enPath = locale === "en" ? currentPath : IT_TO_EN_PATHS[currentPath];
-const hasTranslation = Boolean(itPath && enPath);
+const translation = translationPair(Astro.url.pathname);
 
 const personSchema = {
   "@context": "https://schema.org",
@@ -80,11 +66,11 @@ const schemas = [personSchema, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [j
     <meta name="description" content={description} />
     {noIndex && <meta name="robots" content="noindex, follow" />}
 
-    {hasTranslation && (
+    {translation && (
       <>
-        <link rel="alternate" hreflang="it" href={new URL(itPath, SITE_URL).toString()} />
-        <link rel="alternate" hreflang="en" href={new URL(enPath, SITE_URL).toString()} />
-        <link rel="alternate" hreflang="x-default" href={new URL(itPath, SITE_URL).toString()} />
+        <link rel="alternate" hreflang="it" href={new URL(translation.it, SITE_URL).toString()} />
+        <link rel="alternate" hreflang="en" href={new URL(translation.en, SITE_URL).toString()} />
+        <link rel="alternate" hreflang="x-default" href={new URL(translation.it, SITE_URL).toString()} />
       </>
     )}
 
