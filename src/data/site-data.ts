@@ -98,6 +98,17 @@ export const projects = [
     repo: "https://github.com/federicodiluca/la-scimmia-vince",
     cta: "Guarda le statistiche",
   },
+  {
+    name: "Duetrack",
+    icon: "/projects/duetrack.svg",
+    tagline: "Chi ti deve cosa, letto dal tuo Google Calendar",
+    description:
+      "Per chi lavora a ore e segna ogni appuntamento in calendario: Duetrack legge gli eventi, calcola quanto deve ogni cliente in base a durata e tariffa oraria, e tiene traccia dei pagamenti, una lezione alla volta o a blocchi, con resoconti per periodo. Niente server: gira nel browser, legge il calendario senza modificarlo e salva i dati sul Google Drive dell'utente.",
+    stack: ["React", "TypeScript", "PWA", "Google Calendar API", "Google Drive API"],
+    url: projectUrl("duetrack"),
+    repo: "https://github.com/federicodiluca/duetrack",
+    cta: "Prova l'app",
+  },
 ] as const;
 
 export const publications = [
