@@ -7,7 +7,7 @@ import ProjectCard from "../components/ProjectCard.astro";
 import Portrait from "../components/Portrait.astro";
 import CtaBand from "../components/CtaBand.astro";
 import Icon from "../components/Icon.astro";
-import { careerPath, highlights, publications, aboutMessages, projects } from "../data/site-data";
+import { careerPath, highlights, publications, aboutMessages, homeProjects } from "../data/site-data";
 import { SITE_URL, SITE_NAME, AUTHOR, SHOW_PRIVATE_LESSONS } from "../consts";
 
 const description = SHOW_PRIVATE_LESSONS
@@ -113,7 +113,7 @@ const services = [
       </p>
       {/* Al massimo tre card, una riga su desktop: gli altri progetti stanno su /progetti/. */}
       <div class="projects-grid">
-        {projects.slice(0, 3).map((project) => <ProjectCard {...project} compact />)}
+        {homeProjects.slice(0, 3).map((project) => <ProjectCard {...project} compact />)}
       </div>
       <a class="btn btn-outline projects-more" href="/progetti/">Tutti i progetti <Icon name="arrow" /></a>
     </div>

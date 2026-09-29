@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+	<!-- Listo logo: two crossed tags, i.e. one item with more than one category -->
+	<rect width="64" height="64" rx="14" fill="#17151A" />
+	<g stroke-linejoin="round">
+		<g transform="translate(30 25) rotate(-28) scale(0.92)">
+			<path d="M-18 0 L-9 -10 H18 V10 H-9 Z" fill="#FFF1DE" stroke="#FFF1DE" stroke-width="3" />
+			<circle cx="-8" cy="0" r="3.2" fill="#17151A" />
+		</g>
+		<!-- the background-coloured stroke cuts a gap where the second tag overlaps the first -->
+		<g transform="translate(35 40) rotate(8) scale(0.92)">
+			<path
+				d="M-18 0 L-9 -10 H18 V10 H-9 Z"
+				fill="#FF7A1A"
+				stroke="#17151A"
+				stroke-width="7"
+				paint-order="stroke"
+			/>
+			<circle cx="-8" cy="0" r="3.2" fill="#17151A" />
+		</g>
+	</g>
+</svg>
