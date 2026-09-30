@@ -25,6 +25,11 @@ e pubblicato su GitHub Pages. Statico, bilingue (IT/EN), zero backend, zero data
   Informativa in [src/pages/privacy/](src/pages/privacy/) (IT) e [src/pages/en/privacy/](src/pages/en/privacy/) (EN)
 - **Pubblicazioni scientifiche** collegate come card esterne, in home e in
   [src/pages/pubblicazioni/](src/pages/pubblicazioni/)
+- **Progetti personali** come card in [src/pages/progetti/](src/pages/progetti/) e i primi in home
+  (vedi [Progetti collegati](#progetti-collegati))
+- **Lezioni private on/off**: con `SHOW_PRIVATE_LESSONS = false` in [src/consts.ts](src/consts.ts)
+  la sezione sparisce da menu, home, chi sono, contatti, dati strutturati e sitemap, e
+  `/lezioni-private/` rimanda a `/servizi/formazione/`
 - **SEO**: sitemap automatica (esclude le pagine di redirect), JSON-LD (schema.org Person),
   Open Graph, hreflang, `robots.txt` generato dinamicamente, favicon conforme ai requisiti
   Google (48px e multipli)
@@ -45,11 +50,11 @@ Richiede Node.js 20.3+ o 22+.
 ```text
 src/
   consts.ts          Dati anagrafici/configurazione (vedi sotto)
-  data/site-data.ts  Esperienze, formazione, pubblicazioni, skill
+  data/site-data.ts  Esperienze, formazione, progetti, pubblicazioni, skill
   layouts/           Layout condivisi (BaseLayout = head, header, footer, dark mode)
   components/        Componenti riusabili (Hero, Timeline, ThemeToggle, Breadcrumb, ...)
   pages/             Routing basato su file (IT alla radice, EN sotto pages/en/)
-public/              Asset statici (favicon, icone PWA, CV, immagini, manifest)
+public/              Asset statici (favicon, icone PWA, CV, immagini, icone progetti, manifest)
 .github/workflows/   CI/CD (build + deploy su GitHub Pages)
 ```
 
@@ -58,9 +63,9 @@ public/              Asset statici (favicon, icone PWA, CV, immagini, manifest)
 Se stai adattando questo template al posto tuo, i punti da toccare sono:
 
 1. **[src/consts.ts](src/consts.ts)** — nome, email, città, aree di servizio, social, `SITE_URL`,
-   codice di verifica Google Search Console
+   codice di verifica Google Search Console, interruttore `SHOW_PRIVATE_LESSONS`
 2. **[src/data/site-data.ts](src/data/site-data.ts)** — esperienze lavorative, formazione,
-   pubblicazioni, elenco skill
+   progetti, pubblicazioni, elenco skill
 3. **[src/pages/](src/pages/)** — testi discorsivi delle singole pagine (chi-sono, servizi, home,
    ecc. — non sono in `site-data.ts`, sono scritti direttamente nei file `.astro`)
 4. **[public/](public/)** — sostituisci foto, CV (`cv-*.pdf`), favicon, `images/social-share.jpg`
@@ -106,9 +111,17 @@ dominio personalizzato):
 Ogni progetto personale ha un repo separato e vive su un **sottodominio** proprio (senza trattini, anche se il nome del repo li ha), costruito da
 `projectUrl()` in [src/consts.ts](src/consts.ts):
 
+- [ProfClick](https://profclick.federicodiluca.com/) — piano di lavoro del docente, lezione per lezione
 - [Vocabe](https://vocabe.federicodiluca.com/) — app PWA per il vocabolario italiano
+- [Duetrack](https://duetrack.federicodiluca.com/) — chi ti deve cosa, letto da Google Calendar
+- [Listo](https://listo.federicodiluca.com/) — liste con categorie multiple e scadenze
 - [School Feed Monitor](https://schoolfeedmonitor.federicodiluca.com/) — avvisi scolastici su Telegram
 - [La Scimmia Vince](https://lascimmiavince.federicodiluca.com/) — statistiche sul SuperEnalotto
+
+I progetti sono definiti in `projects` in [src/data/site-data.ts](src/data/site-data.ts), con
+l'icona in `public/projects/`. Quelli con `homeHidden: true` (ProfClick, Duetrack, Listo) compaiono
+solo su `/progetti/` e non in home: usano l'accesso Google e aspettano la verifica della schermata
+di consenso OAuth prima di finire in vetrina.
 
 Per ogni sottodominio servono un record DNS `CNAME` verso `federicodiluca.github.io`, un file
 `CNAME` nel repo del progetto e il custom domain impostato nelle sue *Settings → Pages*. Essendo
