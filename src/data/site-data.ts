@@ -85,7 +85,7 @@ export const projects = [
     tagline: "Una parola italiana al giorno",
     description:
       "App per ampliare il lessico italiano: ogni giorno una parola con significato, esempi, etimologia e curiosità, e un ripasso guidato da un algoritmo di ripetizione spaziata. Funziona offline, non chiede account e non salva nulla su un server: i progressi restano sul dispositivo.",
-    stack: ["React", "TypeScript", "Vite", "PWA", "Capacitor"],
+    stack: ["React", "TypeScript", "Vite", "PWA", "Vitest"],
     url: projectUrl("vocabe"),
     repo: "https://github.com/federicodiluca/Vocabe",
     cta: "Prova l'app",
