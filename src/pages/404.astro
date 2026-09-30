@@ -5,9 +5,19 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 <BaseLayout title="Pagina non trovata" description="La pagina richiesta non esiste." noIndex>
   <section class="section not-found">
     <div class="container">
-      <h1 class="section-title">404</h1>
-      <p class="section-lead">La pagina che stai cercando non esiste o è stata spostata.</p>
-      <a class="btn btn-primary" href="/">Torna alla home</a>
+      <p class="code" aria-hidden="true">404</p>
+      <h1 class="section-title">Questa pagina non c'è</h1>
+      <p class="section-lead">
+        Da docente la segnerei assente ingiustificata. Da sviluppatore dico che sulla mia macchina funzionava.
+      </p>
+      <p class="section-lead">
+        Forse è stata spostata, o forse l'indirizzo ha preso un refuso. Si riparte da qui:
+      </p>
+      <div class="actions">
+        <a class="btn btn-primary" href="/">Torna alla home</a>
+        <a class="btn btn-outline" href="/progetti/">Guarda i progetti</a>
+      </div>
+      <p class="en" lang="en">Page not found. <a href="/en/">Back to the English home page</a>.</p>
     </div>
   </section>
 </BaseLayout>
@@ -15,11 +25,37 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 <style>
   .not-found {
     text-align: center;
-    padding: 8rem 0;
+    padding: 6rem 0;
   }
 
   .not-found .section-lead {
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .code {
+    margin: 0;
+    font-size: clamp(5rem, 18vw, 9rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    background: var(--gradient-brand);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  .en {
+    margin-top: 2.5rem;
+    font-size: 0.9rem;
+    opacity: 0.75;
   }
 </style>
