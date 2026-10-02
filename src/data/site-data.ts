@@ -69,7 +69,6 @@ export const education = [
 export const projects = [
   {
     name: "ProfClick",
-    homeHidden: true,
     icon: "/projects/profclick.svg",
     tagline: "Il piano di lavoro del docente, lezione per lezione",
     description:
@@ -88,30 +87,6 @@ export const projects = [
     stack: ["React", "TypeScript", "Vite", "PWA", "Vitest"],
     url: projectUrl("vocabe"),
     repo: "https://github.com/federicodiluca/Vocabe",
-    cta: "Prova l'app",
-  },
-  {
-    name: "Duetrack",
-    homeHidden: true,
-    icon: "/projects/duetrack.svg",
-    tagline: "Chi ti deve cosa, letto dal tuo Google Calendar",
-    description:
-      "Per chi lavora a ore e segna ogni appuntamento in calendario: Duetrack legge gli eventi, calcola quanto deve ogni cliente in base a durata e tariffa oraria, e tiene traccia dei pagamenti, una lezione alla volta o a blocchi, con resoconti per periodo. Niente server: gira nel browser, legge il calendario senza modificarlo e salva i dati sul Google Drive dell'utente.",
-    stack: ["React", "TypeScript", "PWA", "Google Calendar API", "Google Drive API"],
-    url: projectUrl("duetrack"),
-    repo: "https://github.com/federicodiluca/duetrack",
-    cta: "Prova l'app",
-  },
-  {
-    name: "Listo",
-    homeHidden: true,
-    icon: "/projects/listo.svg",
-    tagline: "Liste in cui ogni cosa può stare in più categorie",
-    description:
-      "Nato dall'inventario del congelatore, dove il minestrone pronto non poteva stare sia sotto \"verdure\" sia sotto \"piatti pronti\". Ognuno crea le proprie liste, con categorie multiple e campi su misura: una data o una durata fanno da scadenza e Listo mette in evidenza ciò che sta per scadere. Modelli pronti per dispensa, spesa, medicinali e altro. Funziona offline e sincronizza, se si vuole, con un foglio sul proprio Google Drive.",
-    stack: ["SvelteKit", "TypeScript", "Tailwind CSS", "IndexedDB", "Google Sheets API"],
-    url: projectUrl("listo"),
-    repo: "https://github.com/federicodiluca/listo",
     cta: "Prova l'app",
   },
   {
@@ -135,6 +110,29 @@ export const projects = [
     url: projectUrl("lascimmiavince"),
     repo: "https://github.com/federicodiluca/la-scimmia-vince",
     cta: "Guarda le statistiche",
+  },
+  {
+    name: "Duetrack",
+    homeHidden: true,
+    icon: "/projects/duetrack.svg",
+    tagline: "Chi ti deve cosa, letto dal tuo Google Calendar",
+    description:
+    "Per chi lavora a ore e segna ogni appuntamento in calendario: Duetrack legge gli eventi, calcola quanto deve ogni cliente in base a durata e tariffa oraria, e tiene traccia dei pagamenti, una lezione alla volta o a blocchi, con resoconti per periodo. Niente server: gira nel browser, legge il calendario senza modificarlo e salva i dati sul Google Drive dell'utente.",
+    stack: ["React", "TypeScript", "PWA", "Google Calendar API", "Google Drive API"],
+    url: projectUrl("duetrack"),
+    repo: "https://github.com/federicodiluca/duetrack",
+    cta: "Prova l'app",
+  },
+  {
+    name: "Listo",
+    icon: "/projects/listo.svg",
+    tagline: "Liste in cui ogni cosa può stare in più categorie",
+    description:
+      "Nato dall'inventario del congelatore, dove il minestrone pronto non poteva stare sia sotto \"verdure\" sia sotto \"piatti pronti\". Ognuno crea le proprie liste, con categorie multiple e campi su misura: una data o una durata fanno da scadenza e Listo mette in evidenza ciò che sta per scadere. Modelli pronti per dispensa, spesa, medicinali e altro. Funziona offline e sincronizza, se si vuole, con un foglio sul proprio Google Drive.",
+    stack: ["SvelteKit", "TypeScript", "Tailwind CSS", "IndexedDB", "Google Sheets API"],
+    url: projectUrl("listo"),
+    repo: "https://github.com/federicodiluca/listo",
+    cta: "Prova l'app",
   },
 ] as const;
 
