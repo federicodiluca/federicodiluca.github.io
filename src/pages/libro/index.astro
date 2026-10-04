@@ -4,6 +4,7 @@ import BookBand from "../../components/BookBand.astro";
 import BookCover from "../../components/BookCover.astro";
 import BookCrossword from "../../components/BookCrossword.astro";
 import { book } from "../../data/site-data";
+import Icon from "../../components/Icon.astro";
 import { SITE_URL, BOOK_RELEASED } from "../../consts";
 
 // Durante il teaser la pagina esiste (così un link condiviso funziona già) ma resta fuori
@@ -12,10 +13,35 @@ const description = BOOK_RELEASED
   ? `«${book.title}», il primo libro di Federico Di Luca: 45 storie vere della storia dell'informatica, da Ada Lovelace a Unix, ognuna con un cruciverba crittografato. Prova uno schema online.`
   : "Sta arrivando qualcosa: un progetto diverso dal solito, per chi ama l'informatica e i rompicapi.";
 
-const details = [book.format, `${book.pages} pagine`, book.price, book.isbn && `ISBN ${book.isbn}`].filter(Boolean);
+const details = [book.format, `${book.pages} pagine`, book.isbn && `ISBN ${book.isbn}`].filter(Boolean);
+
+// Le domande che chi non conosce il titolo fa a un motore di ricerca: stanno in pagina e,
+// identiche, nei dati strutturati FAQPage.
+const faq = [
+  {
+    q: "Cos'è un cruciverba crittografato?",
+    a: "È un cruciverba senza definizioni. Ogni casella ha un numero e a numero uguale corrisponde sempre la stessa lettera. Alcune lettere sono già scritte: le altre si ricavano incrociando le parole e riportando ogni scoperta in tutte le caselle con lo stesso numero.",
+  },
+  {
+    q: "Bisogna essere informatici per risolverli?",
+    a: "No. Le dieci parole di ogni schema vengono dalla storia sulla pagina accanto, che racconta tutto quello che serve. Chi conosce già l'argomento parte avvantaggiato, ma le storie sono scritte per essere capite da chiunque.",
+  },
+  {
+    q: "Ci sono le soluzioni?",
+    a: "Sì, tutte e quarantacinque, complete, in fondo al volume. Ogni schema ha una sola soluzione possibile: lo verifica un programma che prova tutte le combinazioni prima di stamparlo.",
+  },
+  {
+    q: "Dove si compra?",
+    a: `Su Amazon, in copertina flessibile da 15 × 23 cm e ${book.pages} pagine${book.price ? `, a ${book.price}` : ""}.`,
+  },
+  {
+    q: "È un buon regalo?",
+    a: "È pensato anche per questo: per chi lavora o studia nell'informatica, per chi ama l'enigmistica e per chi cerca un regalo per uno di loro. Si legge una storia alla volta, anche in pochi minuti.",
+  },
+];
 
 const jsonLd = BOOK_RELEASED
-  ? {
+  ? [{
       "@context": "https://schema.org",
       "@type": "Book",
       "@id": `${SITE_URL}/libro/#book`,
@@ -31,12 +57,28 @@ const jsonLd = BOOK_RELEASED
       image: new URL(book.cover.jpg, SITE_URL).toString(),
       url: new URL("/libro/", SITE_URL).toString(),
       description: book.blurb.join(" "),
-      ...(book.isbn && { isbn: book.isbn }),
+      ...(book.isbn && { isbn: book.isbn.replaceAll("-", "") }),
       ...(book.datePublished && { datePublished: book.datePublished }),
       ...(book.amazonUrl && {
-        offers: { "@type": "Offer", url: book.amazonUrl, availability: "https://schema.org/InStock" },
+        sameAs: book.amazonUrl,
+        offers: {
+          "@type": "Offer",
+          url: book.amazonUrl,
+          price: book.priceValue,
+          priceCurrency: "EUR",
+          availability: "https://schema.org/InStock",
+        },
       }),
-    }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: faq.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    }]
   : undefined;
 ---
 
@@ -84,6 +126,40 @@ const jsonLd = BOOK_RELEASED
         </div>
       </section>
 
+      <section class="section section-alt">
+        <div class="container libro-inside">
+          <div>
+            <h2 class="section-title">Com'è fatto</h2>
+            <p>
+              Ogni storia occupa una pagina, e sulla pagina accanto c'è il suo schema. In fondo, sotto
+              una linea tratteggiata, ci sono le dieci parole da inserire.
+            </p>
+            <p>
+              <strong>Versione difficile</strong>: si copre la fascia con una mano e le parole si
+              ricavano dalla storia appena letta. Sono tutte lì dentro.
+            </p>
+            <p>
+              <strong>Versione facile</strong>: si scopre la fascia, e resta da capire quale parola va
+              dove, aiutandosi con la lunghezza e con gli incroci.
+            </p>
+          </div>
+          <figure class="libro-spread">
+            <picture>
+              <source srcset={book.spread.webp} type="image/webp" />
+              <img
+                src={book.spread.jpg}
+                width={book.spread.width}
+                height={book.spread.height}
+                alt="Doppia pagina del libro: a sinistra la storia «La falena che non inventò la parola bug», a destra il suo cruciverba crittografato con la tabella delle lettere e le dieci parole in fondo"
+                loading="lazy"
+                decoding="async"
+              />
+            </picture>
+            <figcaption>La scheda 4, com'è nel libro. Qui sotto si può giocare.</figcaption>
+          </figure>
+        </div>
+      </section>
+
       <section class="libro-play" id="prova">
         <div class="container">
           <p class="libro-kicker">Scheda 4 · Prova uno schema</p>
@@ -93,13 +169,26 @@ const jsonLd = BOOK_RELEASED
               Il 9 settembre 1947, nel laboratorio di Harvard dove girava il calcolatore Mark II, qualcuno
               aprì il pannello dei relè e trovò una falena incastrata fra i contatti. La tolse con delle
               pinzette, la incollò con del nastro adesivo sul registro di laboratorio e accanto scrisse:
-              <em lang="en">First actual case of bug being found</em>.
+              <em lang="en">First actual case of bug being found</em>. Quella pagina esiste ancora ed è
+              conservata allo Smithsonian, a Washington.
             </p>
             <p>
-              Nel libro la storia continua: perché non fu Grace Hopper a trovarla, e perché la parola
-              «bug» esisteva già da settant'anni. Qui sotto c'è lo schema che la accompagna. Nei
-              cruciverba crittografati non ci sono definizioni: ogni numero è una lettera, sempre la
-              stessa. Tre sono già scritte, le altre si deducono dalle dieci parole.
+              La storia viene raccontata quasi sempre così: Grace Hopper trovò l'insetto e inventò la
+              parola «bug». In realtà nessuna delle due cose è vera, e il registro stesso lo dimostra. La
+              nota è scritta come una battuta, e una battuta funziona solo se chi legge conosce già il
+              riferimento: «bug» era gergo da ingegneri da almeno settant'anni: Thomas Edison lo usava
+              nelle sue lettere già nel 1878 per indicare i difetti nascosti delle sue macchine. La frase
+              non significa «abbiamo inventato un termine», significa «per una volta il baco era un baco
+              vero».
+            </p>
+            <p>
+              Non fu lei a trovarla. Ma raccontò l'aneddoto con tale gusto, per quarantacinque anni e in
+              centinaia di conferenze, che finì per diventare suo. Aveva già abbastanza meriti per non
+              aver bisogno di questo: scrisse l'A-0, spesso indicato come il primo compilatore della
+              storia anche se il primato è discusso, e progettò il FLOW-MATIC quando i colleghi le
+              dicevano che un computer «non poteva capire l'inglese»; da quel linguaggio sarebbe poi nato
+              il COBOL. Per spiegare ai militari cosa fosse un nanosecondo distribuiva spezzoni di filo
+              lunghi trenta centimetri: la distanza massima che la luce percorre in quel tempo.
             </p>
           </div>
           <BookCrossword />
@@ -122,8 +211,24 @@ const jsonLd = BOOK_RELEASED
             combinazioni e controlla che la soluzione sia una sola: se uno schema fosse ambiguo, il
             programma si rifiuterebbe di stamparlo. Tutti e quarantacinque hanno superato il controllo.
           </p>
+        </div>
+      </section>
+
+      <section class="section section-alt" id="domande">
+        <div class="container narrow">
+          <h2 class="section-title">Domande frequenti</h2>
+          <div class="libro-faq">
+            {faq.map((f) => (
+              <details class="card">
+                <summary>{f.q}</summary>
+                <p>{f.a}</p>
+              </details>
+            ))}
+          </div>
           {book.amazonUrl && (
-            <a class="btn btn-amber" href={book.amazonUrl} target="_blank" rel="noopener noreferrer">Acquista su Amazon</a>
+            <a class="btn btn-amber libro-final-cta" href={book.amazonUrl} target="_blank" rel="noopener noreferrer">
+              Acquista su Amazon <Icon name="arrow" />
+            </a>
           )}
         </div>
       </section>
@@ -137,7 +242,12 @@ const jsonLd = BOOK_RELEASED
   .libro-hero,
   .libro-play {
     color: #fff;
-    background: var(--book-navy);
+    background: var(--book-night);
+  }
+
+  /* Il bagliore dietro la copertina, a sinistra come la copertina */
+  .libro-hero {
+    background: radial-gradient(36rem 26rem at 22% 50%, rgba(60, 99, 138, 0.4), transparent 70%), var(--book-night);
   }
 
   .libro-hero {
@@ -263,13 +373,73 @@ const jsonLd = BOOK_RELEASED
     max-width: 44rem;
   }
 
+  .section-alt {
+    background: var(--color-bg-alt);
+  }
+
+  .libro-inside {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .libro-inside p {
+    color: var(--color-text-muted);
+  }
+
+  .libro-inside strong {
+    color: var(--color-text);
+  }
+
+  .libro-spread {
+    margin: 0;
+  }
+
+  .libro-spread img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 1.25rem 2.5rem -1.25rem rgba(0, 0, 0, 0.5);
+  }
+
+  .libro-spread figcaption {
+    margin-top: 0.75rem;
+    color: var(--color-text-muted);
+    font-size: 0.88rem;
+  }
+
+  .libro-faq {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .libro-faq details {
+    padding: 1rem 1.25rem;
+  }
+
+  .libro-faq summary {
+    cursor: pointer;
+    font-weight: 700;
+  }
+
+  .libro-faq details p {
+    margin: 0.75rem 0 0;
+    color: var(--color-text-muted);
+  }
+
+  .libro-final-cta {
+    margin-top: 2rem;
+  }
+
   .libro-origin p {
     color: var(--color-text-muted);
   }
 
   @media (max-width: 860px) {
     .libro-hero-inner,
-    .libro-about {
+    .libro-about,
+    .libro-inside {
       grid-template-columns: 1fr;
       gap: 2.5rem;
     }

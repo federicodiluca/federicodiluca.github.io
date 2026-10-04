@@ -1,5 +1,5 @@
 ---
-import { AUTHOR } from "../consts";
+import { AUTHOR, projectUrl } from "../consts";
 
 interface Props {
   locale: "it" | "en";
@@ -17,7 +17,7 @@ const year = new Date().getFullYear();
       <a href={`mailto:${AUTHOR.email}`}>{AUTHOR.email}</a>
       <a href={AUTHOR.sameAs[0]} target="_blank" rel="noopener noreferrer">GitHub</a>
       <a href={AUTHOR.sameAs[1]} target="_blank" rel="noopener noreferrer">LinkedIn</a>
-      <a href={AUTHOR.sameAs[2]} target="_blank" rel="noopener noreferrer">Gioca a Vocabe</a>
+      <a href={projectUrl("vocabe")} target="_blank" rel="noopener noreferrer">Gioca a Vocabe</a>
       <a href={locale === "it" ? "/privacy/" : "/en/privacy/"}>Privacy</a>
     </div>
   </div>

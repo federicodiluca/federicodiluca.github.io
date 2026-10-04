@@ -16,7 +16,7 @@ export const SHOW_PRIVATE_LESSONS = false;
  *  in noindex e fuori dalla sitemap. "uscito": fascia con la copertina, pagina /libro/ completa,
  *  voce nel menu, striscia ambra in cima alle pagine, paragrafo in chi sono e nella 404.
  *  Al lancio: compilare amazonUrl e i dettagli in `book`, poi mettere "uscito". */
-export const BOOK_PHASE = "teaser" as "teaser" | "uscito";
+export const BOOK_PHASE = "uscito" as "teaser" | "uscito";
 export const BOOK_RELEASED = BOOK_PHASE === "uscito";
 
 export const SITE_NAME = "Federico Di Luca";

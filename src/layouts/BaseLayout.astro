@@ -143,6 +143,10 @@ const schemas = [personSchema, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [j
     --gradient-brand: linear-gradient(135deg, var(--color-accent), var(--color-accent-3));
     /* Colori della copertina del libro: le sue fasce restano blu in entrambi i temi. */
     --book-navy: #263c60;
+    /* Lo sfondo delle sezioni del libro: più scuro della copertina, così il libro si stacca e
+       la fascia si avvicina al nero-viola del sito. Il bagliore riprende quello dell'hero. */
+    --book-night: #17233b;
+    --book-glow: radial-gradient(42rem 28rem at 80% 45%, rgba(60, 99, 138, 0.38), transparent 70%);
     --book-cell: #3c638a;
     --book-amber: #fbaf2e;
     --book-amber-text: #fbaf2e;

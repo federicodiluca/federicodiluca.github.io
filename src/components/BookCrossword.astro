@@ -42,7 +42,11 @@ const terms = [...schema.termini].sort((a, b) => a.length - b.length || a.locale
 
   <div class="xw-side">
     <p class="xw-label">Le dieci parole</p>
-    <ul class="xw-terms">
+    <p class="xw-hard">
+      Versione difficile: le parole sono tutte nella storia qui sopra.
+      <button type="button" class="xw-link" data-action="terms">Scoprile (versione facile)</button>
+    </p>
+    <ul class="xw-terms" hidden>
       {terms.map((t) => <li>{t}</li>)}
     </ul>
 
@@ -147,6 +151,10 @@ const terms = [...schema.termini].sort((a, b) => a.length - b.length || a.locale
       });
     });
 
+    root.querySelector('[data-action="terms"]')!.addEventListener("click", () => {
+      root.querySelector<HTMLElement>(".xw-terms")!.hidden = false;
+      root.querySelector<HTMLElement>(".xw-hard")!.hidden = true;
+    });
     root.querySelector('[data-action="check"]')!.addEventListener("click", check);
     root.querySelector('[data-action="reset"]')!.addEventListener("click", () => {
       inputs.forEach((i) => {
@@ -258,6 +266,22 @@ const terms = [...schema.termini].sort((a, b) => a.length - b.length || a.locale
     color: #d3dcee;
     font-size: 0.9rem;
     letter-spacing: 0.04em;
+  }
+
+  .xw-hard {
+    margin: 0 0 1.75rem;
+    color: #d3dcee;
+    font-size: 0.92rem;
+  }
+
+  .xw-hard .xw-link {
+    display: block;
+    padding-left: 0;
+  }
+
+  .xw-terms[hidden],
+  .xw-hard[hidden] {
+    display: none;
   }
 
   .xw-key {

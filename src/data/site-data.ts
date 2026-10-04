@@ -213,13 +213,17 @@ export const book = {
   title: "Il bug era una falena",
   subtitle: "Enigmistica per informatici: 45 storie vere e 45 cruciverba crittografati",
   /** Link Amazon definitivo: share sempre /libro/, non questo. */
-  amazonUrl: null as string | null,
-  isbn: null as string | null,
-  price: null as string | null,
+  amazonUrl: "https://www.amazon.it/dp/B0HLX87KLQ" as string | null,
+  isbn: "979-8175513081" as string | null,
+  /** Prezzo di copertina su amazon.it: in pagina come testo, nei dati strutturati come numero. */
+  price: "12,90 €" as string | null,
+  priceValue: 12.9,
   /** Data di uscita, AAAA-MM-GG. */
-  datePublished: null as string | null,
+  datePublished: "2026-10-02" as string | null,
   pages: 112,
   format: "Copertina flessibile, 15 × 23 cm",
+  /** La doppia pagina della scheda 4, presa dal PDF interno: storia a sinistra, schema a destra. */
+  spread: { jpg: "/libro/il-bug-era-una-falena-doppia-pagina.jpg", webp: "/libro/il-bug-era-una-falena-doppia-pagina.webp", width: 1600, height: 1200 },
   cover: { jpg: "/libro/il-bug-era-una-falena-copertina.jpg", webp: "/libro/il-bug-era-una-falena-copertina.webp", width: 600, height: 900 },
   /** Testo della quarta di copertina, usato nella pagina /libro/. */
   blurb: [
