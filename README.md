@@ -119,9 +119,19 @@ Ogni progetto personale ha un repo separato e vive su un **sottodominio** propri
 - [La Scimmia Vince](https://lascimmiavince.federicodiluca.com/) — statistiche sul SuperEnalotto
 
 I progetti sono definiti in `projects` in [src/data/site-data.ts](src/data/site-data.ts), con
-l'icona in `public/projects/`. Quelli con `homeHidden: true` (ProfClick, Duetrack, Listo) compaiono
+l'icona in `public/projects/`. Quelli con `homeHidden: true` (oggi Duetrack) compaiono
 solo su `/progetti/` e non in home: usano l'accesso Google e aspettano la verifica della schermata
 di consenso OAuth prima di finire in vetrina.
+
+Ogni progetto può avere anche un **racconto** sul sito principale, `/progetti/<slug>/`: da dove è
+nato, le scelte tecniche, cosa ho imparato. È un file Markdown in
+[src/content/progetti/](src/content/progetti/) con lo stesso `slug` del progetto. Finché ha
+`draft: true` la pagina non viene generata e la card non ci rimanda; con `draft: false` compare la
+pagina, entra in sitemap e le card in home e su `/progetti/` mostrano il link "Come è nato".
+
+Le pagine dei progetti e questo sito usano la stessa entità `Person` nel JSON-LD
+(`"@id": "https://federicodiluca.com/#person"`): ogni nuovo progetto deve riferirsi a quella come
+`author`, così Google collega app e portfolio alla stessa persona.
 
 Per ogni sottodominio servono un record DNS `CNAME` verso `federicodiluca.github.io`, un file
 `CNAME` nel repo del progetto e il custom domain impostato nelle sue *Settings → Pages*. Essendo

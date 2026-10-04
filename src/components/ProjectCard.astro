@@ -1,6 +1,10 @@
 ---
+import { getEntry } from "astro:content";
+
 interface Props {
   name: string;
+  /** Se in src/content/progetti/<slug>.md c'è un racconto pubblicato, la card ci rimanda. */
+  slug: string;
   /** Percorso al logo del progetto (SVG in /projects/). */
   icon: string;
   tagline: string;
@@ -13,7 +17,9 @@ interface Props {
   compact?: boolean;
 }
 
-const { name, icon, tagline, description, stack, url, repo, cta, compact = false } = Astro.props;
+const { name, slug, icon, tagline, description, stack, url, repo, cta, compact = false } = Astro.props;
+const story = await getEntry("progetti", slug);
+const storyHref = story && !story.data.draft ? `/progetti/${slug}/` : undefined;
 ---
 
 <article class:list={["card project-card", { compact }]}>
@@ -34,9 +40,14 @@ const { name, icon, tagline, description, stack, url, repo, cta, compact = false
     </ul>
   )}
 
+  {/* Il pulsante da solo, i link secondari sempre in una riga sotto: con tre elementi sulla
+      stessa riga l'a capo cadeva in punti diversi a seconda della lunghezza del pulsante. */}
   <div class="project-actions">
     <a class="btn btn-primary" href={url} target="_blank" rel="noopener noreferrer">{cta}</a>
-    <a class="project-repo" href={repo} target="_blank" rel="noopener noreferrer">{compact ? "GitHub" : "Codice su GitHub"}</a>
+    <div class="project-links">
+      {storyHref && <a class="project-story" href={storyHref}>Come è nato →</a>}
+      <a class="project-repo" href={repo} target="_blank" rel="noopener noreferrer">{compact ? "GitHub" : "Codice su GitHub"}</a>
+    </div>
   </div>
 </article>
 
@@ -114,14 +125,25 @@ const { name, icon, tagline, description, stack, url, repo, cta, compact = false
 
   .project-actions {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.9rem;
     margin-top: auto;
   }
 
-  .project-repo {
+  .project-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.25rem;
     font-size: 0.9rem;
+  }
+
+  .project-story {
+    color: var(--color-link);
+    font-weight: 600;
+  }
+
+  .project-repo {
     color: var(--color-text-muted);
   }
 

@@ -1,0 +1,123 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PageHeader from "../../../components/PageHeader.astro";
+import Breadcrumb from "../../../components/Breadcrumb.astro";
+import CtaBand from "../../../components/CtaBand.astro";
+import { projects } from "../../../data/site-data";
+import { SITE_URL } from "../../../consts";
+
+// Una pagina per ogni racconto pubblicato (draft: false) di un progetto che esiste:
+// è il contenuto del sito principale su ciascun progetto, l'app resta sul suo sottodominio.
+export async function getStaticPaths() {
+  const stories = await getCollection("progetti", ({ data }) => !data.draft);
+  return stories.flatMap((story) => {
+    const project = projects.find((p) => p.slug === story.id);
+    return project ? [{ params: { slug: story.id }, props: { story, project } }] : [];
+  });
+}
+
+const { story, project } = Astro.props;
+const { Content } = await render(story);
+const pageURL = new URL(`/progetti/${project.slug}/`, SITE_URL).toString();
+
+// Stessa entità Person della home: il racconto e l'app risultano entrambi di Federico.
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: story.data.title,
+    description: story.data.description,
+    url: pageURL,
+    inLanguage: "it-IT",
+    author: { "@id": `${SITE_URL}/#person` },
+    about: {
+      "@type": "SoftwareApplication",
+      name: project.name,
+      url: project.url,
+      codeRepository: project.repo,
+      author: { "@id": `${SITE_URL}/#person` },
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: "Progetti", item: `${SITE_URL}/progetti/` },
+      { "@type": "ListItem", position: 3, name: project.name, item: pageURL },
+    ],
+  },
+];
+---
+
+<BaseLayout title={story.data.title} description={story.data.description} type="article" jsonLd={jsonLd}>
+  <PageHeader eyebrow={project.tagline} title={story.data.title} lead={project.description}>
+    <a class="btn btn-primary" href={project.url}>{project.cta}</a>
+    <a class="btn btn-outline" href={project.repo} rel="noopener noreferrer">Codice su GitHub</a>
+  </PageHeader>
+
+  <section class="section">
+    <div class="container story">
+      <Breadcrumb items={[{ label: "Progetti", href: "/progetti/" }, { label: project.name, href: pageURL }]} />
+      <img class="story-icon" src={project.icon} alt="" width="64" height="64" />
+      <div class="story-body">
+        <Content />
+      </div>
+      <ul class="story-stack" aria-label="Tecnologie">
+        {project.stack.map((tech) => <li>{tech}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand
+    title="Hai un'idea da costruire?"
+    text="Se stai pensando a uno strumento simile, o hai un progetto che ha bisogno di qualcuno che lo porti dall'idea al funzionante, scrivimi."
+    primary={{ href: "/contatti/", label: "Parliamone" }}
+  />
+</BaseLayout>
+
+<style>
+  .story {
+    max-width: 46rem;
+  }
+
+  .story-icon {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 0.8rem;
+    border: 1px solid var(--color-border);
+    margin-bottom: 1.5rem;
+  }
+
+  .story-body :global(h2) {
+    font-size: 1.5rem;
+    margin: 2.5rem 0 0.75rem;
+  }
+
+  .story-body :global(p),
+  .story-body :global(li) {
+    font-size: 1.075rem;
+    line-height: 1.75;
+  }
+
+  .story-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    list-style: none;
+    margin: 2.5rem 0 0;
+    padding: 0;
+  }
+
+  .story-stack li {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--color-text-muted);
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    padding: 0.2rem 0.6rem;
+  }
+</style>

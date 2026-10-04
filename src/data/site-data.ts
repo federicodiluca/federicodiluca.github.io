@@ -65,10 +65,12 @@ export const education = [
 
 /** Progetti personali: tutti su /progetti/, i primi tre di `homeProjects` in home.
  *  `homeHidden: true` = su /progetti/ ma non in home: le app che usano l'accesso Google
- *  aspettano che Google verifichi la schermata di consenso OAuth prima di finire in vetrina. */
+ *  aspettano che Google verifichi la schermata di consenso OAuth prima di finire in vetrina.
+ *  `slug` = file del racconto in src/content/progetti/ e indirizzo /progetti/<slug>/. */
 export const projects = [
   {
     name: "ProfClick",
+    slug: "profclick",
     icon: "/projects/profclick.svg",
     tagline: "Il piano di lavoro del docente, lezione per lezione",
     description:
@@ -80,6 +82,7 @@ export const projects = [
   },
   {
     name: "Vocabe",
+    slug: "vocabe",
     icon: "/projects/vocabe.svg",
     tagline: "Una parola italiana al giorno",
     description:
@@ -91,10 +94,11 @@ export const projects = [
   },
   {
     name: "School Feed Monitor",
+    slug: "school-feed-monitor",
     icon: "/projects/school-feed-monitor.svg",
     tagline: "Gli avvisi della scuola italiana, su Telegram",
     description:
-      "Monitora i siti e i feed di USR, USP e MIM e recapita su Telegram avvisi per parole chiave e digest giornalieri. Nato da un'esigenza concreta di chi lavora nella scuola: non perdere bandi, graduatorie e circolari sparsi su decine di portali diversi. Self-hosted, ogni utente configura le proprie fonti.",
+      "Monitora i siti e i feed di USR, USP e MIM e recapita su Telegram avvisi per parole chiave e digest giornalieri. Nato da un'esigenza concreta di chi lavora nella scuola: non perdere bandi, graduatorie e circolari sparsi su più di cento portali diversi. Senza account: fonti e parole chiave si scelgono sul sito.",
     stack: ["Python", "SQLite", "Telegram Bot API", "RSS", "Web scraping"],
     url: projectUrl("schoolfeedmonitor"),
     repo: "https://github.com/federicodiluca/school-feed-monitor",
@@ -102,6 +106,7 @@ export const projects = [
   },
   {
     name: "La Scimmia Vince",
+    slug: "la-scimmia-vince",
     icon: "/projects/la-scimmia-vince.svg",
     tagline: "Statistiche oneste sul SuperEnalotto",
     description:
@@ -113,6 +118,7 @@ export const projects = [
   },
   {
     name: "Duetrack",
+    slug: "duetrack",
     homeHidden: true,
     icon: "/projects/duetrack.svg",
     tagline: "Chi ti deve cosa, letto dal tuo Google Calendar",
@@ -125,6 +131,7 @@ export const projects = [
   },
   {
     name: "Listo",
+    slug: "listo",
     icon: "/projects/listo.svg",
     tagline: "Liste in cui ogni cosa può stare in più categorie",
     description:

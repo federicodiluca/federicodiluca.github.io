@@ -18,7 +18,7 @@ const jsonLd = projects.map((p) => ({
   url: p.url,
   codeRepository: p.repo,
   applicationCategory: "UtilitiesApplication",
-  author: { "@type": "Person", name: "Federico Di Luca", url: SITE_URL },
+  author: { "@id": `${SITE_URL}/#person` },
   offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
 }));
 ---
