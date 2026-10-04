@@ -1,0 +1,94 @@
+---
+import { book } from "../data/site-data";
+
+// Striscia in cima alle pagine nelle prime settimane dopo l'uscita. Chi la chiude non la
+// rivede: lo script in <head> di BaseLayout mette la classe prima che la pagina si disegni.
+---
+
+<div class="book-bar" id="book-bar">
+  <a href="/libro/">
+    <span class="book-bar-new">Novità</span>
+    È uscito il mio primo libro: <em>{book.title}</em>
+    <span class="book-bar-cta">Scoprilo</span>
+  </a>
+  <button type="button" class="book-bar-close" aria-label="Chiudi l'avviso">×</button>
+</div>
+
+<script>
+  document.querySelector(".book-bar-close")?.addEventListener("click", () => {
+    document.documentElement.classList.add("book-bar-closed");
+    try {
+      localStorage.setItem("book-bar-closed", "1");
+    } catch {}
+  });
+</script>
+
+<style>
+  .book-bar {
+    position: relative;
+    background: var(--book-amber);
+    color: var(--book-navy);
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  :global(.book-bar-closed) .book-bar {
+    display: none;
+  }
+
+  .book-bar a {
+    display: block;
+    padding: 0.55rem 3rem;
+    color: inherit;
+  }
+
+  .book-bar a:hover {
+    text-decoration: none;
+  }
+
+  .book-bar em {
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 700;
+  }
+
+  .book-bar-new {
+    margin-right: 0.4rem;
+    padding: 0.05rem 0.5rem;
+    border-radius: 999px;
+    background: var(--book-navy);
+    color: var(--book-amber);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .book-bar-cta {
+    margin-left: 0.4rem;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .book-bar-close {
+    position: absolute;
+    top: 50%;
+    right: 0.75rem;
+    transform: translateY(-50%);
+    width: 2rem;
+    height: 2rem;
+    border: 0;
+    background: none;
+    color: inherit;
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  @media (max-width: 600px) {
+    .book-bar a {
+      padding: 0.55rem 2.75rem 0.55rem 1rem;
+      text-align: left;
+    }
+  }
+</style>

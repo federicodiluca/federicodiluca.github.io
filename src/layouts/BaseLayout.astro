@@ -1,7 +1,8 @@
 ---
-import { SITE_URL, SITE_NAME, AUTHOR, GOOGLE_SITE_VERIFICATION, translationPair } from "../consts";
+import { SITE_URL, SITE_NAME, AUTHOR, GOOGLE_SITE_VERIFICATION, BOOK_RELEASED, translationPair } from "../consts";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import BookBar from "../components/BookBar.astro";
 
 interface Props {
   title: string;
@@ -29,6 +30,8 @@ const imageURL = new URL(image, SITE_URL).toString();
 const fullTitle = title.startsWith(SITE_NAME) ? title : `${title} · ${SITE_NAME}`;
 
 const translation = translationPair(Astro.url.pathname);
+// La striscia del libro: solo in italiano e non sulla pagina del libro stessa.
+const showBookBar = BOOK_RELEASED && locale === "it" && !Astro.url.pathname.startsWith("/libro/");
 
 const personSchema = {
   "@context": "https://schema.org",
@@ -95,8 +98,14 @@ const schemas = [personSchema, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [j
 
     <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#0d0b1f" />
+    {showBookBar && (
+      <script is:inline>
+        try { if (localStorage.getItem("book-bar-closed")) document.documentElement.classList.add("book-bar-closed"); } catch {}
+      </script>
+    )}
   </head>
   <body>
+    {showBookBar && <BookBar />}
     <Header locale={locale} />
     <main>
       <slot />
@@ -132,6 +141,11 @@ const schemas = [personSchema, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [j
     --color-accent-2: #2dd4bf;
     --color-accent-3: #d46bd9;
     --gradient-brand: linear-gradient(135deg, var(--color-accent), var(--color-accent-3));
+    /* Colori della copertina del libro: le sue fasce restano blu in entrambi i temi. */
+    --book-navy: #263c60;
+    --book-cell: #3c638a;
+    --book-amber: #fbaf2e;
+    --book-amber-text: #fbaf2e;
     --max-width: 72rem;
     --radius: 0.75rem;
     font-size: 16px;
@@ -147,6 +161,7 @@ const schemas = [personSchema, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [j
     --color-icon: #7c3aed;
     --color-icon-accent: #0d9488;
     --color-rose: #db2777;
+    --book-amber-text: #a15c00;
     --color-border: rgba(28, 23, 51, 0.1);
     --color-border-strong: rgba(28, 23, 51, 0.28);
     --shadow-card: 0 1px 2px rgba(28, 23, 51, 0.04), 0 12px 32px -20px rgba(76, 29, 149, 0.28);
@@ -270,6 +285,18 @@ const schemas = [personSchema, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [j
   .btn-outline {
     border-color: var(--color-border-strong);
     color: var(--color-text);
+  }
+
+  /* Il pulsante d'acquisto del libro, nell'ambra della copertina */
+  .btn-amber {
+    background: var(--book-amber);
+    color: var(--book-navy);
+    font-weight: 700;
+    box-shadow: 0 0.6rem 1.5rem -0.75rem rgba(251, 175, 46, 0.6);
+  }
+
+  .btn-amber:hover {
+    background: #ffc04f;
   }
 
   .visually-hidden {

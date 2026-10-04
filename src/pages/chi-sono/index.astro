@@ -6,7 +6,8 @@ import Icon from "../../components/Icon.astro";
 import Portrait from "../../components/Portrait.astro";
 import Timeline from "../../components/Timeline.astro";
 import { careerPath, highlights } from "../../data/site-data";
-import { SITE_URL, projectUrl, SHOW_PRIVATE_LESSONS } from "../../consts";
+import { SITE_URL, projectUrl, SHOW_PRIVATE_LESSONS, BOOK_RELEASED } from "../../consts";
+import { book } from "../../data/site-data";
 
 const description =
   "La storia di Federico Di Luca: da ingegnere delle telecomunicazioni a Technical Leader .NET, oggi docente di Informatica e sviluppatore freelance a Pesaro.";
@@ -110,6 +111,19 @@ const jsonLd = {
         un'app gratuita per imparare una parola italiana al giorno, e <a href={projectUrl("schoolfeedmonitor")} target="_blank" rel="noopener noreferrer">School Feed Monitor</a>,
         un servizio per ricevere avvisi scolastici su Telegram. Gli altri sono nella pagina <a href="/progetti/">Progetti</a>.
       </p>
+
+      {BOOK_RELEASED && (
+        <>
+          <h2 class="story-title"><Icon name="book" /> Il libro</h2>
+          <p>
+            In classe, quando arriva l'argomento ostico, prima provo a raccontare una storia. Col tempo
+            quelle storie sono diventate il mio primo libro: <a href="/libro/"><em>{book.title}</em></a>, 45 storie
+            vere della storia dell'informatica, ognuna con un cruciverba crittografato. Gli schemi li
+            genera un programma in Python che ho scritto apposta, e che controlla che ognuno abbia una
+            sola soluzione.
+          </p>
+        </>
+      )}
     </div>
   </section>
 

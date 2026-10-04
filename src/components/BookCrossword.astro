@@ -1,0 +1,341 @@
+---
+import schema from "../data/schema-falena.json";
+
+// Lo schema 4 del libro, estratto da kdp-forge (build/crittografati.json): 0 = casella nera,
+// altrimenti il numero della lettera. Le lettere "rivelate" partono già scritte, come sul libro.
+const legend = schema.legenda as Record<string, string>;
+const revealed = new Set(schema.rivelate.map(String));
+const numbers = Object.keys(legend).map(Number).sort((a, b) => a - b);
+const terms = [...schema.termini].sort((a, b) => a.length - b.length || a.localeCompare(b));
+---
+
+<div class="xw" data-legend={JSON.stringify(legend)}>
+  <div class="xw-board">
+    <div class="xw-grid" style={`--cols: ${schema.griglia[0].length}`} role="group" aria-label="Cruciverba crittografato">
+      {schema.griglia.map((row, r) =>
+        row.map((n, c) =>
+          n === 0 ? (
+            <span class="xw-block" aria-hidden="true"></span>
+          ) : (
+            <label class="xw-cell">
+              <span class="xw-n" aria-hidden="true">{n}</span>
+              <input
+                id={`xw-${r}-${c}`}
+                data-n={n}
+                data-r={r}
+                data-c={c}
+                maxlength="1"
+                autocomplete="off"
+                autocapitalize="characters"
+                spellcheck="false"
+                aria-label={`Riga ${r + 1}, colonna ${c + 1}, numero ${n}`}
+                value={revealed.has(String(n)) ? legend[n] : undefined}
+                readonly={revealed.has(String(n))}
+                class:list={{ given: revealed.has(String(n)) }}
+              />
+            </label>
+          ),
+        ),
+      )}
+    </div>
+  </div>
+
+  <div class="xw-side">
+    <p class="xw-label">Le dieci parole</p>
+    <ul class="xw-terms">
+      {terms.map((t) => <li>{t}</li>)}
+    </ul>
+
+    <p class="xw-label">Numeri e lettere</p>
+    <ol class="xw-key">
+      {numbers.map((n) => (
+        <li data-key={n} class:list={{ given: revealed.has(String(n)) }}>
+          <span>{n}</span><b>{revealed.has(String(n)) ? legend[n] : ""}</b>
+        </li>
+      ))}
+    </ol>
+
+    <p class="xw-status" aria-live="polite"></p>
+    <div class="xw-actions">
+      <button type="button" class="btn btn-amber" data-action="check">Controlla</button>
+      <button type="button" class="btn btn-outline" data-action="reset">Ricomincia</button>
+      <button type="button" class="xw-link" data-action="solve">Mostra la soluzione</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>(".xw").forEach((root) => {
+    const legend: Record<string, string> = JSON.parse(root.dataset.legend ?? "{}");
+    const inputs = [...root.querySelectorAll<HTMLInputElement>(".xw-cell input")];
+    const status = root.querySelector<HTMLElement>(".xw-status")!;
+    const at = new Map(inputs.map((i) => [`${i.dataset.r},${i.dataset.c}`, i]));
+    const cellAt = (r: number, c: number) => at.get(`${r},${c}`);
+    let dir: "h" | "v" = "h";
+
+    const pos = (i: HTMLInputElement) => [Number(i.dataset.r), Number(i.dataset.c)];
+    const hasRun = (i: HTMLInputElement, d: "h" | "v") => {
+      const [r, c] = pos(i);
+      return d === "h" ? Boolean(cellAt(r, c - 1) || cellAt(r, c + 1)) : Boolean(cellAt(r - 1, c) || cellAt(r + 1, c));
+    };
+    const step = (i: HTMLInputElement, delta: number) => {
+      const [r, c] = pos(i);
+      return dir === "h" ? cellAt(r, c + delta) : cellAt(r + delta, c);
+    };
+
+    // Una lettera scritta in una casella vale per tutte quelle con lo stesso numero.
+    function setLetter(n: string, letter: string) {
+      inputs.forEach((i) => {
+        if (i.dataset.n === n && !i.readOnly) i.value = letter;
+      });
+      const key = root.querySelector(`.xw-key [data-key="${n}"] b`);
+      if (key) key.textContent = letter;
+      status.textContent = "";
+      if (inputs.every((i) => i.value)) check();
+    }
+
+    function highlight(current: HTMLInputElement) {
+      inputs.forEach((i) => i.classList.toggle("same", i !== current && i.dataset.n === current.dataset.n));
+    }
+
+    function check() {
+      const wrong = new Set(inputs.filter((i) => i.value && i.value !== legend[i.dataset.n!]).map((i) => i.dataset.n));
+      const empty = inputs.some((i) => !i.value);
+      inputs.forEach((i) => i.classList.toggle("wrong", wrong.has(i.dataset.n)));
+      if (wrong.size) status.textContent = `${wrong.size === 1 ? "Un numero non torna" : `${wrong.size} numeri non tornano`}: li ho segnati in rosso.`;
+      else if (empty) status.textContent = "Fin qui tutto giusto. Continua.";
+      else status.textContent = "Risolto! Nel libro ce ne sono altri 44.";
+    }
+
+    inputs.forEach((input) => {
+      input.addEventListener("focus", () => {
+        if (!hasRun(input, dir)) dir = dir === "h" ? "v" : "h";
+        highlight(input);
+      });
+      // Un secondo clic sulla casella già attiva cambia direzione, come nei cruciverba online.
+      input.addEventListener("mousedown", () => {
+        if (document.activeElement === input) {
+          const other = dir === "h" ? "v" : "h";
+          if (hasRun(input, other)) dir = other;
+        }
+      });
+      input.addEventListener("input", () => {
+        if (input.readOnly) return;
+        const letter = input.value.replace(/[^a-z]/gi, "").slice(-1).toUpperCase();
+        input.classList.remove("wrong");
+        setLetter(input.dataset.n!, letter);
+        if (letter) {
+          let next = step(input, 1);
+          while (next?.readOnly) next = step(next, 1);
+          next?.focus();
+        }
+      });
+      input.addEventListener("keydown", (e) => {
+        const [r, c] = pos(input);
+        const moves: Record<string, [number, number, "h" | "v"]> = {
+          ArrowRight: [0, 1, "h"], ArrowLeft: [0, -1, "h"], ArrowDown: [1, 0, "v"], ArrowUp: [-1, 0, "v"],
+        };
+        const move = moves[e.key];
+        if (move) {
+          e.preventDefault();
+          dir = move[2];
+          cellAt(r + move[0], c + move[1])?.focus();
+        } else if (e.key === "Backspace" && !input.value) {
+          e.preventDefault();
+          step(input, -1)?.focus();
+        }
+      });
+    });
+
+    root.querySelector('[data-action="check"]')!.addEventListener("click", check);
+    root.querySelector('[data-action="reset"]')!.addEventListener("click", () => {
+      inputs.forEach((i) => {
+        if (!i.readOnly) i.value = "";
+        i.classList.remove("wrong", "same");
+      });
+      root.querySelectorAll<HTMLElement>(".xw-key li:not(.given) b").forEach((b) => (b.textContent = ""));
+      status.textContent = "";
+    });
+    root.querySelector('[data-action="solve"]')!.addEventListener("click", () => {
+      Object.entries(legend).forEach(([n, letter]) => setLetter(n, letter));
+      inputs.forEach((i) => i.classList.remove("wrong"));
+      status.textContent = "Ecco la soluzione. Nel libro sono tutte in fondo al volume.";
+    });
+  });
+</script>
+
+<style>
+  .xw {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  .xw-board {
+    max-width: 34rem;
+  }
+
+  .xw-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+    gap: 2px;
+  }
+
+  .xw-block {
+    aspect-ratio: 1;
+  }
+
+  .xw-cell {
+    position: relative;
+    aspect-ratio: 1;
+    background: var(--book-cell);
+  }
+
+  .xw-n {
+    position: absolute;
+    top: 1px;
+    left: 2px;
+    font-size: clamp(0.45rem, 1.2vw, 0.62rem);
+    line-height: 1;
+    color: #c3d1e6;
+    pointer-events: none;
+  }
+
+  .xw-cell input {
+    width: 100%;
+    height: 100%;
+    padding: 0.35em 0 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: #fff;
+    font: 800 clamp(0.75rem, 2.4vw, 1.1rem) / 1 "Segoe UI", system-ui, sans-serif;
+    text-align: center;
+    text-transform: uppercase;
+    caret-color: var(--book-amber);
+  }
+
+  .xw-cell input:focus {
+    outline: 2px solid var(--book-amber);
+    outline-offset: -2px;
+    background: rgba(251, 175, 46, 0.25);
+  }
+
+  .xw-cell input.same {
+    box-shadow: inset 0 0 0 2px rgba(251, 175, 46, 0.55);
+  }
+
+  .xw-cell input.given {
+    background: var(--book-amber);
+    color: var(--book-navy);
+  }
+
+  .xw-cell:has(input.given) .xw-n {
+    color: var(--book-navy);
+  }
+
+  .xw-cell input.wrong {
+    background: #b4344f;
+  }
+
+  .xw-label {
+    margin: 0 0 0.6rem;
+    color: var(--book-amber);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .xw-terms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.9rem;
+    list-style: none;
+    margin: 0 0 1.75rem;
+    padding: 0;
+    color: #d3dcee;
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+  }
+
+  .xw-key {
+    display: grid;
+    grid-template-columns: repeat(9, minmax(0, 1fr));
+    gap: 2px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .xw-key li {
+    display: grid;
+    grid-template-rows: auto 1.6rem;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .xw-key span {
+    font-size: 0.7rem;
+    color: #a9b8d1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .xw-key b {
+    color: #fff;
+  }
+
+  .xw-key li.given b {
+    color: var(--book-amber);
+  }
+
+  .xw-status {
+    min-height: 1.6em;
+    margin: 1.25rem 0 0.75rem;
+    color: var(--book-amber);
+    font-weight: 600;
+  }
+
+  .xw-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .xw-actions .btn {
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+  }
+
+  .xw-actions .btn-outline {
+    border-color: rgba(255, 255, 255, 0.5);
+    color: #fff;
+    background: none;
+  }
+
+  .xw-link {
+    background: none;
+    border: 0;
+    padding: 0.5rem 0.25rem;
+    color: #c3d1e6;
+    font: inherit;
+    font-size: 0.9rem;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    cursor: pointer;
+  }
+
+  @media (max-width: 860px) {
+    .xw {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .xw-board {
+      max-width: none;
+    }
+  }
+</style>

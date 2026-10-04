@@ -1,0 +1,259 @@
+---
+import Icon from "./Icon.astro";
+import BookCover from "./BookCover.astro";
+import { book } from "../data/site-data";
+import { BOOK_RELEASED } from "../consts";
+
+/** FALENA con i numeri dello schema 4 del libro, lo stesso che si gioca su /libro/. */
+interface Props {
+  /** Su /libro/ durante il teaser la fascia è tutta la pagina e il titolo fa da h1. */
+  heading?: "h1" | "h2";
+}
+const { heading: Heading = "h2" } = Astro.props;
+
+const falena: [number, string][] = [[12, "F"], [6, "A"], [8, "L"], [13, "E"], [3, "N"], [6, "A"]];
+---
+
+{BOOK_RELEASED ? (
+  <section class="book-band" aria-labelledby="book-band-title">
+    <div class="container book-band-inner">
+      <div>
+        <p class="book-kicker">Il mio primo libro</p>
+        <h2 class="book-title" id="book-band-title">{book.title}</h2>
+        <p class="book-sub">Enigmistica per informatici</p>
+        <p class="book-body">
+          Da Ada Lovelace a Unix, passando per Turing e Olivetti: 45 storie vere della storia
+          dell'informatica, ognuna con un cruciverba crittografato da risolvere.
+        </p>
+        <ul class="book-chips">
+          <li>45 storie vere</li>
+          <li>45 cruciverba</li>
+          <li>Soluzioni incluse</li>
+        </ul>
+        <div class="book-ctas">
+          {book.amazonUrl && (
+            <a class="btn btn-amber" href={book.amazonUrl} target="_blank" rel="noopener noreferrer">Acquista su Amazon</a>
+          )}
+          <a class="btn btn-outline" href="/libro/">Scopri il libro <Icon name="arrow" /></a>
+        </div>
+      </div>
+      <a class="book-cover-link" href="/libro/" tabindex="-1" aria-hidden="true">
+        <BookCover class="book-cover-3d" />
+      </a>
+    </div>
+  </section>
+) : (
+  <section class="book-band book-band-teaser" aria-labelledby="book-band-title">
+    <div class="container">
+      <p class="book-kicker">In arrivo</p>
+      <ol class="book-word" aria-label="Sei caselle di un cruciverba crittografato, ancora da risolvere">
+        {falena.map(([n]) => <li><span>{n}</span></li>)}
+      </ol>
+      <Heading class="book-title" id="book-band-title">Sta arrivando qualcosa.</Heading>
+      <p class="book-body">
+        Un progetto diverso dal solito, che non si installa e non si compila.
+        Per chi ama l'informatica e i rompicapi.
+      </p>
+      <p class="book-hint">Stessa cifra, stessa lettera.</p>
+    </div>
+  </section>
+)}
+
+<style>
+  /* Un'isola con i colori della copertina dentro il sito viola, in entrambi i temi. */
+  .book-band {
+    position: relative;
+    overflow: hidden;
+    padding: 5rem 0;
+    color: #fff;
+    background: var(--book-navy);
+  }
+
+  /* La griglia del cruciverba sullo sfondo, che sfuma verso il testo */
+  .book-band::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.16;
+    background:
+      repeating-linear-gradient(90deg, transparent 0 2.6rem, var(--book-navy) 2.6rem 2.8rem),
+      repeating-linear-gradient(0deg, transparent 0 2.6rem, var(--book-navy) 2.6rem 2.8rem),
+      var(--book-cell);
+    -webkit-mask-image: linear-gradient(100deg, transparent 30%, #000 90%);
+    mask-image: linear-gradient(100deg, transparent 30%, #000 90%);
+  }
+
+  .book-band > * {
+    position: relative;
+  }
+
+  .book-band-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr);
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .book-kicker {
+    margin: 0;
+    color: var(--book-amber);
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .book-kicker::after {
+    content: "";
+    display: block;
+    width: 4.5rem;
+    height: 2px;
+    margin-top: 0.6rem;
+    background: var(--book-amber);
+  }
+
+  .book-title {
+    margin: 1.25rem 0 0.75rem;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    line-height: 1.08;
+    letter-spacing: 0;
+  }
+
+  .book-sub {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+    font-size: 1.2rem;
+    color: #d3dcee;
+  }
+
+  .book-body {
+    max-width: 34rem;
+    margin: 1.25rem 0 0;
+    color: #c8d2e6;
+  }
+
+  .book-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    margin: 1.5rem 0 0;
+    padding: 0;
+  }
+
+  .book-chips li {
+    padding: 0.25rem 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+
+  .book-chips li:first-child {
+    background: var(--book-amber);
+    border-color: var(--book-amber);
+    color: var(--book-navy);
+  }
+
+  .book-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  .book-band .btn-outline {
+    border-color: rgba(255, 255, 255, 0.6);
+    color: #fff;
+  }
+
+  .book-cover-link {
+    display: grid;
+    place-items: center;
+    perspective: 70rem;
+  }
+
+  .book-cover-link :global(.book-cover-3d) {
+    width: min(100%, 17rem);
+    border-radius: 2px 5px 5px 2px;
+    transform: rotateY(-18deg) rotateZ(1deg);
+    box-shadow: -3px 0 0 #1a2a45, 1.5rem 2rem 3rem -1rem rgba(0, 0, 0, 0.55);
+    transition: transform 0.4s ease;
+  }
+
+  .book-cover-link:hover :global(.book-cover-3d) {
+    transform: rotateY(-6deg);
+  }
+
+  /* --- teaser --- */
+  .book-band-teaser {
+    text-align: center;
+  }
+
+  .book-band-teaser::before {
+    -webkit-mask-image: radial-gradient(closest-side, #000, transparent);
+    mask-image: radial-gradient(closest-side, #000, transparent);
+    opacity: 0.1;
+  }
+
+  .book-band-teaser .book-kicker::after {
+    margin-inline: auto;
+  }
+
+  .book-band-teaser .book-body {
+    margin-inline: auto;
+  }
+
+  .book-word {
+    display: flex;
+    justify-content: center;
+    gap: 0.3rem;
+    list-style: none;
+    margin: 2.25rem 0 0;
+    padding: 0;
+  }
+
+  .book-word li {
+    position: relative;
+    width: clamp(2.6rem, 9vw, 3.6rem);
+    aspect-ratio: 1;
+    background: var(--book-cell);
+  }
+
+  .book-word span {
+    position: absolute;
+    top: 0.2rem;
+    left: 0.3rem;
+    font-size: 0.75rem;
+    color: #b9c9df;
+  }
+
+  .book-hint {
+    margin: 1rem 0 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--book-amber);
+  }
+
+  @media (max-width: 860px) {
+    .book-band {
+      padding: 4rem 0;
+    }
+
+    .book-band-inner {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .book-cover-link {
+      order: -1;
+    }
+
+    .book-cover-link :global(.book-cover-3d) {
+      width: 11rem;
+    }
+  }
+</style>

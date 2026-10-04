@@ -1,0 +1,31 @@
+---
+import { book } from "../data/site-data";
+
+interface Props {
+  class?: string;
+  /** La copertina in cima alla pagina va caricata subito, le altre quando servono. */
+  eager?: boolean;
+}
+const { class: className, eager = false } = Astro.props;
+---
+
+<picture>
+  <source srcset={book.cover.webp} type="image/webp" />
+  <img
+    class={className}
+    src={book.cover.jpg}
+    width={book.cover.width}
+    height={book.cover.height}
+    alt={`Copertina del libro «${book.title}» di Federico Di Luca`}
+    loading={eager ? "eager" : "lazy"}
+    decoding="async"
+  />
+</picture>
+
+<style>
+  /* Le dimensioni nel markup servono solo a riservare lo spazio: la larghezza la decide chi usa
+     il componente, l'altezza segue. */
+  img {
+    height: auto;
+  }
+</style>

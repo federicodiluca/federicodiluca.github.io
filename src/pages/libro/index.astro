@@ -1,0 +1,281 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import BookBand from "../../components/BookBand.astro";
+import BookCover from "../../components/BookCover.astro";
+import BookCrossword from "../../components/BookCrossword.astro";
+import { book } from "../../data/site-data";
+import { SITE_URL, BOOK_RELEASED } from "../../consts";
+
+// Durante il teaser la pagina esiste (così un link condiviso funziona già) ma resta fuori
+// dall'indice: Google memorizzerebbe una pagina quasi vuota.
+const description = BOOK_RELEASED
+  ? `«${book.title}», il primo libro di Federico Di Luca: 45 storie vere della storia dell'informatica, da Ada Lovelace a Unix, ognuna con un cruciverba crittografato. Prova uno schema online.`
+  : "Sta arrivando qualcosa: un progetto diverso dal solito, per chi ama l'informatica e i rompicapi.";
+
+const details = [book.format, `${book.pages} pagine`, book.price, book.isbn && `ISBN ${book.isbn}`].filter(Boolean);
+
+const jsonLd = BOOK_RELEASED
+  ? {
+      "@context": "https://schema.org",
+      "@type": "Book",
+      "@id": `${SITE_URL}/libro/#book`,
+      name: book.title,
+      alternativeHeadline: book.subtitle,
+      author: { "@id": `${SITE_URL}/#person` },
+      inLanguage: "it",
+      bookFormat: "https://schema.org/Paperback",
+      numberOfPages: book.pages,
+      genre: ["Enigmistica", "Storia dell'informatica"],
+      keywords: "cruciverba crittografati, enigmistica, storia dell'informatica, curiosità sui computer, idea regalo informatico",
+      about: ["Storia dell'informatica", "Cruciverba crittografato"],
+      image: new URL(book.cover.jpg, SITE_URL).toString(),
+      url: new URL("/libro/", SITE_URL).toString(),
+      description: book.blurb.join(" "),
+      ...(book.isbn && { isbn: book.isbn }),
+      ...(book.datePublished && { datePublished: book.datePublished }),
+      ...(book.amazonUrl && {
+        offers: { "@type": "Offer", url: book.amazonUrl, availability: "https://schema.org/InStock" },
+      }),
+    }
+  : undefined;
+---
+
+<BaseLayout
+  title={BOOK_RELEASED ? `${book.title}, il libro` : "In arrivo"}
+  description={description}
+  image={BOOK_RELEASED ? "/libro/og.jpg" : "/libro/og-teaser.jpg"}
+  noIndex={!BOOK_RELEASED}
+  jsonLd={jsonLd}
+>
+  {BOOK_RELEASED ? (
+    <>
+      <section class="libro-hero">
+        <div class="container libro-hero-inner">
+          <BookCover class="libro-cover" eager />
+          <div>
+            <p class="libro-kicker">Il mio primo libro</p>
+            <h1 class="libro-title">{book.title}</h1>
+            <p class="libro-sub">{book.subtitle}</p>
+            <div class="libro-ctas">
+              {book.amazonUrl && (
+                <a class="btn btn-amber" href={book.amazonUrl} target="_blank" rel="noopener noreferrer">Acquista su Amazon</a>
+              )}
+              <a class="btn btn-outline" href="#prova">Prova uno schema</a>
+            </div>
+            <p class="libro-details">{details.join(" · ")}</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container libro-about">
+          <div class="libro-blurb">
+            <h2 class="section-title">Di cosa parla</h2>
+            {book.blurb.map((p) => <p>{p}</p>)}
+          </div>
+          <ul class="libro-groups">
+            {book.groups.map((g) => (
+              <li class="card">
+                <h3>{g.title}</h3>
+                <p>{g.items.join(" · ")}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section class="libro-play" id="prova">
+        <div class="container">
+          <p class="libro-kicker">Scheda 4 · Prova uno schema</p>
+          <h2 class="libro-play-title">La falena che non inventò la parola «bug»</h2>
+          <div class="libro-story">
+            <p>
+              Il 9 settembre 1947, nel laboratorio di Harvard dove girava il calcolatore Mark II, qualcuno
+              aprì il pannello dei relè e trovò una falena incastrata fra i contatti. La tolse con delle
+              pinzette, la incollò con del nastro adesivo sul registro di laboratorio e accanto scrisse:
+              <em lang="en">First actual case of bug being found</em>.
+            </p>
+            <p>
+              Nel libro la storia continua: perché non fu Grace Hopper a trovarla, e perché la parola
+              «bug» esisteva già da settant'anni. Qui sotto c'è lo schema che la accompagna. Nei
+              cruciverba crittografati non ci sono definizioni: ogni numero è una lettera, sempre la
+              stessa. Tre sono già scritte, le altre si deducono dalle dieci parole.
+            </p>
+          </div>
+          <BookCrossword />
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container narrow libro-origin">
+          <h2 class="section-title">Come è nato</h2>
+          <p>
+            In classe ho un'abitudine: quando arriva l'argomento ostico, prima provo a raccontare una
+            storia. Una storia apre una porta, e l'argomento tecnico entra da lì invece di sbattere
+            contro il muro. Col tempo l'elenco di queste storie è diventato abbastanza lungo da farci
+            un libro.
+          </p>
+          <p>
+            Per tenerle insieme ho scritto un programma in Python. Prende i dieci termini di ogni
+            storia, li incastra in una griglia seguendo le regole del cruciverba, sostituisce le
+            lettere con i numeri e sceglie quali rivelare. Poi un risolutore automatico prova tutte le
+            combinazioni e controlla che la soluzione sia una sola: se uno schema fosse ambiguo, il
+            programma si rifiuterebbe di stamparlo. Tutti e quarantacinque hanno superato il controllo.
+          </p>
+          {book.amazonUrl && (
+            <a class="btn btn-amber" href={book.amazonUrl} target="_blank" rel="noopener noreferrer">Acquista su Amazon</a>
+          )}
+        </div>
+      </section>
+    </>
+  ) : (
+    <BookBand heading="h1" />
+  )}
+</BaseLayout>
+
+<style>
+  .libro-hero,
+  .libro-play {
+    color: #fff;
+    background: var(--book-navy);
+  }
+
+  .libro-hero {
+    padding: 4.5rem 0;
+  }
+
+  .libro-hero-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .libro-hero-inner :global(.libro-cover) {
+    width: min(100%, 20rem);
+    justify-self: center;
+    border-radius: 2px;
+    box-shadow: 0 1.5rem 3rem -1rem rgba(0, 0, 0, 0.6);
+  }
+
+  .libro-kicker {
+    margin: 0;
+    color: var(--book-amber);
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .libro-title {
+    margin: 1rem 0 0.75rem;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    line-height: 1.05;
+    letter-spacing: 0;
+  }
+
+  .libro-sub {
+    margin: 0;
+    max-width: 32rem;
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+    font-size: 1.2rem;
+    color: #d3dcee;
+  }
+
+  .libro-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  .libro-hero .btn-outline {
+    border-color: rgba(255, 255, 255, 0.6);
+    color: #fff;
+  }
+
+  .libro-details {
+    margin: 1.5rem 0 0;
+    color: #b9c6dd;
+    font-size: 0.9rem;
+  }
+
+  .libro-about {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .libro-blurb p {
+    color: var(--color-text-muted);
+  }
+
+  .libro-groups {
+    display: grid;
+    gap: 0.75rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .libro-groups .card {
+    padding: 1rem 1.25rem;
+  }
+
+  .libro-groups h3 {
+    margin: 0 0 0.2rem;
+    font-size: 1rem;
+    color: var(--book-amber-text);
+  }
+
+  .libro-groups p {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.92rem;
+  }
+
+  .libro-play {
+    padding: 4.5rem 0;
+  }
+
+  .libro-play-title {
+    margin: 1rem 0 1.25rem;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+    letter-spacing: 0;
+  }
+
+  .libro-story {
+    max-width: 44rem;
+    margin-bottom: 2.5rem;
+    color: #d3dcee;
+  }
+
+  .libro-story em {
+    font-family: Georgia, "Times New Roman", serif;
+    color: #fff;
+  }
+
+  .narrow {
+    max-width: 44rem;
+  }
+
+  .libro-origin p {
+    color: var(--color-text-muted);
+  }
+
+  @media (max-width: 860px) {
+    .libro-hero-inner,
+    .libro-about {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .libro-hero-inner :global(.libro-cover) {
+      width: 12rem;
+    }
+  }
+</style>

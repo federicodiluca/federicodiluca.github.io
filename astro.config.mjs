@@ -1,6 +1,6 @@
 import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
-import { SITE_URL, LOCALES, DEFAULT_LOCALE, SHOW_PRIVATE_LESSONS, translationPair } from "./src/consts.ts";
+import { SITE_URL, LOCALES, DEFAULT_LOCALE, SHOW_PRIVATE_LESSONS, BOOK_RELEASED, translationPair } from "./src/consts.ts";
 
 // La sezione articoli è stata rimossa: i vecchi URL già indicizzati puntano alla
 // pagina più vicina per argomento. GitHub Pages non fa 301 veri, Astro genera una
@@ -48,7 +48,10 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      filter: (page) => SHOW_PRIVATE_LESSONS || !page.includes("/lezioni-private/"),
+      // /libro/ durante il teaser è in noindex: fuori anche dalla sitemap.
+      filter: (page) =>
+        (SHOW_PRIVATE_LESSONS || !page.includes("/lezioni-private/")) &&
+        (BOOK_RELEASED || !page.includes("/libro/")),
       // Niente opzione i18n del plugin: accoppia solo percorsi identici a parte il prefisso
       // (/privacy/ ↔ /en/privacy/) e perderebbe /contatti/ ↔ /en/contact/. Gli hreflang
       // vengono dalla stessa mappa dei <link rel="alternate"> nelle pagine.

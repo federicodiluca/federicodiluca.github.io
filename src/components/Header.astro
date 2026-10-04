@@ -1,7 +1,7 @@
 ---
 import ThemeToggle from "./ThemeToggle.astro";
 import Logo from "./Logo.astro";
-import { SHOW_PRIVATE_LESSONS } from "../consts";
+import { SHOW_PRIVATE_LESSONS, BOOK_RELEASED } from "../consts";
 
 interface Props {
   locale: "it" | "en";
@@ -15,6 +15,7 @@ const navIt = [
   { href: "/servizi/formazione/", label: "Formazione" },
   ...(SHOW_PRIVATE_LESSONS ? [{ href: "/lezioni-private/", label: "Lezioni private" }] : []),
   { href: "/progetti/", label: "Progetti" },
+  ...(BOOK_RELEASED ? [{ href: "/libro/", label: "Il libro", book: true }] : []),
   { href: "/contatti/", label: "Contatti" },
 ];
 
@@ -44,7 +45,11 @@ const currentPath = Astro.url.pathname;
       <ul>
         {nav.map((item) => (
           <li>
-            <a href={item.href} aria-current={currentPath === item.href ? "page" : undefined}>
+            <a
+              href={item.href}
+              aria-current={currentPath === item.href ? "page" : undefined}
+              class:list={{ "nav-book": "book" in item && item.book }}
+            >
               {item.label}
             </a>
           </li>
@@ -120,6 +125,12 @@ const currentPath = Astro.url.pathname;
   .site-nav a[aria-current="page"] {
     color: var(--color-text);
     text-decoration: none;
+  }
+
+  /* La voce del libro nell'ambra della copertina */
+  .site-nav a.nav-book {
+    color: var(--book-amber-text);
+    font-weight: 700;
   }
 
   .lang-switch {

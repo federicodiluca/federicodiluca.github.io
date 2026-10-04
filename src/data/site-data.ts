@@ -198,3 +198,33 @@ export const careerPath = [
     steps: e.steps.map((s) => ({ title: s.title, subtitle: s.institute, meta: s.note, date: s.date })),
   })),
 ].sort((a, b) => b.start.localeCompare(a.start));
+
+/** Il libro: fascia in home, pagina /libro/, striscia in cima alle pagine. La fase (teaser o
+ *  uscito) sta in BOOK_PHASE in src/consts.ts. I campi null si compilano al lancio e,
+ *  finché restano vuoti, semplicemente non compaiono. */
+export const book = {
+  title: "Il bug era una falena",
+  subtitle: "Enigmistica per informatici: 45 storie vere e 45 cruciverba crittografati",
+  /** Link Amazon definitivo: share sempre /libro/, non questo. */
+  amazonUrl: null as string | null,
+  isbn: null as string | null,
+  price: null as string | null,
+  /** Data di uscita, AAAA-MM-GG. */
+  datePublished: null as string | null,
+  pages: 112,
+  format: "Copertina flessibile, 15 × 23 cm",
+  cover: { jpg: "/libro/il-bug-era-una-falena-copertina.jpg", webp: "/libro/il-bug-era-una-falena-copertina.webp", width: 600, height: 900 },
+  /** Testo della quarta di copertina, usato nella pagina /libro/. */
+  blurb: [
+    "Nel 1947 qualcuno aprì un calcolatore a Harvard, trovò una falena fra i contatti e la incollò sul registro di laboratorio. Nel 1965 un gruppo di ingegneri costruì di nascosto, dentro un'azienda che aveva appena venduto la divisione elettronica, quello che molti considerano il primo personal computer.",
+    "Quarantacinque storie vere (pionieri, disastri, invenzioni nate per sbaglio) e per ognuna un cruciverba crittografato costruito con le parole di quella storia. Si legge una pagina, si risolve quella accanto. Ogni schema ha una sola soluzione possibile, verificata una per una.",
+  ],
+  /** I cinque gruppi del libro, con qualche nome per ciascuno. */
+  groups: [
+    { title: "Pionieri", items: ["Ada Lovelace", "Alan Turing", "Grace Hopper", "Hedy Lamarr"] },
+    { title: "Made in Italy", items: ["Olivetti Programma 101", "Federico Faggin", "Il primo .it"] },
+    { title: "Linguaggi e sistemi", items: ["Python", "Java", "Unix", "Linux"] },
+    { title: "Disastri e bug famosi", items: ["Ariane 5", "Millennium bug", "Mars Climate Orbiter"] },
+    { title: "Cultura nerd", items: ["La @", "Lo smiley", "Tetris", "Il codice Konami"] },
+  ],
+};

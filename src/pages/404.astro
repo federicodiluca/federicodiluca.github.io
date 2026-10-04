@@ -1,5 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { BOOK_RELEASED } from "../consts";
+import { book } from "../data/site-data";
 ---
 
 <BaseLayout title="Pagina non trovata" description="La pagina richiesta non esiste." noIndex>
@@ -17,6 +19,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         <a class="btn btn-primary" href="/">Torna alla home</a>
         <a class="btn btn-outline" href="/progetti/">Guarda i progetti</a>
       </div>
+      {BOOK_RELEASED && (
+        <p class="moth">
+          Nel 1947 il bug era una falena incastrata in un relè. Qui è solo un indirizzo sbagliato.
+          Le altre storie sono in <a href="/libro/"><em>{book.title}</em></a>.
+        </p>
+      )}
       <p class="en" lang="en">Page not found. <a href="/en/">Back to the English home page</a>.</p>
     </div>
   </section>
@@ -51,6 +59,19 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     justify-content: center;
     gap: 0.75rem;
     margin-top: 2rem;
+  }
+
+  .moth {
+    max-width: 34rem;
+    margin: 2.5rem auto 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+  }
+
+  .moth a {
+    color: var(--book-amber-text);
+    font-weight: 600;
   }
 
   .en {
