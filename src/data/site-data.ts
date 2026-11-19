@@ -81,18 +81,6 @@ export const projects = [
     cta: "Prova l'app",
   },
   {
-    name: "Vocabe",
-    slug: "vocabe",
-    icon: "/projects/vocabe.svg",
-    tagline: "Una parola italiana al giorno",
-    description:
-      "App per ampliare il lessico italiano: ogni giorno una parola con significato, esempi, etimologia e curiosità, e un ripasso guidato da un algoritmo di ripetizione spaziata. Funziona offline, non chiede account e non salva nulla su un server: i progressi restano sul dispositivo.",
-    stack: ["React", "TypeScript", "Vite", "PWA", "Vitest"],
-    url: projectUrl("vocabe"),
-    repo: "https://github.com/federicodiluca/Vocabe",
-    cta: "Prova l'app",
-  },
-  {
     name: "School Feed Monitor",
     slug: "school-feed-monitor",
     icon: "/projects/school-feed-monitor.svg",
@@ -103,6 +91,30 @@ export const projects = [
     url: projectUrl("schoolfeedmonitor"),
     repo: "https://github.com/federicodiluca/school-feed-monitor",
     cta: "Scopri com'è fatto",
+  },
+  {
+    name: "teaching",
+    slug: "teaching",
+    icon: "/projects/teaching.svg",
+    tagline: "Giochi e ripassi per imparare facendo",
+    description:
+      "Le attività interattive che uso nelle mie lezioni di informatica: conversioni tra basi, tavole di verità, reti, processi e thread, break even point. Ogni attività è una pagina web che si apre dal link, alla LIM o dal telefono, senza installare nulla, senza account e senza raccogliere dati degli studenti. HTML, CSS e JavaScript puri, con licenza aperta per chi insegna.",
+    stack: ["HTML", "CSS", "JavaScript", "GitHub Pages"],
+    url: projectUrl("teaching"),
+    repo: "https://github.com/federicodiluca/teaching",
+    cta: "Apri le attività",
+  },
+  {
+    name: "Vocabe",
+    slug: "vocabe",
+    icon: "/projects/vocabe.svg",
+    tagline: "Una parola italiana al giorno",
+    description:
+      "App per ampliare il lessico italiano: ogni giorno una parola con significato, esempi, etimologia e curiosità, e un ripasso guidato da un algoritmo di ripetizione spaziata. Funziona offline, non chiede account e non salva nulla su un server: i progressi restano sul dispositivo.",
+    stack: ["React", "TypeScript", "Vite", "PWA", "Vitest"],
+    url: projectUrl("vocabe"),
+    repo: "https://github.com/federicodiluca/Vocabe",
+    cta: "Prova l'app",
   },
   {
     name: "La Scimmia Vince",

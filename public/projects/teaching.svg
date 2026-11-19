@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Una "t" e il cursore che lampeggia: si impara scrivendo. -->
+  <rect x="2" y="2" width="60" height="60" rx="15" fill="#1d2433"/>
+  <rect x="21" y="13" width="7" height="31" rx="2" fill="#fff"/>
+  <rect x="14" y="21" width="22" height="6" rx="2" fill="#fff"/>
+  <rect x="21" y="39" width="17" height="7" rx="3" fill="#fff"/>
+  <rect x="41" y="40" width="12" height="6" rx="1.5" fill="#f2b632"/>
+</svg>

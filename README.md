@@ -112,6 +112,7 @@ Ogni progetto personale ha un repo separato e vive su un **sottodominio** propri
 `projectUrl()` in [src/consts.ts](src/consts.ts):
 
 - [ProfClick](https://profclick.federicodiluca.com/) — piano di lavoro del docente, lezione per lezione
+- [teaching](https://teaching.federicodiluca.com/) — giochi e ripassi interattivi per le lezioni di informatica
 - [Vocabe](https://vocabe.federicodiluca.com/) — app PWA per il vocabolario italiano
 - [Duetrack](https://duetrack.federicodiluca.com/) — chi ti deve cosa, letto da Google Calendar
 - [Listo](https://listo.federicodiluca.com/) — liste con categorie multiple e scadenze
